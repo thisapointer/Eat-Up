@@ -1,0 +1,58 @@
+/* 지도/목록 전환 바 전체입니다. */
+.map-view-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(280px, 72vw);
+  padding: 4px;
+  border-radius: 999px;
+  background: #eeeeee;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 16%);
+}
+
+/* 지도/목록 버튼 공통입니다. */
+.map-view-toggle-button {
+  display: grid;
+  place-items: center;
+  height: 46px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #555555;
+  cursor: pointer;
+}
+
+/* 선택된 버튼입니다. */
+.map-view-toggle-button--active {
+  background: #111111;
+  color: #ffffff;
+}
+
+/* 아이콘 공통 자리입니다. */
+.map-view-toggle-icon {
+  width: 22px;
+  height: 22px;
+  background: currentColor;
+}
+
+.map-view-toggle-icon--map {
+  mask-image: url("../assets/map.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+.map-view-toggle-icon--list {
+  mask-image: url("../assets/list.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+/* 화면에는 안 보이지만 스크린리더에는 읽히는 텍스트입니다. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}

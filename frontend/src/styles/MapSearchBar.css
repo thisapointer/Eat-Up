@@ -1,0 +1,73 @@
+/* 지도 위 검색바 전체입니다. */
+.map-search-bar {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 20px 1fr 24px;
+  align-items: center;
+  gap: 10px;
+  width: min(100%, 420px);
+  height: 44px;
+  padding: 0 14px 0 16px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 14%);
+}
+
+/* 돋보기 SVG 아이콘입니다. */
+.map-search-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+  background: #9a9a9a;
+  mask-image: url("../assets/search.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+/* 검색 input입니다. */
+.map-search-bar input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #111111;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* placeholder 문구입니다. */
+.map-search-bar input::placeholder {
+  color: #b8b8b8;
+}
+
+/* input의 기본 검색창 장식을 최대한 제거합니다. */
+.map-search-bar input::-webkit-search-decoration,
+.map-search-bar input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+/* 검색어 지우기 X 버튼입니다. */
+.map-search-clear {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* X 버튼 안의 SVG 모양입니다. */
+.map-search-clear span {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background: #9a9a9a;
+  mask-image: url("../assets/close.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}

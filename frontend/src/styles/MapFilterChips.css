@@ -1,0 +1,47 @@
+/* 필터 버튼 3개를 감싸는 영역입니다. */
+.map-filter-chips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: min(100%, 420px);
+}
+
+/* 필터 버튼 하나입니다. */
+.map-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111111;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 16%);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 선택된 필터 버튼입니다. */
+.map-filter-chip--selected {
+  background: #ff5b00;
+  color: #ffffff;
+}
+
+/* 필터 버튼 안 SVG 이미지입니다. */
+.map-filter-chip-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* 필터 버튼 글자입니다. */
+.map-filter-chip-label {
+  display: block;
+  white-space: nowrap;
+}

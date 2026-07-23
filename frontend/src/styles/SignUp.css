@@ -1,0 +1,453 @@
+/* 전체 회원가입 페이지입니다. <main className="signup-page">에 적용됩니다. */
+.signup-page {
+  /* 포인트 주황색입니다. 단계 표시, 가입완료 버튼, 안내 문구에 사용합니다. */
+  --signup-orange: #ff5b00;
+
+  /* 검정색입니다. 확인 버튼, 이전 단계 버튼 테두리에 사용합니다. */
+  --signup-black: #000000;
+
+  /* 페이지 기본 배경색입니다. */
+  --signup-white: #ffffff;
+
+  /* 기본 글자색입니다. */
+  --signup-text: #111111;
+
+  /* 비활성 단계 표시용 회색입니다. */
+  --signup-muted: #dddddd;
+
+  /* 기본 테두리 색입니다. */
+  --signup-border: #e5e5e5;
+
+  /* input 강조 테두리 색입니다. 디자인상 빨간/주황 계열입니다. */
+  --signup-danger: #ff4d42;
+
+  /* 페이지 좌우 여백입니다. 화면 폭에 따라 40px부터 220px까지 변합니다. */
+  --signup-side-padding: clamp(40px, 12vw, 220px);
+
+  /* 상단 헤더 높이입니다. */
+  --signup-header-height: clamp(64px, 9vh, 88px);
+
+  /* input과 카드성 요소의 둥근 정도입니다. */
+  --signup-radius: 10px;
+
+  /* 페이지 전체 폰트입니다. */
+  --signup-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  /* padding을 포함해도 전체 크기가 깨지지 않게 계산합니다. */
+  box-sizing: border-box;
+
+  /* 전체 페이지를 grid로 나눕니다. */
+  display: grid;
+
+  /* 헤더 / 단계 표시 / 입력 영역 / 하단 버튼 순서로 세로 배치합니다. */
+  grid-template-rows: var(--signup-header-height) auto 1fr auto;
+
+  /* 웹브라우저 가로 전체를 사용합니다. */
+  width: 100%;
+
+  /* 웹브라우저 세로 한 화면을 사용합니다. */
+  height: 100vh;
+
+  /* 브라우저 기본 바깥 여백을 제거합니다. */
+  margin: 0;
+
+  /* 좌우 여백과 하단 여백입니다. */
+  padding: 0 var(--signup-side-padding) clamp(26px, 5vh, 54px);
+
+  /* 한 화면 안에 보이도록 넘치는 영역을 숨깁니다. */
+  overflow: hidden;
+
+  /* 페이지 배경색입니다. */
+  background: var(--signup-white);
+
+  /* 페이지 기본 글자색입니다. */
+  color: var(--signup-text);
+
+  /* 페이지 기본 폰트입니다. */
+  font-family: var(--signup-font);
+}
+
+/* 상단 헤더입니다. 뒤로가기 버튼과 제목이 들어갑니다. */
+.signup-header {
+  /* 헤더 안 요소를 grid로 배치합니다. */
+  display: grid;
+
+  /* 왼쪽 버튼 / 가운데 제목 / 오른쪽 빈 공간 구조입니다. */
+  grid-template-columns: 44px 1fr 44px;
+
+  /* 세로 중앙 정렬합니다. */
+  align-items: center;
+}
+
+/* 공통 BackButton 컴포넌트에 페이지별 위치만 보정합니다. */
+.signup-back {
+  /* 왼쪽 칸의 시작점에 둡니다. */
+  justify-self: start;
+}
+
+/* 헤더 제목입니다. */
+.signup-header h1 {
+  /* 가운데 칸에 제목을 배치합니다. */
+  grid-column: 2;
+
+  /* h1 기본 margin을 제거합니다. */
+  margin: 0;
+
+  /* 제목 글자 크기입니다. */
+  font-size: clamp(18px, 1.5vw, 24px);
+
+  /* 제목 글자 두께입니다. */
+  font-weight: 900;
+
+  /* 제목 줄간격입니다. */
+  line-height: 1.2;
+
+  /* 제목을 가운데 정렬합니다. */
+  text-align: center;
+}
+
+/* 회원가입 단계 표시 전체 영역입니다. */
+.signup-stepper {
+  /* 3단계를 같은 너비로 나누기 위해 grid를 씁니다. */
+  display: grid;
+
+  /* 아이디 / 비밀번호 / 프로필 3칸입니다. */
+  grid-template-columns: repeat(3, 1fr);
+
+  /* 단계 원과 라벨을 위쪽 기준으로 정렬합니다. */
+  align-items: start;
+
+  /* 단계 표시 영역의 최대 폭입니다. 너무 넓게 퍼지는 것을 막습니다. */
+  max-width: 720px;
+
+  /* 가능한 폭을 모두 사용하되 max-width를 넘지 않습니다. */
+  width: 100%;
+
+  /* 페이지 가운데에 배치합니다. */
+  justify-self: center;
+
+  /* 단계 표시 영역 위아래 여백입니다. */
+  padding: clamp(14px, 2vh, 22px) 0 clamp(34px, 7vh, 72px);
+}
+
+/* 단계 하나입니다. */
+.signup-step {
+  /* 선을 absolute로 그리기 위한 기준점입니다. */
+  position: relative;
+
+  /* 원과 라벨을 세로로 배치합니다. */
+  display: grid;
+
+  /* 원과 라벨을 가운데 정렬합니다. */
+  justify-items: center;
+
+  /* 원과 라벨 사이 간격입니다. */
+  gap: 7px;
+
+  /* 기본 단계 글자색입니다. 비활성 상태입니다. */
+  color: #9f9f9f;
+
+  /* 단계 라벨 글자 크기입니다. */
+  font-size: clamp(10px, 0.8vw, 13px);
+
+  /* 단계 라벨 글자 두께입니다. */
+  font-weight: 600;
+
+  /* 단계 라벨 가운데 정렬입니다. */
+  text-align: center;
+}
+
+/* 마지막 단계를 제외한 단계 뒤에 연결선을 그립니다. */
+.signup-step:not(:last-child)::after {
+  /* 가상 요소를 생성합니다. */
+  content: "";
+
+  /* 단계 원 뒤쪽에 선을 배치합니다. */
+  position: absolute;
+
+  /* 선의 세로 위치입니다. 원 중앙쯤에 맞춥니다. */
+  top: 12px;
+
+  /* 현재 단계 중앙부터 다음 단계 방향으로 선을 시작합니다. */
+  left: 50%;
+
+  /* 다음 칸까지 이어지도록 한 칸 너비만큼 선을 그립니다. */
+  width: 100%;
+
+  /* 선 두께입니다. */
+  height: 2px;
+
+  /* 기본 비활성 선 색입니다. */
+  background: var(--signup-muted);
+
+  /* 원과 겹치지 않게 오른쪽으로 조금 밀어줍니다. */
+  transform: translateX(12px);
+}
+
+/* 완료된 단계 또는 현재 단계 뒤의 선을 주황색으로 바꿉니다. */
+.signup-step--complete:not(:last-child)::after,
+.signup-step--active:not(:last-child)::after {
+  background: var(--signup-orange);
+}
+
+/* 단계 원입니다. */
+.signup-step-dot {
+  /* 연결선보다 위에 보이도록 합니다. */
+  position: relative;
+
+  /* z-index로 선 위에 원을 올립니다. */
+  z-index: 1;
+
+  /* 원 안의 체크 표시를 중앙 정렬하기 위해 grid를 씁니다. */
+  display: grid;
+
+  /* 체크 표시를 가로/세로 중앙 정렬합니다. */
+  place-items: center;
+
+  /* 원 가로 크기입니다. */
+  width: 24px;
+
+  /* 원 세로 크기입니다. */
+  height: 24px;
+
+  /* 원 테두리입니다. */
+  border: 3px solid var(--signup-muted);
+
+  /* 원 모양으로 만듭니다. */
+  border-radius: 50%;
+
+  /* 비활성 원 배경색입니다. */
+  background: var(--signup-muted);
+
+  /* 체크 표시 색입니다. */
+  color: var(--signup-white);
+
+  /* 체크 표시 크기입니다. */
+  font-size: 13px;
+
+  /* 체크 표시 두께입니다. */
+  font-weight: 900;
+
+  /* 체크 표시 줄간격입니다. */
+  line-height: 1;
+}
+
+/* 현재 단계의 원입니다. 흰 배경 + 주황 테두리입니다. */
+.signup-step--active .signup-step-dot {
+  border-color: var(--signup-orange);
+  background: var(--signup-white);
+}
+
+/* 완료 단계의 원입니다. 주황 배경 + 체크 표시입니다. */
+.signup-step--complete .signup-step-dot {
+  border-color: var(--signup-orange);
+  background: var(--signup-orange);
+}
+
+/* 현재 단계와 완료 단계의 라벨을 주황색으로 바꿉니다. */
+.signup-step--active,
+.signup-step--complete {
+  color: var(--signup-orange);
+}
+
+/* 입력 폼이 들어가는 중앙 콘텐츠 영역입니다. */
+.signup-content {
+  /* 내부 폼을 grid로 배치합니다. */
+  display: grid;
+
+  /* 입력 폼을 위쪽부터 배치합니다. */
+  align-content: start;
+
+  /* 콘텐츠 영역을 페이지 가운데에 둡니다. */
+  justify-self: center;
+
+  /* 콘텐츠 폭입니다. 너무 넓어지지 않도록 최대 720px입니다. */
+  width: min(100%, 720px);
+
+  /* grid 안에서 넘침 계산을 안정적으로 하기 위한 값입니다. */
+  min-height: 0;
+}
+
+/* 접근성용 제목입니다. 화면에는 보이지 않습니다. */
+.signup-hidden-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* 비밀번호 단계처럼 여러 입력 묶음을 세로로 쌓는 영역입니다. */
+.signup-form-stack {
+  display: grid;
+  gap: clamp(22px, 4vh, 40px);
+}
+
+/* label + input + 안내문구 한 묶음입니다. */
+.signup-form-group {
+  display: grid;
+  gap: 8px;
+}
+
+/* input 위 라벨입니다. */
+.signup-form-group label {
+  font-size: clamp(12px, 0.9vw, 15px);
+  font-weight: 800;
+}
+
+/* 모든 input 공통 스타일입니다. */
+.signup-form-group input {
+  width: 100%;
+  height: clamp(44px, 5vh, 56px);
+  padding: 0 14px;
+  border: 1px solid var(--signup-danger);
+  border-radius: var(--signup-radius);
+  outline: none;
+  font-size: clamp(13px, 1vw, 16px);
+  color: var(--signup-text);
+}
+
+/* input 아래 안내 문구입니다. */
+.signup-help {
+  margin: 0;
+  color: var(--signup-orange);
+  font-size: clamp(11px, 0.8vw, 13px);
+  font-weight: 500;
+}
+
+/* 프로필 만들기 단계 전체 영역입니다. */
+.signup-profile {
+  display: grid;
+  justify-items: center;
+  gap: clamp(28px, 5vh, 52px);
+}
+
+/* 프로필 단계의 닉네임 input 묶음은 콘텐츠 폭 전체를 씁니다. */
+.signup-profile .signup-form-group {
+  width: 100%;
+}
+
+/* 프로필 이미지 버튼입니다. */
+.signup-profile-image {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(84px, 9vw, 128px);
+  aspect-ratio: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #a7a7a7;
+  cursor: pointer;
+}
+
+/* 프로필 기본 사람 아이콘의 머리 부분입니다. */
+.signup-profile-avatar {
+  position: relative;
+  width: 48%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--signup-white);
+}
+
+/* 프로필 기본 사람 아이콘의 몸통 부분입니다. */
+.signup-profile-avatar::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -44%;
+  width: 160%;
+  height: 80%;
+  border-radius: 999px 999px 0 0;
+  background: var(--signup-white);
+  transform: translateX(-50%);
+}
+
+/* 카메라 아이콘 자리입니다. 현재는 임시 문자 아이콘입니다. */
+.signup-profile-camera {
+  position: absolute;
+  right: 6%;
+  bottom: 7%;
+  display: grid;
+  place-items: center;
+  width: 24%;
+  aspect-ratio: 1;
+  border: 2px solid #a7a7a7;
+  border-radius: 50%;
+  background: var(--signup-white);
+  color: var(--signup-black);
+  font-size: clamp(9px, 0.8vw, 12px);
+}
+
+/* 하단 버튼 영역입니다. */
+.signup-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-self: center;
+  width: min(100%, 720px);
+  gap: 14px;
+}
+
+/* 이전 단계 버튼이 있을 때는 버튼을 2열로 배치합니다. */
+.signup-actions:has(.signup-button--ghost) {
+  grid-template-columns: minmax(140px, 1fr) minmax(180px, 1.5fr);
+}
+
+/* 하단 버튼 공통 스타일입니다. */
+.signup-button {
+  display: grid;
+  place-items: center;
+  min-height: clamp(42px, 5vh, 54px);
+  border-radius: 999px;
+  font-size: clamp(13px, 1vw, 16px);
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 검정 확인 버튼입니다. */
+.signup-button--black {
+  border: 0;
+  background: var(--signup-black);
+  color: var(--signup-white);
+}
+
+/* 주황 가입완료 버튼입니다. */
+.signup-button--orange {
+  border: 0;
+  background: var(--signup-orange);
+  color: var(--signup-white);
+}
+
+/* 흰색 이전 단계 버튼입니다. */
+.signup-button--ghost {
+  border: 2px solid var(--signup-black);
+  background: var(--signup-white);
+  color: var(--signup-black);
+}
+
+/*아이디 중복확인 버튼 */
+.signup-check-button {
+  display: grid;
+  place-items: center;
+  height: clamp(36px, 4.5vh, 48px);
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--signup-black);
+  color: var(--signup-white);
+  font-size: clamp(12px, 0.9vw, 14px);
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  margin : 10px;
+}
+
+/* 좁은 화면에서는 좌우 여백을 줄입니다. */
+@media (max-width: 720px) {
+  .signup-page {
+    --signup-side-padding: 32px;
+  }
+}

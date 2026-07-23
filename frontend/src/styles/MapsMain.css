@@ -1,0 +1,23 @@
+.maps-main {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.maps-main-overlay {
+  position: absolute;
+  top: clamp(24px, 5vh, 56px);
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  width: min(100% - 32px, 520px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.maps-main-overlay > * {
+  pointer-events: auto;
+}

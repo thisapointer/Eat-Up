@@ -1,0 +1,148 @@
+/* 전체 로그인 페이지입니다. <main className="login-page">에 적용됩니다. */
+.login-page {
+  /* 포인트 주황색입니다. 활성 버튼과 에러 메시지에 사용합니다. */
+  --login-orange: #ff5b00;
+
+  /* 비활성 버튼 배경색입니다. */
+  --login-disabled: #e0e0e0;
+
+  /* 검정색입니다. 텍스트와 활성 버튼 글자 대비에 사용합니다. */
+  --login-black: #000000;
+
+  /* 페이지 기본 배경색입니다. */
+  --login-white: #ffffff;
+
+  /* 기본 글자색입니다. */
+  --login-text: #111111;
+
+  /* input 테두리 색입니다. */
+  --login-border: #e5e5e5;
+
+  /* placeholder 색입니다. */
+  --login-placeholder: #c9c9c9;
+
+  /* 페이지 좌우 여백입니다. 화면 폭에 따라 40px부터 220px까지 변합니다. */
+  --login-side-padding: clamp(40px, 12vw, 220px);
+
+  /* 상단 헤더 높이입니다. */
+  --login-header-height: clamp(64px, 9vh, 88px);
+
+  /* input과 버튼의 둥근 정도입니다. */
+  --login-radius: 12px;
+
+  /* 페이지 전체 폰트입니다. */
+  --login-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: var(--login-header-height) 1fr;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0 var(--login-side-padding) clamp(26px, 5vh, 54px);
+  overflow: hidden;
+  background: var(--login-white);
+  color: var(--login-text);
+  font-family: var(--login-font);
+}
+
+/* 상단 헤더입니다. 뒤로가기 버튼과 제목이 들어갑니다. */
+.login-header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+}
+
+/* 공통 BackButton 컴포넌트에 페이지별 위치만 보정합니다. */
+.login-back {
+  justify-self: start;
+}
+
+/* 헤더 제목입니다. */
+.login-header h1 {
+  grid-column: 2;
+  margin: 0;
+  font-size: clamp(18px, 1.5vw, 24px);
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* 로그인 form 전체입니다. */
+.login-form {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto;
+  align-content: start;
+  justify-self: center;
+  width: min(100%, 720px);
+  min-height: 0;
+  padding-top: clamp(28px, 6vh, 68px);
+}
+
+/* label + input 한 묶음입니다. */
+.login-field {
+  display: grid;
+  gap: 9px;
+  margin-bottom: clamp(26px, 4vh, 44px);
+}
+
+/* input 위 라벨입니다. */
+.login-field label {
+  font-size: clamp(12px, 0.9vw, 15px);
+  font-weight: 900;
+}
+
+/* 아이디/비밀번호 input 공통 스타일입니다. */
+.login-field input {
+  width: 100%;
+  height: clamp(44px, 5vh, 56px);
+  padding: 0 14px;
+  border: 1px solid var(--login-border);
+  border-radius: var(--login-radius);
+  outline: none;
+  font-size: clamp(13px, 1vw, 16px);
+  color: var(--login-text);
+}
+
+.login-field input::placeholder {
+  color: var(--login-placeholder);
+}
+
+/* 로그인 실패 메시지입니다. */
+.login-error {
+  margin: -18px 0 0;
+  color: var(--login-orange);
+  font-size: clamp(11px, 0.8vw, 13px);
+  font-weight: 600;
+}
+
+/* 하단 로그인 버튼입니다. */
+.login-submit {
+  align-self: end;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: clamp(42px, 5vh, 54px);
+  border: 0;
+  border-radius: 999px;
+  background: var(--login-orange);
+  color: var(--login-white);
+  font-size: clamp(13px, 1vw, 16px);
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 입력이 부족하거나 API 요청 중일 때 비활성 버튼입니다. */
+.login-submit:disabled {
+  background: var(--login-disabled);
+  color: #555555;
+  cursor: not-allowed;
+}
+
+@media (max-width: 720px) {
+  .login-page {
+    --login-side-padding: 32px;
+  }
+}

@@ -1,0 +1,536 @@
+
+/* 전체 마이페이지입니다. <main className="mypage">에 적용됩니다. */
+.mypage {
+  /* 포인트 주황색입니다. 수저 아이콘, 진행바, 물음표 버튼 등에 사용합니다. */
+  --mypage-orange: #ff5b00;
+
+  /* 페이지 배경색입니다. */
+  --mypage-bg: #ffffff;
+
+  /* 기본 글자색입니다. */
+  --mypage-text: #111111;
+
+  /* 보조 설명 글자색입니다. */
+  --mypage-muted: #777777;
+
+  /* 카드 테두리와 구분선 색입니다. */
+  --mypage-line: #e6e6e6;
+
+  /* 카드 배경색입니다. */
+  --mypage-card: #ffffff;
+
+  /* 카드 그림자입니다. */
+  --mypage-shadow: 0 3px 10px rgb(0 0 0 / 14%);
+
+  /* 페이지 좌우 여백입니다. */
+  --mypage-side-padding: clamp(32px, 12vw, 220px);
+
+  /* 카드 둥근 정도입니다. */
+  --mypage-radius: 12px;
+
+  /* 페이지 기본 폰트입니다. */
+  --mypage-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100%;
+  padding: clamp(34px, 6vh, 58px) var(--mypage-side-padding)
+    clamp(36px, 6vh, 64px);
+  background: var(--mypage-bg);
+  color: var(--mypage-text);
+  font-family: var(--mypage-font);
+}
+
+/* 페이지 제목입니다. */
+.mypage-header h1 {
+  margin: 0 0 clamp(26px, 5vh, 46px);
+  font-size: clamp(20px, 1.6vw, 28px);
+  font-weight: 900;
+  text-align: center;
+}
+
+/* 프로필 요약 카드입니다. */
+.mypage-profile-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(14px, 2vw, 26px);
+  width: min(100%, 720px);
+  margin: 0 auto clamp(28px, 5vh, 48px);
+  padding: clamp(14px, 2vw, 20px);
+  border: 1px solid var(--mypage-line);
+  border-radius: var(--mypage-radius);
+  background: var(--mypage-card);
+  box-shadow: var(--mypage-shadow);
+}
+
+/* 프로필 이미지 자리입니다. */
+.mypage-avatar {
+  display: grid;
+  place-items: center;
+  width: clamp(48px, 5vw, 70px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #a7a7a7;
+}
+
+.mypage-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 프로필 이미지가 없을 때 보여주는 기본 사람 아이콘입니다. */
+.mypage-avatar span {
+  width: 48%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 24px 0 10px #ffffff;
+}
+
+/* 닉네임/아이디 묶음입니다. */
+.mypage-profile-name {
+  display: grid;
+  gap: 3px;
+  
+}
+
+.mypage-profile-name strong {
+  font-size: clamp(15px, 4vw, 18px);
+}
+
+.mypage-profile-name span,
+.mypage-visited-count span {
+  font-size: clamp(10px, 2.7vw, 12px);
+}
+
+
+
+/* 프로필 카드 안의 가 본 맛집 요약 영역입니다. */
+.mypage-visited-summary {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  justify-content: end;
+  gap: clamp(5px, 1vw, 10px);
+  min-width: max-content;
+}
+
+/* 수저/포크 SVG 아이콘입니다. */
+.mypage-cutlery-icon {
+  width: clamp(30px, 3vw, 40px);
+  height: auto;
+}
+
+/* 가운데 텍스트 묶음입니다. */
+.mypage-visited-text {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-width: 48px;
+  text-align: center;
+}
+
+/* '가 본 맛집' 텍스트입니다. */
+.mypage-visited-text span {
+  font-size: clamp(9px, 2.4vw, 12px);
+  white-space: nowrap;
+}
+
+/* 방문한 맛집 수입니다. */
+.mypage-visited-text strong {
+  font-size: clamp(18px, 5vw, 24px);
+  line-height: 1;
+}
+
+/* 페이지 섹션 공통 폭입니다. */
+.mypage-section {
+  width: min(100%, 720px);
+  margin: 0 auto clamp(28px, 5vh, 48px);
+}
+
+.mypage-section h2 {
+  margin: 0 0 14px;
+  font-size: clamp(17px, 1.3vw, 22px);
+  font-weight: 900;
+}
+
+/* 수저 등급 카드입니다. 클릭하면 모달이 열립니다. */
+.mypage-grade-card {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  padding: clamp(24px, 5vh, 48px) clamp(20px, 4vw, 48px);
+  border: 1px solid var(--mypage-line);
+  border-radius: var(--mypage-radius);
+  background: var(--mypage-card);
+  box-shadow: var(--mypage-shadow);
+  color: inherit;
+  cursor: pointer;
+}
+
+.mypage-grade-visual {
+  height: clamp(72px, 11vh, 116px);
+}
+
+.mypage-grade-visual img {
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 임시 수저 일러스트입니다. 나중에 SVG/PNG 이미지로 교체할 수 있습니다. */
+.mypage-spoon-illustration {
+  display: block;
+  width: 22px;
+  height: 92px;
+  border-radius: 50% 50% 45% 45%;
+  background: linear-gradient(90deg, #6b451e, #f6d18d 50%, #6b451e);
+  transform: rotate(-48deg);
+}
+
+.mypage-grade-card strong {
+  margin-top: 10px;
+  font-size: clamp(17px, 1.4vw, 22px);
+  font-weight: 900;
+}
+
+/* XP 진행바입니다. */
+.mypage-progress {
+  width: min(100%, 520px);
+  height: 10px;
+  margin: 18px 0 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e6e6e6;
+}
+
+.mypage-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--mypage-orange);
+}
+
+.mypage-grade-card p {
+  margin: 0;
+  color: var(--mypage-muted);
+  font-size: clamp(12px, 0.9vw, 14px);
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* 맛집 도장 순위 제목입니다. */
+.mypage-ranking-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+
+/* 맛집 도장 순위 리스트입니다. */
+.mypage-ranking-list {
+  display: grid;
+  gap: 14px;
+}
+
+/* 맛집 도장 순위 카드입니다. */
+.mypage-ranking-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  padding: clamp(16px, 2vw, 22px);
+  border: 1px solid var(--mypage-line);
+  border-radius: var(--mypage-radius);
+  background: var(--mypage-card);
+  box-shadow: var(--mypage-shadow);
+}
+
+.mypage-ranking-card strong {
+  font-size: clamp(15px, 1.2vw, 20px);
+  font-weight: 900;
+}
+
+.mypage-ranking-card strong span,
+.mypage-ranking-card p {
+  color: var(--mypage-muted);
+  font-size: clamp(11px, 0.85vw, 14px);
+  font-weight: 600;
+}
+
+.mypage-ranking-card p {
+  margin: 5px 0 0;
+}
+
+.mypage-ranking-card p button {
+  border: 0;
+  background: transparent;
+}
+
+/* 도장 배지 자리입니다. */
+.mypage-stamp-badge {
+  display: grid;
+  place-items: center;
+  width: clamp(64px, 7vw, 88px);
+  aspect-ratio: 1.1;
+  color: var(--mypage-orange);
+  font-size: clamp(9px, 0.7vw, 12px);
+  font-weight: 900;
+  text-align: center;
+}
+
+/* 모달 뒤 어두운 배경입니다. */
+.mypage-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(0 0 0 / 24%);
+}
+
+/* 수저 모달 카드와 좌우 화살표를 같이 감싸는 영역입니다. */
+.mypage-grade-modal-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 420px) 36px;
+  align-items: center;
+  gap: 12px;
+  width: min(100%, 540px);
+}
+
+/* 좌우 등급 이동 화살표입니다. */
+.mypage-grade-nav {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 60px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 더 이상 이동할 등급이 없을 때 화살표를 흐리게 보여줍니다. */
+.mypage-grade-nav:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+/* 수저 등급 모달 카드입니다. */
+.mypage-grade-modal {
+  position: relative;
+  width: 100%;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: 28px;
+  border: 2px solid var(--mypage-orange);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: var(--mypage-shadow);
+}
+
+.mypage-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border: 0;
+  background: transparent;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 모달 상단의 수저 이미지와 설명 묶음입니다. */
+.mypage-modal-heading {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--mypage-line);
+}
+
+.mypage-modal-heading h2,
+.mypage-modal-heading p {
+  margin: 0;
+}
+
+.mypage-modal-heading h2 {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.mypage-modal-heading p {
+  margin-top: 6px;
+  color: var(--mypage-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* 모달 내부 단계 리스트입니다. */
+.mypage-grade-levels {
+  display: grid;
+  gap: 14px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mypage-grade-levels li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px 48px 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 단계들을 이어주는 세로 선입니다. */
+.mypage-grade-levels li::after {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 24px;
+  width: 2px;
+  height: 18px;
+  background: #e2e2e2;
+}
+
+/* 마지막 단계에는 아래 선을 없앱니다. */
+.mypage-grade-levels li:last-child::after {
+  display: none;
+}
+
+.mypage-grade-levels li > span {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #dddddd;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.mypage-grade-level--achieved > span {
+  background: var(--mypage-orange) !important;
+}
+
+.mypage-grade-levels strong,
+.mypage-grade-levels p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* 좁은 화면 대응입니다. */
+@media (max-width: 720px) {
+  .mypage {
+    --mypage-side-padding: 24px;
+  }
+
+  .mypage-profile-card,
+  .mypage-ranking-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*url 파란색 밑줄 스타일 제거*/
+.mypage-profile-card {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 물음표 SVG를 감싸는 버튼입니다. 버튼 기본 배경을 없애고 이미지만 보이게 합니다. */
+.mypage-question-button {
+  display: inline-grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* 물음표 SVG를 감싸는 버튼입니다. 버튼 배경 없이 SVG만 보이게 합니다. */
+.mypage-question-button {
+  display: inline-grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* 물음표 SVG 이미지입니다. */
+.mypage-question-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 모달 뒤 회색 배경입니다. 팝업이 화면보다 커질 때 바깥 영역도 스크롤됩니다. */
+.mypage-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* 도장 기준 SVG를 통째로 보여주는 팝업입니다. */
+.mypage-stamp-image-modal {
+  position: relative;
+  width: min(100%, 430px);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+/* 팝업 안에 들어가는 도장 기준 SVG 이미지입니다. */
+.mypage-stamp-modal-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 도장 SVG 팝업 안의 닫기 버튼 위치입니다. */
+.mypage-stamp-image-modal .mypage-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 1;
+}
+
+@media (max-width: 720px) {
+  .mypage {
+    --mypage-side-padding: 24px;
+  }
+
+  .mypage-profile-card {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .mypage-ranking-card {
+    grid-template-columns: 1fr auto;
+  }
+}

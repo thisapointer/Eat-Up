@@ -1,0 +1,176 @@
+/* 전체 페이지: <main className="dev-credit-page"> */
+/* 디자인 확정 후 색상/크기 변경은 이 변수들부터 수정하면 됩니다. */
+.dev-credit-page {
+  --dev-credit-orange: #ff5b00;
+  --dev-credit-bg: #111111;
+  --dev-credit-card-bg: #ffffff;
+  --dev-credit-text: #ffffff;
+  --dev-credit-card-text: #111111;
+  --dev-credit-muted: #d8d8d8;
+  --dev-credit-line: #e6e6e6;
+  --dev-credit-side-padding: clamp(40px, 10vw, 180px);
+  --dev-credit-header-height: clamp(64px, 9vh, 88px);
+  --dev-credit-radius: 10px;
+  --dev-credit-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+  padding: 0 var(--dev-credit-side-padding) clamp(32px, 5vh, 56px);
+  background: var(--dev-credit-bg);
+  color: var(--dev-credit-text);
+  font-family: var(--dev-credit-font);
+}
+
+/* 상단 헤더: <header className="dev-credit-header"> */
+.dev-credit-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  height: var(--dev-credit-header-height);
+
+  background: var(--dev-credit-bg);
+}
+
+
+/* 뒤로가기 버튼: 추후 공통 BackButton으로 교체 가능 */
+.dev-credit-back {
+  justify-self: start;
+}
+
+/* 페이지 제목: <h1> */
+.dev-credit-header h1 {
+  grid-column: 2;
+  margin: 0;
+  font-size: clamp(20px, 1.7vw, 27px);
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* 팀 소개 영역: <section className="dev-credit-team"> */
+.dev-credit-team {
+  display: grid;
+  justify-items: center;
+  gap: clamp(10px, 1.6vh, 18px);
+  padding: clamp(24px, 5vh, 48px) 8px clamp(26px, 5vh, 52px);
+  text-align: center;
+}
+
+/* 팀 소개 제목 */
+.dev-credit-team h2 {
+  margin: 0;
+  color: var(--dev-credit-orange);
+  font-size: clamp(21px, 1.9vw, 32px);
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+/* 팀 소개 본문 */
+.dev-credit-team p {
+  max-width: 720px;
+  margin: 0;
+  color: var(--dev-credit-muted);
+  font-size: clamp(12px, 0.95vw, 16px);
+  font-weight: 500;
+  line-height: 1.35;
+  word-break: keep-all;
+}
+
+
+/* 제작진 영역: <section className="dev-credit-makers"> */
+.dev-credit-makers {
+  display: grid;
+  gap: clamp(18px, 2.2vh, 28px);
+}
+
+/* 제작진 제목과 양쪽 주황 라인: <h2 className="dev-credit-section-title"> */
+.dev-credit-section-title {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  margin: 10px;
+  color: var(--dev-credit-orange);
+  font-size: clamp(15px, 1.3vw, 21px);
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+}
+
+.dev-credit-section-title::before,
+.dev-credit-section-title::after {
+  content: "";
+  height: 1px;
+  background: var(--dev-credit-orange);
+}
+
+/* 제작진 카드 리스트: <div className="dev-credit-list"> */
+.dev-credit-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: clamp(18px, 2vw, 28px);
+}
+
+/* 제작진 카드: <article className="dev-credit-card"> */
+.dev-credit-card {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 120px;
+  padding: clamp(13px, 1.25vw, 22px);
+  border-radius: var(--dev-credit-radius);
+  background: var(--dev-credit-card-bg);;
+  color: var(--dev-credit-card-text);
+}
+
+/* 제작진 이름/역할/소속 묶음 */
+.dev-credit-maker-heading {
+  padding-bottom: clamp(8px, 1vh, 13px);
+  border-bottom: 1px solid var(--dev-credit-line);
+}
+
+/* 제작진 이름 */
+.dev-credit-maker-heading strong {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-size: clamp(20px, 1.6vw, 30px);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+/* 제작진 역할 */
+.dev-credit-maker-heading strong span {
+  font-size: clamp(12px, 0.9vw, 15px);
+  font-weight: 800;
+}
+
+/* 제작진 소속 */
+.dev-credit-maker-heading p {
+  margin: 3px 0 0;
+  font-size: clamp(10px, 0.72vw, 13px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* 제작진 설명 */
+.dev-credit-maker-description {
+  margin: clamp(9px, 1.2vh, 14px) 0 0;
+  font-size: clamp(10px, 0.8vw, 13px);
+  font-weight: 500;
+  line-height: 1.35;
+  word-break: keep-all;
+}
+
+@media (min-width: 640px) {
+  .dev-credit-page {
+  grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,63 @@
+/* 하단 공통 내비게이션 바입니다. */
+.bottom-nav {
+  --bottom-nav-orange: #ff5b00;
+  --bottom-nav-inactive: #b6b6b6;
+  --bottom-nav-bg: #ffffff;
+  --bottom-nav-text: #111111;
+  --bottom-nav-height: clamp(72px, 10vh, 92px);
+
+  box-sizing: border-box;
+
+  /* 하단바를 문서 흐름에서 빼고 화면 아래에 고정합니다. */
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  width: 100%;
+  min-height: var(--bottom-nav-height);
+  padding: 8px clamp(24px, 10vw, 180px);
+  background: var(--bottom-nav-bg);
+}
+
+/* 탭 하나입니다. NavLink라서 클릭하면 해당 route로 이동합니다. */
+.bottom-nav-item {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  color: var(--bottom-nav-inactive);
+  font-size: clamp(11px, 0.9vw, 14px);
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+}
+
+/* 현재 선택된 탭입니다. */
+.bottom-nav-item--active {
+  color: var(--bottom-nav-orange);
+}
+
+
+.bottom-nav-icon {
+  display: block;
+  width: 26px;
+  height: 26px;
+  background: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+.bottom-nav-icon--spoon {
+  mask-image: url("../assets/btnbarspoon.svg");
+  width: 34px;
+  height: 34px;
+}
+
+.bottom-nav-icon--person {
+  mask-image: url("../assets/btnbarperson.svg");
+}
