@@ -20,7 +20,7 @@ export async function loginUser(loginData) {
   //응답 상태가 200번대가 아니면 에러
   if (!response.ok) {
     const error = new Error(
-      errorData?.message || "로그인에 실패했습니다."
+      data?.message || "로그인에 실패했습니다."
     );
 
     error.status = response.status;
