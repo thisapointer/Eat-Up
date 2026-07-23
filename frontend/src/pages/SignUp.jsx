@@ -30,7 +30,7 @@ const initialForm = {
   password : "", //30자내 제한(영어, 숫자, 특수문자)
   passwordConfirm : "", // 비밀번호 확인용, 백엔드로 넘기지 않음
   nickname : "", //닉네임 바꿀 수 있음(한글, 숫자, 영어, 특수문자), 20자 이내
-  provider : "LOCAL", //로그인 방식
+  provider : "local", //로그인 방식
   //profile_img : "",  //프사 권한요청, 회원가입시 프사 설정 가능 --> api 문서 교차확인 필요
 };
 
