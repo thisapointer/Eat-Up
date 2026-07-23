@@ -6,7 +6,7 @@ import "../styles/Login.css";
 
 // 로그인 form 초기값
 const initialLoginForm = {
-  user_id: "",
+  username: "",
   password: "",
 };
 
@@ -23,7 +23,7 @@ function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 아이디와 비밀번호가 모두 입력되었을 때만 로그인 버튼을 활성화
-  const canSubmit = form.user_id.trim() && form.password;
+  const canSubmit = form.username.trim() && form.password;
 
   // input의 name과 form key를 맞춰두면 이 함수 하나로 모든 input을 처리 가능
   const handleChange = (event) => {
@@ -51,18 +51,23 @@ function Login() {
       setIsSubmitting(true);
 
       const result = await loginUser({
-        user_id: form.user_id,
+        username: form.username,
         password: form.password,
       });
 
       console.log("로그인 성공:", result);
       navigate("/map");
-    } catch (error) {
+    }
+
+    catch (error) {
       console.error("로그인 실패:", error);
       setErrorMessage("아이디 또는 비밀번호가 일치하지 않습니다!");
-    } finally {
+    }
+
+    finally {
       setIsSubmitting(false);
     }
+    
   };
 
   return (
@@ -79,8 +84,8 @@ function Login() {
           <label htmlFor="login-user-id">아이디</label>
           <input
             id="login-user-id"
-            name="user_id"
-            value={form.user_id}
+            name="username"
+            value={form.username}
             onChange={handleChange}
             placeholder="아이디"
           />
