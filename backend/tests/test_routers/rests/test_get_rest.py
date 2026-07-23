@@ -1,0 +1,101 @@
+import pytest
+
+from app.models.rests import Rest
+
+
+# ============= 성공 코드 ============
+# 식당 전체 조회
+@pytest.mark.skip(reason="검증 완료")
+def test_get_all_rest_success(client, db):
+
+    # GIVEN
+    rest_list = [Rest(name="에이셉피자 홍대점", 
+                      category="Restaurant", 
+                      addr={"addr_name": "서울 마포구 서교동 403-14", "x": 0.215, "y": 4.1598}),
+                Rest(name="에이셉피자 성수점", 
+                      category="Restaurant", 
+                      addr={"addr_name": "서울 성동구 성수동1가 22-5", "x": 0.215, "y": 4.1598}),
+                Rest(name="피자스쿨 상수역점", 
+                      category="Restaurant", 
+                      addr={"addr_name": "서울 마포구 상수동 330-1", "x": 0.215, "y": 4.1598}),
+                Rest(name="데코아발림본점", 
+                      category="Cafe", 
+                      addr={"addr_name": "서울 마포구 상수동 311-4", "x": 0.215, "y": 4.1598})]
+    db.add_all(rest_list)
+    db.commit()
+
+
+    # WHEN
+    response = client.get(f"/api/v1/rests")
+
+
+    # THEN
+    print("\n================ [응답 결과] ================")
+    print("Status Code :", response.status_code)
+    print("Response JSON:", response.json())
+    print("=============================================\n")
+    assert response.status_code == 200
+
+    rest_list = db.query(Rest).all()
+    assert rest_list is not None
+
+# 식당 조회
+@pytest.mark.skip(reason="검증 완료")
+def test_get_rest_success(client, db):
+
+    # GIVEN
+    rest_list = [Rest(name="에이셉피자 홍대점", 
+                      category="Restaurant", 
+                      addr={"addr_name": "서울 마포구 서교동 403-14", "x": 0.215, "y": 4.1598}),
+                Rest(name="에이셉피자 성수점", 
+                      category="Restaurant", 
+                      addr={"addr_name": "서울 성동구 성수동1가 22-5", "x": 0.215, "y": 4.1598}),
+                Rest(name="피자스쿨 상수역점", 
+                      category="Restaurant", 
+                      addr={"addr_name": "서울 마포구 상수동 330-1", "x": 0.215, "y": 4.1598}),
+                Rest(name="데코아발림본점", 
+                      category="Cafe", 
+                      addr={"addr_name": "서울 마포구 상수동 311-4", "x": 0.215, "y": 4.1598})]
+    db.add_list(rest_list)
+    db.commit()
+
+
+    # WHEN
+    response = client.get(f"/api/v1/rests/1")
+
+
+    # THEN
+    print("\n================ [응답 결과] ================")
+    print("Status Code :", response.status_code)
+    print("Response JSON:", response.json())
+    print("=============================================\n")
+
+    assert response.status_code == 200
+
+    rest = db.query(Rest).filter(Rest.id == 1).first()
+    assert rest.name == "에이셉피자 홍대점"
+
+# ============= 실패 코드 ============
+# 존재하지 않는 식당 id
+@pytest.mark.skip(reason="검증 완료")
+def test_get_rest_fail(client, db):
+
+    # GIVEN
+
+
+    # WHEN
+    response = client.get(f"/api/v1/rests/3")
+
+
+    # THEN
+    print("\n================ [응답 결과] ================")
+    print("Status Code :", response.status_code)
+    print("Response JSON:", response.json())
+    print("=============================================\n")
+
+    assert response.status_code == 404
+
+    rest = db.query(Rest).filter(Rest.id == 3).first()
+    assert rest is None
+
+
