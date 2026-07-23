@@ -1,5 +1,19 @@
 const BASE_URL = "http://localhost:8000";
 
+async function parseJsonOrNull(response) {
+  const text = await response.text();
+
+  if (!text) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
+  }
+}
+
 // 로그인 API POST 요청 함수
 export async function loginUser(loginData) {
   const formData = new FormData();

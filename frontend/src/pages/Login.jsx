@@ -60,8 +60,14 @@ function Login() {
     }
 
     catch (error) {
-      console.error("로그인 실패:", error);
-      setErrorMessage("아이디 또는 비밀번호가 일치하지 않습니다!");
+      console.error("로그인 처리 중 에러:", error);
+
+      if(error.status === 401) {
+        setErrorMessage("아이디 또는 비밀번호가 일치하지 않습니다!");
+        return;
+      }
+
+      setErrorMessage("로그인은 확인됐지만 처리 중 오류가 발생했습니다.")
     }
 
     finally {
