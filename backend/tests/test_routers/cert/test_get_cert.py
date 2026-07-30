@@ -246,6 +246,33 @@ def test_get_all_rest_count_success(client, auth_headers, test_user, db):
     db.add_all(rest_list)
     db.commit()
 
+    rest_hour_list = [RestHour(rest_id=1, weekday= "MON",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "TUE",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "WED",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "THU",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "FRI",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "SAT",
+                              is_closed= True),
+                    RestHour(rest_id=1, weekday= "SUN",
+                              is_closed= True)]
+    db.add_all(rest_hour_list)
+    db.commit()
+
     menu1=Menu(rest_id=1, name="ASAP PIZZA S/L", price=23900, img="")
     menu2=Menu(rest_id=1, name="Korean flavor S/L", price=25900, img="")
     menu3=Menu(rest_id=1, name="Pepperoni S/L", price=24900, img="")
