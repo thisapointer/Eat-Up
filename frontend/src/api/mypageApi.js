@@ -73,13 +73,17 @@ export async function getVisitedRestCount() {
     );
 
     error.status = response.status;
-    error.code = data?.code;
+    //error.code = data?.code;
     error.data = data;
 
     throw error;
   }
 
-  return data;
+  if(typeof data === "number") {
+    return data;
+  }
+
+  return data?.count ?? data?.visited_count ?? data?.visitedRestCount ?? 0;
 }
 
 //유저가 인증한 식당 목록들을 전부 가져옴 (내림차순정리할 예정)

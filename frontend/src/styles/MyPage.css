@@ -181,14 +181,11 @@
   object-fit: contain;
 }
 
-/* 임시 수저 일러스트입니다. 나중에 SVG/PNG 이미지로 교체할 수 있습니다. */
-.mypage-spoon-illustration {
+.mypage-spoon-image {
   display: block;
-  width: 22px;
-  height: 92px;
-  border-radius: 50% 50% 45% 45%;
-  background: linear-gradient(90deg, #6b451e, #f6d18d 50%, #6b451e);
-  transform: rotate(-48deg);
+  width: clamp(86px, 18vw, 140px);
+  height: auto;
+  object-fit: contain;
 }
 
 .mypage-grade-card strong {
