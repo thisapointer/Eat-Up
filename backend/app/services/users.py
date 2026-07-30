@@ -45,7 +45,7 @@ def get_one(user_db_id: int, db: Session) -> User:
     # 유저 존재하지 않을 시 에러
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
-                            detail="User not found")
+                            detail="존재하지 않는 유저입니다.")
     
     return user
     
@@ -97,6 +97,18 @@ def check_id(user_id: str, db: Session) -> bool:
     # 존재하지 않다면 True 반환
     else:
         return True
+
+# 유저 프로필 조회 로직
+def profile(current_user: User, db: Session) -> User:
+
+    # DB에서 유저 조회
+    user = db.query(User).filter(User.id == current_user.id).first()
+    # 유저 존재하지 않을 시 에러
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                            detail="존재하지 않는 유저입니다.")
+
+    return current_user
     
 
 # # 회원 덮어쓰기 로직
