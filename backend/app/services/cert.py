@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from sqlalchemy import select, exists
+from sqlalchemy import select, exists, func
 from sqlalchemy.orm import Session, selectinload
 
 from app.models.users import User
@@ -68,7 +68,8 @@ def get_all(rest_id: int, current_user: User, db: Session) -> dict:
 
     # DB에서 전체 식당인증 조회
     certs = db.query(Cert)\
-            .join(Cert.menus)\
+            .join(Cert.menu_certs)\
+            .join(MenuCert.menu)\
             .options(selectinload(Cert.menu_certs).selectinload(MenuCert.menu))\
             .filter(
                 Cert.user_id == current_user.id,
@@ -86,7 +87,8 @@ def get_one(cert_id: int, rest_id: int,
     
     # DB에서 식당인증 조회
     cert = db.query(Cert)\
-            .join(Cert.menus)\
+            .join(Cert.menu_certs)\
+            .join(MenuCert.menu)\
             .options(selectinload(Cert.menu_certs).selectinload(MenuCert.menu))\
             .filter(
                 Cert.user_id == current_user.id,
@@ -106,3 +108,19 @@ def delete(cert_id: int, current_user: User, db: Session) -> bool:
     db.commit()
 
     return True
+
+# 인증 식당 개수 조회 로직
+def count(current_user: User, db: Session) -> dict:
+
+    # 인증 식당 개수
+    count = db.query(func.count(func.distinct(Menu.rest_id)))\
+                .select_from(Cert)\
+                .join(Cert.menu_certs)\
+                .join(MenuCert.menu)\
+                .filter(Cert.user_id == current_user.id)\
+                .scalar()
+
+    return {
+        "total_count": count or 0
+    }
+

@@ -4,7 +4,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 
 from app.database.base import Base
-
+from app.models.menu_certs import MenuCert
 
 # 인증하기 ORM 모델
 class Cert(Base):
@@ -31,4 +31,13 @@ class Cert(Base):
     menus: AssociationProxy[list["Menu"]] = association_proxy(
         "menu_certs",   # 이 클래스의 menu_certs 속성
         "menu",         # MenuCert 클래스의 menu 속성
+        creator=lambda m: MenuCert(menu=m)
     )
+
+    # 메뉴 id 리스트
+    @property
+    def menu_ids(self) -> list[int]:
+        # association_proxy인 self.menus 또는 self.menu_certs 이용
+        if hasattr(self, "menus") and self.menus:
+            return [m.id for m in self.menus]
+        return []

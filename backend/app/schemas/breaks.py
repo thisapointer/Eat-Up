@@ -5,11 +5,11 @@ from pydantic import BaseModel, ConfigDict
 # 베이스
 class BreakBase(BaseModel):
     break_start_time: time
-    break_start_time: time
-    break_id: int | None = None
+    break_end_time: time
 
 # 단일/단순 조회용
 class BreakRead(BreakBase):
+    id: int
     created: datetime
     updated: datetime
 

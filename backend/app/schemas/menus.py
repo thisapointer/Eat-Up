@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict
 class MenuBase(BaseModel):
     name: str       # 메뉴 이름
     price: int      # 메뉴 가격
-    img: str        # 메뉴 사진 경로
+    img: str | None = None        # 메뉴 사진 경로
 
 # 생성용
 class MenuCreate(MenuBase):
@@ -20,7 +20,7 @@ class MenuUpdate(BaseModel):
 
 # 단일/단순 조회용
 class MenuRead(MenuBase):
-    menu_id: int
+    id: int
     created: datetime
     updated: datetime
 
