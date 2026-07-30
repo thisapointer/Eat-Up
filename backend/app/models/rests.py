@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String, DateTime, Date, func, Enum as SQLEnum, JSON
+from sqlalchemy import Integer, String, DateTime, Date, func, Enum as SQLEnum, JSON, inspect
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import date, datetime
 from enum import Enum
@@ -34,3 +34,20 @@ class Rest(Base):
 
     # 메뉴 리스트
     menus: Mapped[list["Menu"]] = relationship("Menu", back_populates="rest")
+
+    # 오늘의 영업시간
+    @property
+    def today_hours(self):
+        # 1. rest_hours 관계(relationship)가 DB에서 로드되었는지 확인
+        state = inspect(self)
+        if "rest_hours" not in state.unloaded:
+            # 로드되어 있는 경우에만 안전하게 찾아서 반환
+            today_str = datetime.now().strftime("%a").upper()
+            for hour in self.rest_hours:
+                # Enum 객체이거나 문자열일 경우 모두 안전하게 비교
+                hour_weekday = hour.weekday.value if hasattr(hour.weekday, 'value') else hour.weekday
+                if hour_weekday == today_str:
+                    return hour
+
+        # 로드되지 않았거나 찾지 못한 경우 None 반환
+        return None

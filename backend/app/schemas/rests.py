@@ -2,6 +2,7 @@ from datetime import datetime, date
 from pydantic import BaseModel, ConfigDict
 
 from app.models.rests import Category
+from app.schemas.rest_hours import HourBase
 
 
 # 주소 클래스
@@ -44,6 +45,8 @@ class RestRead(RestBase):
     id: int
     created: datetime
     updated: datetime
+
+    today_hours: HourBase | None
 
     # ORM 객체(Model)를 Pydantic으로 변환 허용
     model_config = ConfigDict(from_attributes=True) 

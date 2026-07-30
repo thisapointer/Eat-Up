@@ -1,5 +1,5 @@
 from fastapi import HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.models.rests import Rest
 from app.schemas.rests import RestCreate, RestUpdate, RestReplace
@@ -28,17 +28,20 @@ def create(rest_info: RestCreate, db: Session) -> Rest:
 # 전체 식당 조회 로직
 def get_all(db: Session) -> tuple[int, list[Rest]]:
 
-    # DB에서 전체 조회
-    total_count = db.query(Rest).count()    # 전체 식당 수
-    rests = db.query(Rest).all()            # 식당 리스트
+    # DB에서 전체 식당 리스트 조회
+    rests = db.query(Rest)\
+                .options(selectinload(Rest.rest_hours))\
+                .all()
 
-    return total_count, rests
+    return len(rests), rests
 
 # 식당 조회 로직
 def get_one(rest_id: int, db: Session) -> Rest:
 
     # DB에서 식당 조회
-    rest = db.query(Rest).filter(Rest.id == rest_id).first()
+    rest = db.query(Rest)\
+            .options(selectinload(Rest.rest_hours))\
+            .filter(Rest.id == rest_id).first()
     # 식당 존재하지 않을 시 에러
     if not rest:
         raise HTTPException(status_code=404, detail="Rest not found")
@@ -100,13 +103,17 @@ def delete(rest_id: int, db: Session) -> bool:
 def search(name: str, db: Session) -> dict:
 
     if name == "식당": 
-        rests = db.query(Rest).filter(Rest.category == "Restaurant").all()
+        rests = db.query(Rest)\
+                    .options(selectinload(Rest.rest_hours))\
+                    .filter(Rest.category == "Restaurant").all()
         return {
             "total_count": len(rests),
             "rests": rests
         }
     elif name == "카페":
-        rests = db.query(Rest).filter(Rest.category == "Cafe").all()
+        rests = db.query(Rest)\
+                    .options(selectinload(Rest.rest_hours))\
+                    .filter(Rest.category == "Cafe").all()
         return {
             "total_count": len(rests),
             "rests": rests
@@ -118,6 +125,7 @@ def search(name: str, db: Session) -> dict:
 
     # DB에서 검색어를 포함한 식당 조회
     rests = db.query(Rest)\
+                .options(selectinload(Rest.rest_hours))\
                 .filter(Rest.name.ilike(search_query))\
                 .all()                      # 식당 리스트
 
