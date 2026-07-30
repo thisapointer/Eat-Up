@@ -32,6 +32,14 @@ def get_all(rest_id: int = Query(description="식당 id"),
             db: Session = Depends(get_db)) -> dict:
     return service.get_all(rest_id, current_user, db)
 
+# GET - 인증 식당 개수 조회
+# Request Body: 없음
+# Response Body: "total_count"
+@router.get("/count")
+def get_rest_count(current_user: User = Depends(get_current_user),
+            db: Session = Depends(get_db)) -> dict:
+    return service.count(current_user, db)
+
 # GET - 식당인증 조회
 # Request Body: 없음
 # Response Body: CertRead
