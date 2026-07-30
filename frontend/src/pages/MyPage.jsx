@@ -12,32 +12,18 @@ import EatupStamp from "../assets/eatupstamp.svg";
 */
 import SpoonIcon from "../assets/spoon.svg";
 import ForkIcon from "../assets/fork.svg";
-
-
+import { getUserInfo, getVisitedRestCount } from "../api/mypageApi";
 
 
 // API 연동 전까지 화면 확인용으로 쓰는 기본 데이터
 // 나중에 백엔드 API가 준비되면 이 객체를 직접 쓰지 않고, API 응답 데이터로 대체하면 됩니다.
 const myPageFallbackData = {
-  // 프로필 카드에 들어가는 사용자 기본 정보입니다.
-  profile: {
-    nickname: "이서준",
-    userId: "sin390is0.5",
-    visitedRestaurantCount: 234,
-    profileImageUrl: "",
+  profile : {
+    visitedRestCount : 234
   },
-
+  
   // 수저 등급 카드와 수저 등급 모달에 들어가는 정보입니다.
   spoonGrade: {
-    name: "금수저",
-    level: 2,
-    currentXp: 7800,
-    nextLevelXp: 8200,
-    minXp: 7000,
-    maxXp: 9000,
-    description: "당신은 진정한 식객에 입문했습니다.",
-    imageUrl: "",
-
     // 모달에서 1호, 2호, 3호처럼 단계별 XP 범위를 보여줄 때 사용합니다.
     levels: [
       { level: 1, minXp: 7000, maxXp: 7400, achieved: true },
@@ -122,9 +108,12 @@ function formatXp(value) {
 }
 
 function MyPage() {
-  // 마이페이지 전체 데이터를 state로 관리합니다.
-  // 처음에는 fallback 데이터를 보여주고, 이후 API 응답으로 교체할 수 있습니다.
-  const [myPageData, setMyPageData] = useState(myPageFallbackData);
+  const [userInfo, setUserInfo] = useState(null); //api 에서 받은 유저 정보 저장
+  const [visitedCount, setVisitedCount] = useState(0); //api 에서 받은 가 본 맛집 갯수 저장
+  const [isLoading, setIsLoading] = useState(true); //api 요청중인지 저장
+  const [errorMessage, setErrorMessage] = useState(""); //api 실패 메세지 저장
+  
+  const stampRankData = myPageFallbackData.stampRank;
 
   // 수저 등급 모달이 열려 있는지 저장합니다.
   const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
@@ -138,22 +127,57 @@ function MyPage() {
 
   // 컴포넌트가 처음 화면에 뜰 때 마이페이지 데이터를 불러옵니다.
   useEffect(() => {
-    // 화면이 사라진 뒤 setState가 실행되는 것을 막기 위한 안전장치입니다.
-    let isMounted = true;
+    const fetchMyPageData = async() => {
+      try {
 
-    fetchMyPageData().then((data) => {
-      if (isMounted) {
-        setMyPageData(data);
+        //api 구현 필요 -- 수정 가능성 있음 users/me, cert/count 
+        const [userData, countData] = await Promise.all([
+          getUserInfo(),
+          getVisitedRestCount(),
+        ]);
+        
+        setUserInfo(userData);
+
+        //countData -- 숫자 혹은 {count : 234 } 형태로 올 수 있어서 둘 다 대비
+        //api 구현 필요 -- 수정 가능성 있음
+        setVisitedCount(
+          typeof countData === "number" ? countData : countData?.count ?? 0
+        );
+      } catch (error) {
+        console.error("마이페이지 API 조회 실패", error);
+        setErrorMessage("마이페이지 정보를 불러오지 못했습니다.");
+      } finally {
+        setIsLoading(false);
       }
-    });
-
-    return () => {
-      isMounted = false;
     };
+
+    fetchMyPageData();
+
   }, []);
 
-  // JSX에서 쓰기 편하게 데이터 객체를 분해합니다.
-  const { profile, spoonGrade, stampRanking } = myPageData;
+  if (isLoading) {
+    return <main className="mypage">불러오는 중...</main>;
+  }
+
+  if (errorMessage) {
+    return <main className="mypage">{errorMessage}</main>;
+  }
+
+  const profile = {
+    nickname: userInfo?.nickname ?? "닉네임",
+    userId: userInfo?.user_id ?? "",
+    profileImage: userInfo?.profile_img ?? "",
+    visitedRestaurantCount: visitedCount,
+  };
+
+  const spoonGrade = {
+    grade: userInfo?.spoon_grade ?? 0,
+    currentXp: userInfo?.spoon_xp ?? 0,
+    minXp: 0,
+    nextLevelXp: 10000,
+  };
+
+  const stampRanking = stampRankData;
 
   // XP 진행률을 계산합니다.
   // currentXp가 minXp와 nextLevelXp 사이에서 몇 퍼센트인지 계산해 progress bar width에 씁니다.

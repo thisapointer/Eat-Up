@@ -5,4 +5,103 @@
 
   /* 부모 요소의 세로 높이를 전부 사용합니다. */
   height: 100%;
+  
+  /* 지도 내부 요소 때문에 이상한 여백이 생기는 걸 방지합니다. */
+  display: block;
+
+}
+
+/* 지도 위 식당 말풍선 마커 공통 */
+.restaurant-map-marker {
+  --marker-orange: #ff5b00;
+  --marker-gray: #5b5b5b;
+  --marker-white: #ffffff;
+  --marker-black: #111111;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 15px 0 9px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--marker-white);
+  box-shadow: 0 5px 14px rgb(0 0 0 / 22%);
+  color: var(--marker-black);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* 말풍선 아래 꼬리 */
+.restaurant-map-marker::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 18px;
+  height: 12px;
+  background: inherit;
+  transform: translateX(-50%);
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+/* 아이콘 공통 */
+.restaurant-map-marker-icon {
+  display: block;
+  width: 23px;
+  height: 23px;
+  flex: 0 0 auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+/* 식당명 */
+.restaurant-map-marker-name {
+  display: block;
+  line-height: 1;
+}
+
+/* 미방문 기본: 회색 아이콘 + 검정 글자 */
+.restaurant-map-marker--default {
+  color: var(--marker-black);
+}
+
+.restaurant-map-marker--default .restaurant-map-marker-icon {
+  background-image: url("../assets/default-marker.svg");
+}
+
+/* 방문 기본: 주황 아이콘 + 주황 글자 */
+.restaurant-map-marker--visited {
+  color: var(--marker-orange);
+}
+
+.restaurant-map-marker--visited .restaurant-map-marker-icon {
+  background-image: url("../assets/default-visited-marker.svg");
+}
+
+/* 미방문 선택: 회색 말풍선 + 흰 글자/아이콘 */
+.restaurant-map-marker--default.restaurant-map-marker--selected {
+  background: var(--marker-gray);
+  color: var(--marker-white);
+}
+
+.restaurant-map-marker--default.restaurant-map-marker--selected
+  .restaurant-map-marker-icon {
+  background-image: url("../assets/default-marker-selected.svg");
+}
+
+/* 방문 선택: 주황 말풍선 + 흰 글자/아이콘 */
+.restaurant-map-marker--visited.restaurant-map-marker--selected {
+  background: var(--marker-orange);
+  color: var(--marker-white);
+}
+
+.restaurant-map-marker--visited.restaurant-map-marker--selected
+  .restaurant-map-marker-icon {
+  background-image: url("../assets/default-visited-marker-selected.svg");
 }
