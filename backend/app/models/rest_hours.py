@@ -32,6 +32,6 @@ class RestHour(Base):
     rest: Mapped["Rest"] = relationship("Rest", back_populates="rest_hours")
 
     # 브레이크 타임 리스트
-    breaks: Mapped[list["Break"]] = relationship("Break", back_populates="rest_hour")
+    breaks: Mapped[list["Break"]] = relationship("Break", back_populates="rest_hour", cascade="all, delete-orphan")
 
     
