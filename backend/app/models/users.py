@@ -21,7 +21,7 @@ class User(Base):
     updated: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now())  # 수정 시간
 
     user_id: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)   # 회원 아이디
-    password: Mapped[str] = mapped_column(String(100), nullable=False)      # 비밀번호
+    password: Mapped[str] = mapped_column(String(255), nullable=False)      # 비밀번호
     nickname: Mapped[str] = mapped_column(String(100), nullable=False)      # 별명
     profile_img: Mapped[str | None] = mapped_column(String(100))   # 프로필 사진 경로
     spoon_xp: Mapped[int] = mapped_column(Integer, default=0, nullable=False)     # 수저 경험치
