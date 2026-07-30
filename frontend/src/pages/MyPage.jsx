@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import "../styles/MyPage.css";
 import {Link} from "react-router-dom";
+
 import Question from "../assets/question.svg";
 import StampStepsModal from "../assets/stamp_steps_modal.svg";
+import SpoonIcon from "../assets/spoon.svg";
+import ForkIcon from "../assets/fork.svg";
+
 /*import NoneStamp from "../assets/nonestamp.svg";
 import FirstStamp from "../assets/firststamp.svg";
 import AgainStamp from "../assets/againstamp.svg";
@@ -10,30 +13,15 @@ import RegularStamp from "../assets/regularstamp.svg";
 import JjinStamp from "../assets/jjinstamp.svg";
 import EatupStamp from "../assets/eatupstamp.svg";
 */
-import SpoonIcon from "../assets/spoon.svg";
-import ForkIcon from "../assets/fork.svg";
+
 import { getUserInfo, getVisitedRestCount } from "../api/mypageApi";
 
+import {spoonGradeOptions, getSpoonGradeByGrade} from "../data/spoonGradeData"
+import "../styles/MyPage.css";
 
 // API 연동 전까지 화면 확인용으로 쓰는 기본 데이터
 // 나중에 백엔드 API가 준비되면 이 객체를 직접 쓰지 않고, API 응답 데이터로 대체하면 됩니다.
 const myPageFallbackData = {
-  profile : {
-    visitedRestCount : 234
-  },
-  
-  // 수저 등급 카드와 수저 등급 모달에 들어가는 정보입니다.
-  spoonGrade: {
-    // 모달에서 1호, 2호, 3호처럼 단계별 XP 범위를 보여줄 때 사용합니다.
-    levels: [
-      { level: 1, minXp: 7000, maxXp: 7400, achieved: true },
-      { level: 2, minXp: 7400, maxXp: 7800, achieved: true },
-      { level: 3, minXp: 7800, maxXp: 8200, achieved: false },
-      { level: 4, minXp: 8200, maxXp: 8600, achieved: false },
-      { level: 5, minXp: 8600, maxXp: 9000, achieved: false },
-    ],
-  },
-
   // 맛집 도장 순위에 들어가는 식당 리스트입니다.
   stampRanking: [
     {
@@ -49,52 +37,8 @@ const myPageFallbackData = {
   ],
 };
 
-// 수저 등급 팝업에서 좌우 화살표로 넘겨 볼 등급 목록입니다.
-// 나중에 백엔드에서 등급 목록을 받으면 이 배열만 API 응답으로 바꾸면 됩니다.
-const spoonGradeOptions = [
-  {
-    id: "silver",
-    name: "은수저",
-    minXp: 3000,
-    maxXp: 7000,
-    description: "당신은 진정한 식객에 입문했습니다.",
-    levels: [
-      { level: 1, minXp: 3000, maxXp: 3800, achieved: true },
-      { level: 2, minXp: 3800, maxXp: 4600, achieved: true },
-      { level: 3, minXp: 4600, maxXp: 5400, achieved: true },
-      { level: 4, minXp: 5400, maxXp: 6200, achieved: true },
-      { level: 5, minXp: 6200, maxXp: 7000, achieved: true },
-    ],
-  },
-  {
-    id: "gold",
-    name: "금수저",
-    minXp: 7000,
-    maxXp: 9000,
-    description: "당신은 진정한 식객에 입문했습니다.",
-    levels: [
-      { level: 1, minXp: 7000, maxXp: 7400, achieved: true },
-      { level: 2, minXp: 7400, maxXp: 7800, achieved: false },
-      { level: 3, minXp: 7800, maxXp: 8200, achieved: false },
-      { level: 4, minXp: 8200, maxXp: 8600, achieved: false },
-      { level: 5, minXp: 8600, maxXp: 9000, achieved: false },
-    ],
-  },
-  {
-    id: "diamond",
-    name: "다음 등급",
-    minXp: 9000,
-    maxXp: 12000,
-    description: "다음 수저 등급입니다.",
-    levels: [
-      { level: 1, minXp: 9000, maxXp: 9600, achieved: false },
-      { level: 2, minXp: 9600, maxXp: 10200, achieved: false },
-      { level: 3, minXp: 10200, maxXp: 10800, achieved: false },
-      { level: 4, minXp: 10800, maxXp: 11400, achieved: false },
-      { level: 5, minXp: 11400, maxXp: 12000, achieved: false },
-    ],
-  },
-];
+
+
 
 // 실제 API가 나오면 이 함수 내부만 교체하면 됩니다.
 // 예: return getMyPage(); 또는 return fetch(...).then(...)
@@ -108,6 +52,7 @@ function formatXp(value) {
 }
 
 function MyPage() {
+
   const [userInfo, setUserInfo] = useState(null); //api 에서 받은 유저 정보 저장
   const [visitedCount, setVisitedCount] = useState(0); //api 에서 받은 가 본 맛집 갯수 저장
   const [isLoading, setIsLoading] = useState(true); //api 요청중인지 저장
@@ -118,31 +63,36 @@ function MyPage() {
   // 수저 등급 모달이 열려 있는지 저장합니다.
   const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
   
-  // 수저 등급 팝업에서 현재 보고 있는 등급의 위치입니다.
-  // 1은 spoonGradeOptions 배열의 두 번째 값, 즉 금수저를 처음 보여준다는 뜻입니다.
-  const [selectedGradeIndex, setSelectedGradeIndex] = useState(1);
+  // 수저 등급 팝업에서 현재 보고 있는 등급의 위치 -> api 로 유저 등급 받은 후 현재 위치로 이동
+  const [selectedGradeIndex, setSelectedGradeIndex] = useState(0);
 
   //맛집 도장 순위 모달
   const [isMedalModalOpen, setIsMedalModalOpen] = useState(false);
 
-  // 컴포넌트가 처음 화면에 뜰 때 마이페이지 데이터를 불러옵니다.
+  // 컴포넌트가 처음 화면에 뜰 때 마이페이지 데이터 가져옴 (API 호출)
   useEffect(() => {
     const fetchMyPageData = async() => {
       try {
-
-        //api 구현 필요 -- 수정 가능성 있음 users/me, cert/count 
-        const [userData, countData] = await Promise.all([
+ 
+        const [userData, visitedCountData] = await Promise.all([
           getUserInfo(),
           getVisitedRestCount(),
         ]);
         
         setUserInfo(userData);
+        setVisitedCount(visitedCountData);
 
-        //countData -- 숫자 혹은 {count : 234 } 형태로 올 수 있어서 둘 다 대비
-        //api 구현 필요 -- 수정 가능성 있음
-        setVisitedCount(
-          typeof countData === "number" ? countData : countData?.count ?? 0
+        //유저 수저 등급에 맞는 팝업 위치 찾음
+        const currentGradeIndex = spoonGradeOptions.findIndex(
+          (option) => option.grade === Number(userData.spoon_grade)
         );
+
+        //등급 찾았을 때만 팝업 위치 변겯
+        if (currentGradeIndex !== -1) {
+          setSelectedGradeIndex(currentGradeIndex);
+          console.log("나의 등급", currentGradeIndex);
+      }
+
       } catch (error) {
         console.error("마이페이지 API 조회 실패", error);
         setErrorMessage("마이페이지 정보를 불러오지 못했습니다.");
@@ -155,13 +105,9 @@ function MyPage() {
 
   }, []);
 
-  if (isLoading) {
-    return <main className="mypage">불러오는 중...</main>;
-  }
-
-  if (errorMessage) {
-    return <main className="mypage">{errorMessage}</main>;
-  }
+  const stampRanking = Array.isArray(myPageFallbackData.stampRanking)
+    ? myPageFallbackData.stampRanking
+    : [];
 
   const profile = {
     nickname: userInfo?.nickname ?? "닉네임",
@@ -170,17 +116,30 @@ function MyPage() {
     visitedRestaurantCount: visitedCount,
   };
 
+  const currentSpoonGrade = getSpoonGradeByGrade(userInfo?.spoon_grade);
+
   const spoonGrade = {
-    grade: userInfo?.spoon_grade ?? 0,
+    grade: currentSpoonGrade.grade,
+    name: currentSpoonGrade.name,
+    image: currentSpoonGrade.image,
+    level: currentSpoonGrade.level ?? 1,
     currentXp: userInfo?.spoon_xp ?? 0,
-    minXp: 0,
-    nextLevelXp: 10000,
+    minXp: currentSpoonGrade.minXp,
+    nextLevelXp: currentSpoonGrade.maxXp,
   };
 
-  const stampRanking = stampRankData;
 
-  // XP 진행률을 계산합니다.
-  // currentXp가 minXp와 nextLevelXp 사이에서 몇 퍼센트인지 계산해 progress bar width에 씁니다.
+  // 현재 팝업에서 보여줄 수저 등급 데이터입니다.
+  const selectedGrade = spoonGradeOptions[selectedGradeIndex] ?? {
+    levels: [],
+  };
+
+  const selectedGradeLevels = Array.isArray(selectedGrade.levels)
+    ? selectedGrade.levels
+    : [];
+
+
+  // XP 진행률을 계산
   const progressPercent = useMemo(() => {
     const total = spoonGrade.nextLevelXp - spoonGrade.minXp;
     const current = spoonGrade.currentXp - spoonGrade.minXp;
@@ -190,10 +149,8 @@ function MyPage() {
     }
 
     return Math.min(100, Math.max(0, (current / total) * 100));
-  }, [spoonGrade]);
+  }, [spoonGrade.currentXp, spoonGrade.minXp, spoonGrade.nextLevelXp]);
 
-  // 현재 팝업에서 보여줄 수저 등급 데이터입니다.
-  const selectedGrade = spoonGradeOptions[selectedGradeIndex];
 
   // 왼쪽 화살표를 누르면 이전 등급으로 이동합니다.
   const handlePrevGrade = () => {
@@ -207,6 +164,15 @@ function MyPage() {
     );
   };
 
+
+  if (isLoading) {
+    return <main className="mypage">불러오는 중...</main>;
+  }
+
+  if (errorMessage) {
+    return <main className="mypage">{errorMessage}</main>;
+  }
+
   return (
     <main className="mypage">
       {/* 페이지 제목 영역입니다. */}
@@ -217,7 +183,7 @@ function MyPage() {
       {/* 상단 프로필 요약 카드입니다. */}
       <Link className="mypage-profile-card" to="/mypage/profile" aria-label="내 프로필 요약 및 프로필 수정 페이지로 이동">
         <div className="mypage-avatar">
-          {profile.profileImageUrl ? (
+          {profile.profileImage ? (
             <img src={profile.profileImageUrl} alt={`${profile.nickname} 프로필`} />
           ) : (
             <span aria-hidden="true" />
@@ -250,16 +216,15 @@ function MyPage() {
           className="mypage-grade-card"
           type="button"
           onClick={() => {
-            setSelectedGradeIndex(1); // 팝업을 열 때 금수저부터 보이게 합니다.
             setIsGradeModalOpen(true);
           }}
         >
           <div className="mypage-grade-visual">
-            {spoonGrade.imageUrl ? (
-              <img src={spoonGrade.imageUrl} alt="" />
-            ) : (
-              <span className="mypage-spoon-illustration" aria-hidden="true" />
-            )}
+            <img
+              className="mypage-spoon-image"
+              src={spoonGrade.image}
+              alt={spoonGrade.name}
+            />
           </div>
 
           <strong>
@@ -351,7 +316,12 @@ function MyPage() {
               </button>
 
               <div className="mypage-modal-heading">
-                <span className="mypage-spoon-illustration" aria-hidden="true" />
+                <img
+                  className="mypage-modal-spoon-image"
+                  src={selectedGrade.image}
+                  alt=""
+                  aria-hidden="true"
+                />
                 <div>
                   <h2 id="grade-modal-title">{selectedGrade.name}</h2>
                   <p>
@@ -362,19 +332,22 @@ function MyPage() {
               </div>
 
               <ol className="mypage-grade-levels">
-                {selectedGrade.levels.map((level) => (
-                  <li
-                    className={level.achieved ? "mypage-grade-level--achieved" : ""}
-                    key={level.level}
-                  >
-                    {/* achieved가 true인 등급에만 체크가 표시됩니다. */}
-                    <span>{level.achieved ? "✓" : ""}</span>
-                    <strong>{level.level}호</strong>
-                    <p>
-                      {formatXp(level.minXp)} ~ {formatXp(level.maxXp)}
-                    </p>
-                  </li>
-                ))}
+                {selectedGradeLevels.map((level) => {
+                  const isAchieved = spoonGrade.currentXp >= level.minXp;
+                  return (
+                    <li
+                      className={isAchieved ? "mypage-grade-level--achieved" : ""}
+                      key={level.level}
+                    >
+                      {/* achieved가 true인 등급에만 체크가 표시됩니다. */}
+                      <span>{isAchieved ? "✓" : ""}</span>
+                      <strong>{level.level}호</strong>
+                      <p>
+                        {formatXp(level.minXp)} ~ {formatXp(level.maxXp)}
+                      </p>
+                    </li>
+                  );
+                })}
               </ol>
             </section>
 
