@@ -34,6 +34,21 @@ class Cert(Base):
         creator=lambda m: MenuCert(menu=m)
     )
 
+    # 식당 정보
+    @property
+    def rest_info(self):
+        if self.menus and len(self.menus) > 0:
+            return self.menus[0].rest
+        return None
+
+    # 식당 방문 횟수
+    @property
+    def visit_count(self) -> int:
+        # 관계가 설정되어 있다면 파이썬 객체 수준에서 계산 가능
+        if hasattr(self, "user") and self.user and self.rest_info:
+            return sum(1 for c in self.user.certs if c.rest_info and c.rest_info.id == self.rest_info.id)
+        return 1
+
     # 메뉴 id 리스트
     @property
     def menu_ids(self) -> list[int]:

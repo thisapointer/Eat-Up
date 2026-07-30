@@ -1,6 +1,8 @@
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 
+from app.schemas.rests import RestRead
+
 
 # 베이스
 class CertBase(BaseModel):
@@ -11,6 +13,9 @@ class CertBase(BaseModel):
 class CertRead(CertBase):
     id: int
     updated: datetime
+
+    rest_info: RestRead
+    visit_count: int
 
     # ORM 객체(Model)를 Pydantic으로 변환 허용
     model_config = ConfigDict(from_attributes=True) 

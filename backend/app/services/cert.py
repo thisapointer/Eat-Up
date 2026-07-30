@@ -70,7 +70,10 @@ def get_all(rest_id: int, current_user: User, db: Session) -> dict:
     certs = db.query(Cert)\
             .join(Cert.menu_certs)\
             .join(MenuCert.menu)\
-            .options(selectinload(Cert.menu_certs).selectinload(MenuCert.menu))\
+            .options(selectinload(Cert.menu_certs)
+                     .selectinload(MenuCert.menu)
+                     .selectinload(Menu.rest)
+                     .selectinload(Rest.rest_hours))\
             .filter(
                 Cert.user_id == current_user.id,
                 Menu.rest_id == rest_id
@@ -89,7 +92,10 @@ def get_one(cert_id: int, rest_id: int,
     cert = db.query(Cert)\
             .join(Cert.menu_certs)\
             .join(MenuCert.menu)\
-            .options(selectinload(Cert.menu_certs).selectinload(MenuCert.menu))\
+            .options(selectinload(Cert.menu_certs)
+                     .selectinload(MenuCert.menu)
+                     .selectinload(Menu.rest)
+                     .selectinload(Rest.rest_hours))\
             .filter(
                 Cert.user_id == current_user.id,
                 Menu.rest_id == rest_id,
