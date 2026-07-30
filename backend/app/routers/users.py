@@ -27,6 +27,14 @@ def create(user_info: UserCreate,
 def get_all(db: Session = Depends(get_db)) -> dict:
     return service.get_all(db)
 
+# GET - 프로필 정보 조회
+# Request Body: 없음
+# Response Body: UserRead
+@router.get("/me", response_model=UserRead)
+def profile(current_user: User = Depends(get_current_user),
+            db: Session = Depends(get_db)) -> User:
+    return service.profile(current_user, db)
+
 # GET - 아이디 중복 검사  
 # Request Body: 없음
 # Response Body: true
