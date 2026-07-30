@@ -49,7 +49,6 @@ def test_create_rest_hour_success(client, db):
                               is_closed= True),
                     RestHour(rest_id=1, weekday= "SUN",
                               is_closed= True)]
-    
     db.add_all(rest_hour_list)
     db.commit()
 
