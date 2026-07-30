@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.models.users import User
 from app.models.cert import Cert
-from app.schemas.cert import CertBase, CertRead, CertListResponse
+from app.schemas.cert import CertBase, CertRead, CertListResponse, RestVisitBase
 import app.services.cert as service
 from app.database.session import get_db
 from app.routers.dependencies import get_current_user
@@ -32,7 +32,15 @@ def get_all(rest_id: int = Query(description="식당 id"),
             db: Session = Depends(get_db)) -> dict:
     return service.get_all(rest_id, current_user, db)
 
-# GET - 인증 식당 개수 조회
+# GET - 인증 식당별 횟수 조회
+# Request Body: 없음
+# Response Body: list[RestVisitBase]
+@router.get("/all", response_model=list[RestVisitBase])
+def get_all_rest(current_user: User = Depends(get_current_user),
+            db: Session = Depends(get_db)):
+    return service.all_rest(current_user, db)
+
+# GET - 인증한 식당 개수 조회
 # Request Body: 없음
 # Response Body: "total_count"
 @router.get("/count")

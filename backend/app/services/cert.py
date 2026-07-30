@@ -115,7 +115,7 @@ def delete(cert_id: int, current_user: User, db: Session) -> bool:
 
     return True
 
-# 인증 식당 개수 조회 로직
+# 인증한 식당 개수 조회 로직
 def count(current_user: User, db: Session) -> dict:
 
     # 인증 식당 개수
@@ -130,3 +130,23 @@ def count(current_user: User, db: Session) -> dict:
         "total_count": count or 0
     }
 
+# 인증 식당별 횟수 조회 로직
+def all_rest(current_user: User, db: Session):
+
+    # DB에서 인증 식당과 인증 횟수 조회
+    results = db.query(Rest, func.count(func.distinct(Cert.id)).label("visit_count"))\
+                .join(Menu, Menu.rest_id == Rest.id)\
+                .join(MenuCert, MenuCert.menu_id == Menu.id)\
+                .join(Cert, Cert.id == MenuCert.cert_id)\
+                .options(selectinload(Rest.rest_hours))\
+                .filter(Cert.user_id == current_user.id)\
+                .group_by(Rest)\
+                .all()
+
+    return [
+        {
+            "rest_info": rest,
+            "visit_count": visit_count
+        }
+        for rest, visit_count in results
+    ]
