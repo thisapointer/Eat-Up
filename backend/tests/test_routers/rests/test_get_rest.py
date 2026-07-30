@@ -1,6 +1,7 @@
 import pytest
 
 from app.models.rests import Rest
+from app.models.rest_hours import RestHour
 
 
 # ============= 성공 코드 ============
@@ -22,6 +23,33 @@ def test_get_all_rest_success(client, db):
                       category="Cafe", 
                       addr={"addr_name": "서울 마포구 상수동 311-4", "x": 0.215, "y": 4.1598})]
     db.add_all(rest_list)
+    db.commit()
+
+    rest_hour_list = [RestHour(rest_id=1, weekday= "MON",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "TUE",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "WED",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "THU",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "FRI",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "SAT",
+                              is_closed= True),
+                    RestHour(rest_id=1, weekday= "SUN",
+                              is_closed= True)]
+    db.add_all(rest_hour_list)
     db.commit()
 
 
@@ -56,7 +84,34 @@ def test_get_rest_success(client, db):
                 Rest(name="데코아발림본점", 
                       category="Cafe", 
                       addr={"addr_name": "서울 마포구 상수동 311-4", "x": 0.215, "y": 4.1598})]
-    db.add_list(rest_list)
+    db.add_all(rest_list)
+    db.commit()
+
+    rest_hour_list = [RestHour(rest_id=1, weekday= "MON",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "TUE",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "WED",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "THU",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "FRI",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "SAT",
+                              is_closed= True),
+                    RestHour(rest_id=1, weekday= "SUN",
+                              is_closed= True)]
+    db.add_all(rest_hour_list)
     db.commit()
 
 
