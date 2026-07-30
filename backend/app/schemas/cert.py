@@ -9,7 +9,7 @@ class CertBase(BaseModel):
 
 # 단일/단순 조회용
 class CertRead(CertBase):
-    cert_id: int
+    id: int
     updated: datetime
 
     # ORM 객체(Model)를 Pydantic으로 변환 허용
