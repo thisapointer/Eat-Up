@@ -21,3 +21,15 @@
 .maps-main-overlay > * {
   pointer-events: auto;
 }
+
+.maps-main-message {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 14%);
+  font-size: 12px;
+  font-weight: 700;
+  color: #ff5b00;
+}
+

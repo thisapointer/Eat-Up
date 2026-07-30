@@ -1,0 +1,80 @@
+.restaurant-list-card {
+  margin: 0;
+}
+
+.restaurant-list-card-button {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "heart stamp"
+    "info stamp"
+    "images images";
+  gap: 10px 12px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 15px 14px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 14%);
+  text-align: left;
+  cursor: pointer;
+}
+
+.restaurant-list-heart {
+  grid-area: heart;
+  color: #cfcfcf;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.restaurant-list-card-info {
+  grid-area: info;
+  min-width: 0;
+}
+
+.restaurant-list-card-info h2 {
+  display: inline;
+  margin: 0 5px 0 0;
+  color: #111111;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.restaurant-list-card-info span {
+  color: #111111;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.restaurant-list-card-info p {
+  margin: 4px 0 0;
+  color: #111111;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.restaurant-stamp-badge {
+  grid-area: stamp;
+  width: 74px;
+  height: 60px;
+  object-fit: contain;
+  align-self: start;
+}
+
+.restaurant-list-images {
+  grid-area: images;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.restaurant-list-images img {
+  width: 100%;
+  aspect-ratio: 1.2 / 1;
+  border-radius: 2px;
+  object-fit: cover;
+  background: #eeeeee;
+}

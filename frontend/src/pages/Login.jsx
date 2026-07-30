@@ -56,6 +56,11 @@ function Login() {
       });
 
       console.log("로그인 성공:", result);
+
+      //로그인 성공 후 필요한 로그인 정보를 브라우저에 저장
+      localStorage.setItem("accessToken", result.access_token); //이후 마이페이제이/인증/식당 api 요청시 Authorization 헤더에 사용
+      localStorage.setItem("tokenType", result.token_type); //Authorization 헤더 만들 때 사용
+
       navigate("/map");
     }
 
