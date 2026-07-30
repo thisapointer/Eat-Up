@@ -3,6 +3,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import selectinload
 
 from app.models.rests import Rest
+from app.models.rest_hours import RestHour
 from app.models.menus import Menu
 from app.models.cert import Cert
 from app.models.menu_certs import MenuCert
@@ -29,10 +30,43 @@ def test_get_all_cert_success(client, auth_headers, test_user, db):
     db.add_all(rest_list)
     db.commit()
 
+    rest_hour_list = [RestHour(rest_id=1, weekday= "MON",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "TUE",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "WED",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "THU",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "FRI",
+                              is_closed= False,
+                              open_time= "10:00",
+                              close_time= "20:00"),
+                    RestHour(rest_id=1, weekday= "SAT",
+                              is_closed= True),
+                    RestHour(rest_id=1, weekday= "SUN",
+                              is_closed= True)]
+    db.add_all(rest_hour_list)
+    db.commit()
+
     menu1=Menu(rest_id=1, name="ASAP PIZZA S/L", price=23900, img="")
     menu2=Menu(rest_id=1, name="Korean flavor S/L", price=25900, img="")
     menu3=Menu(rest_id=1, name="Pepperoni S/L", price=24900, img="")
-    db.add_all([menu1, menu2, menu3])
+    menu4=Menu(rest_id=2, name="ASAP PIZZA S/L", price=23900, img="")
+    menu5=Menu(rest_id=2, name="Korean flavor S/L", price=25900, img="")
+    menu6=Menu(rest_id=2, name="Pepperoni S/L", price=24900, img="")
+    menu7=Menu(rest_id=3, name="ASAP PIZZA S/L", price=23900, img="")
+    menu8=Menu(rest_id=3, name="Korean flavor S/L", price=25900, img="")
+    menu9=Menu(rest_id=3, name="Pepperoni S/L", price=24900, img="")
+    db.add_all([menu1, menu2, menu3, menu4, menu5, menu6, menu7, menu8, menu9])
     db.commit()
 
     cert1 = Cert(user_id=test_user.id, 
@@ -41,7 +75,13 @@ def test_get_all_cert_success(client, auth_headers, test_user, db):
     cert2 = Cert(user_id=test_user.id, 
                  created="2026-07-30",
                  menus=[menu1, menu3])
-    db.add_all([cert1, cert2])
+    cert3 = Cert(user_id=test_user.id, 
+                     created="2026-07-30",
+                     menus=[menu4])
+    cert4 = Cert(user_id=test_user.id, 
+                     created="2026-07-30",
+                     menus=[menu7, menu8, menu9])
+    db.add_all([cert1, cert2, cert3, cert4])
     db.commit()
 
 
@@ -59,7 +99,8 @@ def test_get_all_cert_success(client, auth_headers, test_user, db):
     assert response.status_code == 200
 
     cert_query = db.query(Cert).filter(Cert.user_id == test_user.id).all()
-    assert len(cert_query) == 2
+    assert len(cert_query) == 4
+    assert cert_query[0].visit_count == 2
 
 # 식당인증 조회
 @pytest.mark.skip(reason="검증 완료")
