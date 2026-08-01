@@ -18,7 +18,7 @@ class Rest(Base):
     created: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())   # 생성 시간
     updated: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now())  # 수정 시간
 
-    name: Mapped[str] = mapped_column(String(100), primary_key=True, nullable=False, unique=True)    # 이름
+    name: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)    # 이름
     category: Mapped[Category] = mapped_column(SQLEnum(Category, native_enum=False), nullable=False)   # 카테고리
     addr: Mapped[dict] = mapped_column(JSON, nullable=False)      # 주소
     info: Mapped[str | None] = mapped_column(String(1000))     # 설명
