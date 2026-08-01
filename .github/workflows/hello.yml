@@ -1,0 +1,24 @@
+# 워크플로우의 이름 (GitHub 화면에 표시됨)
+name: GitHub Actions Test
+
+# 1. 이벤트: main 브랜치에 코드 push가 일어날 때 실행
+on:
+  push:
+    branches: [ "main" ]
+
+# 2. 수행할 작업들
+jobs:
+  say-hello:
+    # 깃허브가 제공하는 가상 우분투 컴퓨터에서 실행
+    runs-on: ubuntu-latest
+
+    steps:
+    # 깃허브 액션에 내 프로젝트 코드를 불러옴
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 간단한 터미널 명령어 실행
+    - name: Print Welcome Message
+      run: |
+        echo "Hello, GitHub Actions!"
+        echo "코드가 성공적으로 푸시되었습니다."
