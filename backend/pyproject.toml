@@ -5,6 +5,7 @@ description = ""
 authors = [
     {name = "thisapointer",email = "kjw02050@naver.com"}
 ]
+package-mode = false
 requires-python = ">=3.11"
 dependencies = [
     "bcrypt (==5.0.0)",
