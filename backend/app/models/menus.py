@@ -13,7 +13,7 @@ class Menu(Base):
     created: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())   # 생성 시간
     updated: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now())  # 수정 시간
 
-    name: Mapped[str] = mapped_column(String(100), primary_key=True, nullable=False)    # 이름
+    name: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)    # 이름
     price: Mapped[int] = mapped_column(INTEGER(unsigned=True), nullable=False)          # 가격
     img: Mapped[str] = mapped_column(String(100))       # 사진 경로
 
