@@ -6,15 +6,7 @@ import StampStepsModal from "../assets/stamp_steps_modal.svg";
 import SpoonIcon from "../assets/spoon.svg";
 import ForkIcon from "../assets/fork.svg";
 
-/*import NoneStamp from "../assets/nonestamp.svg";
-import FirstStamp from "../assets/firststamp.svg";
-import AgainStamp from "../assets/againstamp.svg";
-import RegularStamp from "../assets/regularstamp.svg";
-import JjinStamp from "../assets/jjinstamp.svg";
-import EatupStamp from "../assets/eatupstamp.svg";
-*/
-
-import { getUserInfo, getVisitedRestCount } from "../api/mypageApi";
+import { getUserInfo, getVisitedRestCount, getRestList } from "../api/mypageApi";
 
 import {spoonGradeOptions, getSpoonGradeByGrade} from "../data/spoonGradeData"
 import "../styles/MyPage.css";
@@ -36,7 +28,6 @@ const myPageFallbackData = {
     },
   ],
 };
-
 
 
 
@@ -122,6 +113,7 @@ function MyPage() {
     grade: currentSpoonGrade.grade,
     name: currentSpoonGrade.name,
     image: currentSpoonGrade.image,
+    imagespin : currentSpoonGrade.imagespin,
     level: currentSpoonGrade.level ?? 1,
     currentXp: userInfo?.spoon_xp ?? 0,
     minXp: currentSpoonGrade.minXp,
@@ -222,7 +214,7 @@ function MyPage() {
           <div className="mypage-grade-visual">
             <img
               className="mypage-spoon-image"
-              src={spoonGrade.image}
+              src={spoonGrade.imagespin}
               alt={spoonGrade.name}
             />
           </div>
