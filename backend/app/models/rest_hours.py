@@ -27,7 +27,7 @@ class RestHour(Base):
     close_time: Mapped[time | None] = mapped_column(Time)      # 영업 종료 시간
 
     # 식당 id (외래키)
-    rest_id: Mapped[int] = mapped_column(Integer, ForeignKey("rests.id", ondelete="CASCADE"), nullable=False)
+    rest_id: Mapped[int] = mapped_column(Integer, ForeignKey("rests.id", ondelete="CASCADE"), nullable=False, primary_key=True)
     # 식당 역참조 설정
     rest: Mapped["Rest"] = relationship("Rest", back_populates="rest_hours")
 
