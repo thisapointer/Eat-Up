@@ -15,7 +15,7 @@ class Menu(Base):
 
     name: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)    # 이름
     price: Mapped[int] = mapped_column(INTEGER(unsigned=True), nullable=False)          # 가격
-    img: Mapped[str] = mapped_column(String(100))       # 사진 경로
+    img: Mapped[str | None] = mapped_column(String(100))       # 사진 경로
 
     # 식당 id (외래키)
     rest_id: Mapped[int] = mapped_column(Integer, ForeignKey("rests.id", ondelete="CASCADE"), nullable=False)
