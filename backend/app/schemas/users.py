@@ -61,7 +61,7 @@ class UserUpdate(BaseModel):
 # 단일/단순 조회용
 class UserRead(UserBase):
 
-    profile_img: str | None = ""        # 프로필 사진 경로
+    profile_img: str | None = None        # 프로필 사진 경로
     spoon_xp: int       # 수저 경험치
 
     @computed_field
