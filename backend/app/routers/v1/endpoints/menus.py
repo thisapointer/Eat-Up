@@ -8,7 +8,7 @@ from app.database.session import get_db
 
 
 # 라우터 객체
-router = APIRouter(prefix = "/api/v1/menus", tags=["메뉴"])
+router = APIRouter(prefix = "/menus", tags=["메뉴"])
 
 # POST - 메뉴 등록
 # Request Body: MenuCreate

@@ -8,7 +8,7 @@ from app.database.session import get_db
 
 
 # 라우터 객체
-router = APIRouter(prefix = "/api/v1/breaks", tags=["식당 브레이크타임"])
+router = APIRouter(prefix = "/breaks", tags=["식당 브레이크타임"])
 
 # GET - 브레이크타임 조회
 # Request Body: 없음

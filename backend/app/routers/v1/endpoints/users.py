@@ -9,7 +9,7 @@ from app.routers.dependencies import get_current_user
 
 
 # 라우터 객체
-router = APIRouter(prefix = "/api/v1/users", tags=["유저"])
+router = APIRouter(prefix = "/users", tags=["유저"])
 
 # POST - 회원 가입
 # Request Body: UserCreate

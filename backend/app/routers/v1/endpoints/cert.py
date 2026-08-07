@@ -10,7 +10,7 @@ from app.routers.dependencies import get_current_user
 
 
 # 라우터 객체
-router = APIRouter(prefix = "/api/v1/cert", tags=["식당 방문 인증"])
+router = APIRouter(prefix = "/cert", tags=["식당 방문 인증"])
 
 # POST - 식당인증 등록
 # Request Body: CertBase

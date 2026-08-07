@@ -8,7 +8,7 @@ from app.database.session import get_db
 
 
 # 라우터 객체
-router = APIRouter(prefix = "/api/v1/rests", tags=["식당"])
+router = APIRouter(prefix = "/rests", tags=["식당"])
 
 # POST - 식당 등록
 # Request Body: RestCreate

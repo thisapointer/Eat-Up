@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String, DateTime, ForeignKey, func
+from sqlalchemy import Integer, String, DateTime, ForeignKey, func, UniqueConstraint
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
@@ -13,9 +13,9 @@ class Menu(Base):
     created: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())   # 생성 시간
     updated: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now())  # 수정 시간
 
-    name: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)    # 이름
+    name: Mapped[str] = mapped_column(String(100), nullable=False)    # 이름
     price: Mapped[int] = mapped_column(INTEGER(unsigned=True), nullable=False)          # 가격
-    img: Mapped[str | None] = mapped_column(String(100))       # 사진 경로
+    img: Mapped[str | None] = mapped_column(String(100), nullable=True)       # 사진 경로
 
     # 식당 id (외래키)
     rest_id: Mapped[int] = mapped_column(Integer, ForeignKey("rests.id", ondelete="CASCADE"), nullable=False)
@@ -30,4 +30,7 @@ class Menu(Base):
         cascade="all, delete-orphan"
     )
 
-    
+    # 동일 식당(rest_id) 내에서만 메뉴명(name)이 중복되지 않도록 설정
+    __table_args__ = (
+        UniqueConstraint("rest_id", "name", name="uq_rest_menu_name"),
+    )
