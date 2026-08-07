@@ -14,20 +14,25 @@
 .restaurant-summary-like {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: 0;
   background: transparent;
-  color: #ff5b00;
-  font-size: 25px;
-  line-height: 1;
   cursor: pointer;
 }
 
+.restaurant-summary-like img {
+  display: block;
+  width: 40px !important; 
+  height: 40px !important;
+}
+
 .restaurant-summary-cert {
+  display: grid;
+  place-items: center;
   min-width: 132px;
-  height: 42px;
+  height: 35px;
   padding: 0 22px;
   border: 0;
   border-radius: 999px;
@@ -35,6 +40,9 @@
   color: #ffffff;
   font-size: 15px;
   font-weight: 800;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
   cursor: pointer;
 }
 
@@ -91,4 +99,88 @@
   border-radius: 2px;
   object-fit: cover;
   background: #eeeeee;
+}
+
+
+.restaurant-info-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.restaurant-info-row img {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  object-fit: contain;
+}
+
+/* 영업시간 전체 영역입니다. */
+.restaurant-hours {
+  display: grid;
+  gap: 4px;
+  margin: 5px 0 0;
+}
+
+/* "영업 중 22:00까지 v" 버튼입니다. */
+.restaurant-hours-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #111111;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+/* 영업시간 아래 화살표 SVG입니다. */
+.restaurant-hours-toggle img {
+  display: block;
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  transition: transform 160ms ease;
+}
+
+/* 영업시간 목록이 열렸을 때 화살표를 위로 돌립니다. */
+.restaurant-hours-arrow--open {
+  transform: rotate(180deg);
+}
+
+/* 펼쳐진 전체 영업시간 목록입니다. */
+.restaurant-hours-list {
+  display: grid;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+/* 요일별 영업시간 한 줄입니다. */
+.restaurant-hours-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: #111111;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+/* 요일 글자 영역입니다. */
+.restaurant-hours-row strong {
+  width: 18px;
+  font-weight: 700;
+}
+
+/* 오늘 요일은 더 굵게 표시합니다. */
+.restaurant-hours-row--today strong,
+.restaurant-hours-row--today span {
+  font-weight: 900;
 }

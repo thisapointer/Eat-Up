@@ -1,0 +1,27 @@
+.restaurant-detail-tabs {
+  display: grid;
+  gap: 22px;
+  padding-top: 22px;
+}
+
+.restaurant-detail-tab-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.restaurant-detail-tab {
+  min-height: 42px;
+  border: 1px solid #eeeeee;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111111;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.restaurant-detail-tab--active {
+  border-color: #ff5b00;
+  color: #ff5b00;
+}

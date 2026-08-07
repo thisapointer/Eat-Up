@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "https://eat-up-96sa.onrender.com";
 
 async function parseJsonOrNull(response) {
   const text = await response.text();

@@ -1,7 +1,19 @@
+import { getStampGradeByVisitCount } from "../../data/stampGradeData";
+import "../../styles/RestaurantStampBadge.css";
+
 function RestaurantStampBadge({ visitCount = 0 }) {
+  const stampGrade = getStampGradeByVisitCount(visitCount);
+  const isNotStarted = visitCount === 0;
+
   return (
     <div className="restaurant-stamp-badge">
-      {visitCount >= 100 ? "100번 방문" : "미도전"}
+      <img src={stampGrade.image} alt={stampGrade.name} />
+
+      {!isNotStarted && (
+        <span className="restaurant-stamp-count">
+          {visitCount}번 방문
+        </span>
+      )}
     </div>
   );
 }

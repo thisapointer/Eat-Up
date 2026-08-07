@@ -1,0 +1,153 @@
+.cert-page {
+  box-sizing: border-box;
+  width: min(100%, 430px);
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 24px 18px 32px;
+  background: #ffffff;
+  color: #111111;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.cert-header {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 20px;
+}
+
+.cert-header h1 {
+  grid-column: 2;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.cert-restaurant-info {
+  display: grid;
+  gap: 7px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.cert-restaurant-info input[type="date"] {
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #111111;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.cert-restaurant-info h2 {
+  margin: 0;
+  color: #111111;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.cert-restaurant-info h2 span {
+  margin-left: 5px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cert-menu-section {
+  display: grid;
+  gap: 16px;
+  padding-top: 20px;
+}
+
+.cert-menu-section h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.cert-menu-list {
+  display: grid;
+  gap: 14px;
+}
+
+.cert-menu-card {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 86px;
+  padding: 12px;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 12%);
+  color: #111111;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cert-menu-card--selected {
+  border-color: #ff5b00;
+  border: 2px solid #ff5b00;
+  box-shadow: none;
+}
+
+.cert-menu-card img {
+  width: 72px;
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+  object-fit: cover;
+  background: #eeeeee;
+}
+
+.cert-menu-card div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.cert-menu-card strong {
+  color: #111111;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.cert-menu-card span {
+  color: #111111;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.cert-complete-button {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 26px;
+  border: 0;
+  border-radius: 999px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cert-complete-button:disabled {
+  background: #dddddd;
+  color: #888888;
+  cursor: not-allowed;
+}
