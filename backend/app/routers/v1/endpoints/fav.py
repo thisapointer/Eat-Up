@@ -9,7 +9,7 @@ from app.routers.dependencies import get_current_user
 
 
 # 라우터 객체
-router = APIRouter(prefix = "/api/v1/fav", tags=["찜하기"])
+router = APIRouter(prefix = "/fav", tags=["찜하기"])
 
 # POST - 찜 등록
 @router.post("/", status_code=status.HTTP_201_CREATED)

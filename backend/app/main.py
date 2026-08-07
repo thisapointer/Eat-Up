@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.database.base import Base
 from app.database.connection import engine
-from app.routers import auth, users, fav, rests, rest_hours, breaks, menus, cert
+from app.routers import auth
+from app.routers.v1 import router as v1_router
 
 
 # 이 파일은 Eat-Up\backend에서 실행해야 함
@@ -15,17 +16,15 @@ from app.routers import auth, users, fav, rests, rest_hours, breaks, menus, cert
 Base.metadata.create_all(bind=engine)
 
 # FastAPI 객체
-app = FastAPI()
+app = FastAPI(
+    title="EatUp API Server",
+    version="0.0.1",
+    docs_url="/docs"
+)
 
 # app 객체에 모든 도메인의 라우터 포함
 app.include_router(auth.router)
-app.include_router(users.router)
-app.include_router(fav.router)
-app.include_router(rests.router)
-app.include_router(rest_hours.router)
-app.include_router(breaks.router)
-app.include_router(menus.router)
-app.include_router(cert.router)
+app.include_router(v1_router.router)
 
 
 # 허용할 프론트엔드 주소 목록 작성
