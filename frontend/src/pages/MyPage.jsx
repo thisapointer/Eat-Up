@@ -1,33 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 import Question from "../assets/question.svg";
 import StampStepsModal from "../assets/stamp_steps_modal.svg";
 import SpoonIcon from "../assets/spoon.svg";
 import ForkIcon from "../assets/fork.svg";
+import CallIcon from "../assets/call.svg";
+import LocationIcon from "../assets/location.svg";
 
 import { getUserInfo, getVisitedRestCount, getRestList } from "../api/mypageApi";
 
 import {spoonGradeOptions, getSpoonGradeByGrade} from "../data/spoonGradeData"
 import "../styles/MyPage.css";
 
-// API 연동 전까지 화면 확인용으로 쓰는 기본 데이터
-// 나중에 백엔드 API가 준비되면 이 객체를 직접 쓰지 않고, API 응답 데이터로 대체하면 됩니다.
-const myPageFallbackData = {
-  // 맛집 도장 순위에 들어가는 식당 리스트입니다.
-  stampRanking: [
-    {
-      id: "restaurant-1",
-      rank: 1,
-      name: "닭꼬랑 홍대점",
-      category: "한식",
-      visitCount: 100,
-      stampLabel: "100번 넘은 EATUP",
-      phone: "02-322-3331",
-      address: "서울 마포구 와우산로 18길 29 지하1층",
-    },
-  ],
-};
+
 
 
 
@@ -43,13 +29,14 @@ function formatXp(value) {
 }
 
 function MyPage() {
+  const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState(null); //api 에서 받은 유저 정보 저장
   const [visitedCount, setVisitedCount] = useState(0); //api 에서 받은 가 본 맛집 갯수 저장
   const [isLoading, setIsLoading] = useState(true); //api 요청중인지 저장
   const [errorMessage, setErrorMessage] = useState(""); //api 실패 메세지 저장
+  const [restList, setRestList] = useState([]);
   
-  const stampRankData = myPageFallbackData.stampRank;
 
   // 수저 등급 모달이 열려 있는지 저장합니다.
   const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
@@ -68,6 +55,7 @@ function MyPage() {
         const [userData, visitedCountData] = await Promise.all([
           getUserInfo(),
           getVisitedRestCount(),
+          getRestList(),
         ]);
         
         setUserInfo(userData);
@@ -96,10 +84,6 @@ function MyPage() {
 
   }, []);
 
-  const stampRanking = Array.isArray(myPageFallbackData.stampRanking)
-    ? myPageFallbackData.stampRanking
-    : [];
-
   const profile = {
     nickname: userInfo?.nickname ?? "닉네임",
     userId: userInfo?.user_id ?? "",
@@ -119,6 +103,8 @@ function MyPage() {
     minXp: currentSpoonGrade.minXp,
     nextLevelXp: currentSpoonGrade.maxXp,
   };
+
+  const visibleRestList = restList.slice(0,2);
 
 
   // 현재 팝업에서 보여줄 수저 등급 데이터입니다.
@@ -245,27 +231,47 @@ function MyPage() {
         </h2>
 
         <div className="mypage-ranking-list">
-          {stampRanking.map((restaurant) => (
-            <article className="mypage-ranking-card" key={restaurant.id}>
-              <div>
-                <strong>
-                  {restaurant.name} <span>{restaurant.category}</span>
-                </strong>
-                <p>
-                  영업 중 {restaurant.visitCount}:00 까지
-                  <button type="button" aria-label="영업시간 더보기">
-                    ˅
-                  </button>
-                </p>
-                <p>☎ {restaurant.phone}</p>
-                <p>⌖ {restaurant.address}</p>
-              </div>
+          {visibleRestList.length > 0 ? (
+            <>
+              {visibleRestList.map((restaurant) => (
+                <article className="mypage-ranking-card" key={restaurant.id}>
+                  <div>
+                    <strong>
+                      {restaurant.name} <span>{restaurant.category}</span>
+                    </strong>
 
-              <div className="mypage-stamp-badge">
-                <span>{restaurant.stampLabel}</span>
-              </div>
-            </article>
-          ))}
+                    <p>{restaurant.info}</p>
+
+                    {restaurant.phone && (
+                      <p className="restaurant-info-row">
+                        <img src={CallIcon} alt="" aria-hidden="true" />
+                        <span>{restaurant.phone}</span>
+                      </p>
+                    )}
+
+                    {restaurant.address && (
+                      <p className="restaurant-info-row">
+                        <img src={LocationIcon} alt="" aria-hidden="true" />
+                        <span>{restaurant.address}</span>
+                      </p>
+                    )}
+                  </div>
+
+                  <RestaurantStampBadge visitCount={restaurant.visitCount} />
+                </article>
+              ))}
+              
+              <button
+                className="mypage-stamp-more-button"
+                type="button"
+                onClick={() => navigate("/mypage/records")}
+              > 
+                모두 보기
+              </button>
+            </>
+          ) : (
+            <p className="mypage-stamp-empty">아직 가 본 맛집이 없습니다 시도해보세요!</p>
+          )}
         </div>
       </section>
 

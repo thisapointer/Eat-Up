@@ -3,7 +3,7 @@ import RestaurantSummary from "../restaurant/RestaurantSummary";
 import RestaurantDetailTabs from "../restaurant/RestaurantDetailTabs";
 import "../../styles/MapRestaurantSheet.css";
 
-function MapRestaurantSheet({ restaurant,sheetMode, onSheetModeChange, onClose }) {
+function MapRestaurantSheet({ restaurant,sheetMode, onSheetModeChange, onClose, onLikeToggle, }) {
     const dragStartYRef = useRef(null);
     const isDraggingRef = useRef(false);
 
@@ -64,7 +64,7 @@ function MapRestaurantSheet({ restaurant,sheetMode, onSheetModeChange, onClose }
             />
 
             <div className="map-restaurant-sheet-inner">
-                <RestaurantSummary restaurant={restaurant} />
+                <RestaurantSummary restaurant={restaurant} onLikeToggle={onLikeToggle} />
 
                 {sheetMode === "expanded" && (
                     <RestaurantDetailTabs restaurant={restaurant} />

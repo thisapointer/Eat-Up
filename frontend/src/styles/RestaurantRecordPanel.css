@@ -1,0 +1,113 @@
+.restaurant-record-panel {
+  display: grid;
+  gap: 22px;
+}
+
+.restaurant-total-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+
+  box-sizing: border-box;
+  min-height: 72px;
+  padding: 14px 20px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 14%);
+  text-align: center;
+}
+
+.restaurant-total-card img {
+  width: 36px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.restaurant-total-card strong {
+  display: block;
+  color: #111111;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.restaurant-total-card p {
+  margin: 4px 0 0;
+  color: #111111;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.restaurant-record-month {
+  display: grid;
+  gap: 12px;
+}
+
+.restaurant-record-month h3 {
+  margin: 0;
+  color: #111111;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.restaurant-record-card {
+  box-sizing: border-box;
+  padding: 16px 18px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 14%);
+}
+
+.restaurant-record-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.restaurant-record-card-header strong {
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.restaurant-record-card-header span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.restaurant-record-card-header img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.restaurant-record-card ul {
+  display: grid;
+  gap: 5px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.restaurant-record-card li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #111111;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.restaurant-record-empty {
+  margin: 18px 0 0;
+  color: #777777;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+}

@@ -1,6 +1,6 @@
 // 백엔드 API 기본 주소
 // .env 파일로 분리하면 환경마다 쉽게 바꾸기 가능
-const BASE_URL = "http://localhost:8000/api/v1"; //백엔드 port num
+const BASE_URL = "https://eat-up-96sa.onrender.com/api/v1"; //백엔드 port num
 
 // 아이디 중복 확인 API 요청 함수
 export async function checkUserId(userId) {

@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000/api/v1";
+const BASE_URL = "https://eat-up-96sa.onrender.com/api/v1";
 
 // 응답 body가 비어 있거나 JSON이 아닐 수 있으므로 
 async function parseJsonOrNull(response) {
@@ -90,9 +90,10 @@ export async function getVisitedRestCount() {
 export async function getRestList() {
   const accessToken = localStorage.getItem("accessToken");
 
-  const response = await fetch(`${BASE_URL}/cert`, {
+  const response = await fetch(`${BASE_URL}/cert/all`, {
     method: "GET",
     headers: {
+      accept: "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
   });
@@ -101,15 +102,31 @@ export async function getRestList() {
 
   if (!response.ok) {
     const error = new Error(
-      data?.message || "마이페이지 정보를 불러오지 못했습니다."
+      data?.message || "맛집 도장 순위를 불러오지 못했습니다."
     );
 
     error.status = response.status;
-    error.code = data?.code;
     error.data = data;
 
     throw error;
   }
 
-  return data;
+  //응답이 배열이면 그대로 사용
+  //배열 X -> map 오류 방지 위해 빈 배열 사용
+  const certs = Array.isArray(data) ? data : [];
+
+  return certs
+    .map((cert) => ({
+      id: cert.rest_info?.id,
+      name: cert.rest_info?.name ?? "식당 이름 없음",
+      category: cert.rest_info?.category ?? "",
+      info: cert.rest_info?.info ?? "영업 정보 없음",
+      phone: cert.rest_info?.phone ?? "",
+      address: cert.rest_info?.addr?.addr_name ?? "",
+      img: cert.rest_info?.img ?? "",
+      visitCount: cert.visit_count ?? 0,
+      restInfo: cert.rest_info,
+    }))
+
+    .sort((a, b) => b.visitCount - a.visitCount);
 }

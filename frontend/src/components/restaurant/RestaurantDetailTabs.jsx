@@ -1,14 +1,20 @@
 import { useState } from "react";
+import RestaurantRecordPanel from "./RestaurantRecordPanel";
+import RestaurantMenuPanel from "./RestaurantMenuPanel";
 import "../../styles/RestaurantDetailTabs.css";
 
 function RestaurantDetailTabs({ restaurant }) {
+  // 현재 선택된 탭입니다. "records"면 내 기록, "menu"면 메뉴를 보여줍니다.
   const [activeTab, setActiveTab] = useState("records");
 
   return (
-    <section className="restaurant-detail-tabs">
+    <section className="restaurant-detail-tabs" aria-label="식당 상세 정보">
+      {/* 내 기록 / 메뉴 탭 버튼 영역입니다. */}
       <div className="restaurant-detail-tab-list" role="tablist">
         <button
-          className={activeTab === "records" ? "is-active" : ""}
+          className={`restaurant-detail-tab ${
+            activeTab === "records" ? "restaurant-detail-tab--active" : ""
+          }`}
           type="button"
           onClick={() => setActiveTab("records")}
         >
@@ -16,7 +22,9 @@ function RestaurantDetailTabs({ restaurant }) {
         </button>
 
         <button
-          className={activeTab === "menu" ? "is-active" : ""}
+          className={`restaurant-detail-tab ${
+            activeTab === "menu" ? "restaurant-detail-tab--active" : ""
+          }`}
           type="button"
           onClick={() => setActiveTab("menu")}
         >
@@ -24,37 +32,11 @@ function RestaurantDetailTabs({ restaurant }) {
         </button>
       </div>
 
+      {/* 선택된 탭에 따라 아래 내용을 바꿉니다. */}
       {activeTab === "records" ? (
-        <div className="restaurant-record-panel">
-          <div className="restaurant-total-card">
-            <strong>총 지출</strong>
-            <p>1,000,000원</p>
-          </div>
-
-          <h3>2026년 6월</h3>
-          <article className="restaurant-record-card">
-            <strong>6월 5일</strong>
-            <span>15,000원</span>
-            <ul>
-              <li>닭쌈밥 정식 9,000원</li>
-              <li>튀김 4,000원</li>
-              <li>콜라 2,000원</li>
-            </ul>
-          </article>
-        </div>
+        <RestaurantRecordPanel restaurant={restaurant} />
       ) : (
-        <div className="restaurant-menu-panel">
-          <h3>메인 메뉴</h3>
-          <article className="restaurant-menu-card">
-            <strong>닭쌈밥 정식</strong>
-            <span>9,000원</span>
-          </article>
-
-          <article className="restaurant-menu-card">
-            <strong>양념 닭쌈밥 정식</strong>
-            <span>9,000원</span>
-          </article>
-        </div>
+        <RestaurantMenuPanel restaurant={restaurant} />
       )}
     </section>
   );

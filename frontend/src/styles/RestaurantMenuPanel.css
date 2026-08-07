@@ -1,0 +1,59 @@
+.restaurant-menu-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.restaurant-menu-panel h3 {
+  margin: 0;
+  color: #111111;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.restaurant-menu-list {
+  display: grid;
+  gap: 14px;
+}
+
+.restaurant-menu-card {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  align-items: center;
+  gap: 12px;
+
+  box-sizing: border-box;
+  min-height: 88px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 14%);
+}
+
+.restaurant-menu-image {
+  width: 72px;
+  aspect-ratio: 1;
+  border-radius: 3px;
+  object-fit: cover;
+  background: #eeeeee;
+}
+
+.restaurant-menu-info {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.restaurant-menu-info strong {
+  color: #111111;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.restaurant-menu-info span {
+  color: #111111;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+}

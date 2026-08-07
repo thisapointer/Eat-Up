@@ -1,56 +1,76 @@
+/* 지도 위에 뜨는 식당 바텀시트 전체입니다. */
 .map-restaurant-sheet {
   position: fixed;
-  left: 0;
-  right: 0;
+  left: 50%;
   bottom: 0;
-
+  
   /* 하단바보다 높아야 함 */
   z-index: 100;
 
-  width: 100%;
-  max-width: 100%;
+  /* 화면이 커져도 시트가 너무 넓어지지 않게 제한합니다. */
+  width: min(100%, 500px);
+
+  /* 가운데 정렬합니다. */
+  transform: translateX(-50%);
+
+
+  box-sizing: border-box;
+  border-radius: 24px 24px 0 0;
   background: #ffffff;
-  border-radius: 22px 22px 0 0;
-  box-shadow: 0 -8px 28px rgb(0 0 0 / 18%);
+  box-shadow: 0 -4px 20px rgb(0 0 0 / 14%);
   overflow: hidden;
 }
 
-.map-restaurant-sheet--preview {
-  height: min(44dvh, 390px);
+/* 미리보기 상태입니다. */
+.map-restaurant-sheet--preview .map-restaurant-sheet-inner {
+  overflow: hidden;
 }
 
+/* 펼친 상태입니다. */
 .map-restaurant-sheet--expanded {
-  bottom: 0;
-  height: 100dvh;
-  border-radius: 0;
+  height: calc(100dvh - var(--bottom-nav-height, 88px));
 }
 
-.map-restaurant-sheet-handle {
-  display: block;
-  width: 100%;
-  height: 28px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: grab;
-  touch-action: none;
-}
-
-.map-restaurant-sheet-handle::before {
-  content: "";
-  display: block;
-  width: 96px;
-  height: 5px;
-  margin: 12px auto 0;
-  border-radius: 999px;
-  background: #d6d6d6;
-}
-
+/* 시트 안쪽 내용 공통입니다. */
 .map-restaurant-sheet-inner {
-  width: min(calc(100% - 32px), 390px);
-  height: calc(100% - 28px);
-  margin: 0 auto;
-  padding-bottom: 18px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 24px clamp(18px, 5vw, 28px) 28px;
+
+  /* 공통에서는 스크롤 방향을 정하지 않습니다. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.map-restaurant-sheet-inner::-webkit-scrollbar {
+  display: none;
+}
+
+/* 미리보기 상태에서는 내용이 위아래로 움직이지 않게 막습니다. */
+.map-restaurant-sheet--preview .map-restaurant-sheet-inner {
+  overflow: hidden;
+}
+
+/* 펼친 상태에서는 내용이 길면 내부 스크롤되게 합니다. */
+.map-restaurant-sheet--expanded .map-restaurant-sheet-inner {
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+/* 손잡이입니다. */
+.map-restaurant-sheet-handle {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  z-index: 2;
+
+  width: 92px;
+  height: 5px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #d9d9d9;
+  transform: translateX(-50%);
+  cursor: grab;
 }
