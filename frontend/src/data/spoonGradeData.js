@@ -6,6 +6,15 @@ import SpoonGrade5 from "../assets/spoon_5.svg";
 import SpoonGrade6 from "../assets/spoon_6.svg";
 import SpoonGrade7 from "../assets/spoon_7.svg";
 
+import SpoonGrade10 from "../assets/spoon_10.svg";
+import SpoonGrade20 from "../assets/spoon_20.svg";
+import SpoonGrade30 from "../assets/spoon_30.svg";
+import SpoonGrade40 from "../assets/spoon_40.svg";
+import SpoonGrade50 from "../assets/spoon_50.svg";
+import SpoonGrade60 from "../assets/spoon_60.svg";
+import SpoonGrade70 from "../assets/spoon_70.svg";
+
+
 export const spoonGradeOptions = [
     {
         id: "singleUse",
@@ -17,6 +26,7 @@ export const spoonGradeOptions = [
             { level: 1, minXp: 0, maxXp: 1000 },
         ],
         image: SpoonGrade1,
+        imagespin: SpoonGrade10,
     },
 
     {
@@ -31,6 +41,7 @@ export const spoonGradeOptions = [
             { level: 3, minXp: 4501, maxXp: 7000 },
         ],
         image: SpoonGrade2,
+        imagespin: SpoonGrade20,
     },
 
     {
@@ -46,6 +57,7 @@ export const spoonGradeOptions = [
             { level: 4, minXp: 20001, maxXp: 26000 },
         ],
         image: SpoonGrade3,
+        imagespin: SpoonGrade30,
     },
 
     {
@@ -62,6 +74,7 @@ export const spoonGradeOptions = [
             { level: 5, minXp: 70001, maxXp: 86000 },
         ],
         image: SpoonGrade4,
+        imagespin: SpoonGrade40,
     },
 
     {
@@ -78,6 +91,7 @@ export const spoonGradeOptions = [
             { level: 5, minXp: 196001, maxXp: 236000 },
         ],
         image: SpoonGrade5,
+        imagespin: SpoonGrade50,
     },
 
     {
@@ -94,6 +108,7 @@ export const spoonGradeOptions = [
             { level: 5, minXp: 496001, maxXp: 596000 },
         ],
         image: SpoonGrade6,
+        imagespin: SpoonGrade60,
     },
 
     {
@@ -106,6 +121,7 @@ export const spoonGradeOptions = [
             { level: 1, minXp: 596001, maxXp: 999999 },
         ],
         image: SpoonGrade7,
+        imagespin: SpoonGrade70,
     },
 ]
 

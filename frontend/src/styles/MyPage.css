@@ -99,7 +99,7 @@
 }
 
 .mypage-profile-name strong {
-  font-size: clamp(15px, 4vw, 18px);
+  font-size: clamp(17px, 4vw, 18px);
 }
 
 .mypage-profile-name span,
@@ -190,7 +190,7 @@
 
 .mypage-grade-card strong {
   margin-top: 10px;
-  font-size: clamp(17px, 1.4vw, 22px);
+  font-size: clamp(18px, 1.4vw, 22px);
   font-weight: 900;
 }
 

@@ -87,10 +87,10 @@ export async function getVisitedRestCount() {
 }
 
 //유저가 인증한 식당 목록들을 전부 가져옴 (내림차순정리할 예정)
-/*export async function getRestList() {
+export async function getRestList() {
   const accessToken = localStorage.getItem("accessToken");
 
-  const response = await fetch(`${BASE_URL}/users/${user_id}`, {
+  const response = await fetch(`${BASE_URL}/cert`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -112,4 +112,4 @@ export async function getVisitedRestCount() {
   }
 
   return data;
-}*/
+}
