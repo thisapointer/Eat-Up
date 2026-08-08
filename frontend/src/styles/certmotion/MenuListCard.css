@@ -1,0 +1,126 @@
+/*  개별 메뉴 카드 떠오르는 키프레임 */
+@keyframes menuItemFloatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*  우측 도장이 회전하며 쾅 찍히는 키프레임 */
+@keyframes menuStampSlam {
+  0% {
+    opacity: 0;
+    transform: scale(2.5) rotate(-35deg);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(0.85) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+
+/* 개별 메뉴 카드 */
+.menu-list-card-item {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+
+  background-color: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.16);
+
+  opacity: 0;
+  animation: menuItemFloatUp 0.5s ease-out calc(2.0s + var(--index, 0) * 0.4s) forwards;
+}
+
+/* 좌측 영역 (이미지 + 메뉴명/가격) */
+.menu-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.menu-image {
+  width: 80px;
+  height: 70px;
+  object-fit: cover;
+}
+
+.menu-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-title {
+  margin: 0 0 4px 0;
+  color: #111111;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.menu-price {
+  margin: 0;
+  color: #555555;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+/*  우측 도장 영역 (크기 고정 및 기준점 설정) */
+.stamp-box.menu-stamp {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  width: 60px;
+  height: 60px;
+
+  opacity: 0;
+  transform-origin: center center;
+  animation: menuStampSlam 0.6s cubic-bezier(0.16, 1, 0.3, 1) calc(2.4s + var(--index, 0) * 0.4s) forwards;
+}
+
+.stamp-box.menu-stamp .stamp-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.stamp-box.menu-stamp .stamp-text-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: #ff5500;
+  text-align: center;
+}
+
+.stamp-stars {
+  font-size: 8px;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.stamp-count {
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.1;
+}
