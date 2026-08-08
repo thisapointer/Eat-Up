@@ -125,20 +125,34 @@ export const spoonGradeOptions = [
     },
 ]
 
-export function getSpoonGradeByGrade(grade) {
+/*export function getSpoonGradeByGrade(grade) {
   return (
     spoonGradeOptions.find((spoonGrade) => spoonGrade.grade === Number(grade)) ??
     spoonGradeOptions[0]
   );
+}*/
+
+export function getSpoonGradeByXp(spoonXp = 0) {
+  const grade =
+    spoonGradeOptions.find(
+      (option) => spoonXp >= option.minXp && spoonXp <= option.maxXp
+    ) ?? spoonGradeOptions[spoonGradeOptions.length - 1];
+
+  const currentLevel =
+    grade.levels?.find(
+      (level) => spoonXp >= level.minXp && spoonXp <= level.maxXp
+    ) ?? grade.levels?.[0];
+
+  return {
+    ...grade,
+    level: currentLevel?.level ?? 1,
+  };
 }
 
-/*export function getSpoonGradeByXp(xp) {
-  const currentXp = Number(xp) || 0;
-
-  return (
-    spoonGradeOptions.find(
-      (spoonGrade) =>
-        currentXp >= spoonGrade.minXp && currentXp <= spoonGrade.maxXp
-    ) ?? spoonGradeOptions[0]
+export function getSpoonGradeIndexByXp(spoonXp = 0) {
+  const index = spoonGradeOptions.findIndex(
+    (grade) => spoonXp >= grade.minXp && spoonXp <= grade.maxXp
   );
-}*/
+
+  return index === -1 ? spoonGradeOptions.length - 1 : index;
+}

@@ -3,19 +3,33 @@ import RestaurantStampBadge from "../restaurant/RestaurantStampBadge";
 import HeartOnIcon from "../../assets/fav_btn_selected.svg";
 import HeartOffIcon from "../../assets/fav_btn.svg";
 
+import { getRestaurantOpenText } from "../../utils/restaurantTime";
+
+import { useNavigate } from "react-router-dom";
+
 function RestaurantListCard({ restaurant, onClick, onLikeToggle }) {
   const name = restaurant.name;
   const category = restaurant.category;
-  const isOpen = restaurant.isOpen ?? restaurant.is_open ?? true;
-
+  const openText = getRestaurantOpenText(
+    restaurant.today_hours ?? restaurant.restInfo?.today_hours,
+    restaurant.today_breaks ?? restaurant.restInfo?.today_breaks
+  );
   const images = getRestaurantImages(restaurant);
   const visitCount = restaurant.visitCount ?? restaurant.visit_count ?? 0;
   const isLiked = restaurant.isLiked ?? restaurant.is_liked ?? false;
+  const navigate = useNavigate();
 
   return (
     <article
       className="restaurant-list-card"
-      onClick={onClick}
+      onClick={() =>
+        navigate("/map", {
+          state: {
+            selectedRestaurant: restaurant.restInfo ?? restaurant,
+            sheetMode: "expanded",
+          },
+        })
+      }
       role="button"
       tabIndex={0}
     >
@@ -39,7 +53,7 @@ function RestaurantListCard({ restaurant, onClick, onLikeToggle }) {
       <div className="restaurant-list-card-info">
         <h2>{name}</h2>
         <span>{category}</span>
-        <p>{isOpen ? "영업 중" : "영업 종료"}</p>
+        <p>{openText}</p>
       </div>
 
       <RestaurantStampBadge visitCount={visitCount} />

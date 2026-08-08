@@ -21,8 +21,11 @@ function CertPage() {
 
   const restaurant = location.state?.restaurant; //바텀시트에서 넘겨준 식당 정보, 없을수도 있으므로 optional 처리
 
+  const initialSelectedMenus = location.state?.selectedMenus ?? [];
+  const initialCerDate = location.state?.cerDate ?? getTodayDate();
+
   const [menus, setMenus] = useState([]);
-  const [selectedMenus, setSelectedMenus] = useState([]);
+  const [selectedMenus, setSelectedMenus] = useState(initialSelectedMenus);
   const [certDate, setCertDate] = useState(getTodayDate);
 
   useEffect(() => {
@@ -48,6 +51,15 @@ function CertPage() {
     });
   };
 
+  const handleBack = () => {
+    navigate("/map", {
+      replace: true,
+      state: {
+        restaurant,
+      },
+    });
+  };
+
   const handleComplete = () => {
     navigate(`/rests/${restId}/confirm`, {
       state: {
@@ -61,7 +73,7 @@ function CertPage() {
   return (
     <main className="cert-page">
       <header className="cert-header">
-        <BackButton />
+        <BackButton onClick={handleBack} />
         <h1>인증하기</h1>
       </header>
 

@@ -49,7 +49,7 @@ export async function postCertRecord(restId, certRecordData) {
             Authorization: `Bearer ${accessToken}`,
         },
 
-        body: JSON.stringify(CertRecordData),
+        body: JSON.stringify(certRecordData),
     });
 
     const data = await parseJsonOrNull(response);

@@ -1,4 +1,3 @@
-import { getMenuList } from "../api/menuApi";
 import { postCertRecord } from "../api/certApi";
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
@@ -20,29 +19,64 @@ function ConfirmPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // CertPage에서 navigate state로 넘겨준 값입니다.
+  // CertPage에서 navigate state로 넘겨준 값
   const restaurant = location.state?.restaurant;
   const selectedMenus = location.state?.selectedMenus ?? [];
   const certDate = location.state?.certDate ?? "";
 
-  // 수정하기 버튼: 이전 메뉴 선택 페이지로 돌아갑니다.
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // 수정하기 버튼: 이전 메뉴 선택 페이지로 돌아감 단, 이전에 선택한 내용 저장해서 
   const handleEdit = () => {
-    navigate(-1);
+    navigate(`/rests/${restId}/cert`, {
+      state: {
+        restaurant,
+        selectedMenus,
+        certDate,
+      },
+    });
   };
 
-  // 지금은 UI만 먼저. API 연결은 나중에 여기서 postCertRecord 호출하면 됩니다.
-  const handleSubmit = () => {
-    console.log("인증 완료 예정:", {
-      restId,
-      certDate,
-      selectedMenus,
+  //인증완료하기 
+  const handleSubmit = async () => {
+   if(selectedMenus.length === 0) {
+    setErrorMessage("선택한 메뉴가 없습니다.");
+    return;
+   }
+
+   try {
+    setIsSubmitting(true);
+    setErrorMessage("");
+
+    const requestBody = {
+      menu_ids: selectedMenus.map((menu) => menu.id),
+      created: certDate,
+    };
+
+
+    await postCertRecord(restId, requestBody);
+
+    navigate("/map", {
+      replace: true,
+      state: {
+        certCompletedAt: Date.now(),
+        restId,
+        restaurant,
+      },
     });
+   } catch(error) {
+    console.error("인증 등록 실패: ", error);
+    setErrorMessage("인증 기록 등록에 실패했습니다.");
+   } finally {
+    setIsSubmitting(false);
+   }
   };
 
   return (
     <main className="confirm-page">
       <header className="confirm-header">
-        <BackButton />
+        <BackButton onClick={handleEdit} />
         <h1>인증하기</h1>
       </header>
 
@@ -91,7 +125,7 @@ function ConfirmPage() {
           className="confirm-action-button confirm-action-button--submit"
           type="button"
           onClick={handleSubmit}
-          disabled={selectedMenus.length === 0}
+          disabled={selectedMenus.length === 0 || isSubmitting}
         >
           인증 완료하기
         </button>

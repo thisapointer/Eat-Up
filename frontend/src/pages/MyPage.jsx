@@ -10,20 +10,12 @@ import LocationIcon from "../assets/location.svg";
 
 import { getUserInfo, getVisitedRestCount, getRestList } from "../api/mypageApi";
 
-import {spoonGradeOptions, getSpoonGradeByGrade} from "../data/spoonGradeData"
+import {spoonGradeOptions, getSpoonGradeByXp, getSpoonGradeIndexByXp} from "../data/spoonGradeData"
+import RestaurantStampBadge from "../components/restaurant/RestaurantStampBadge";
 import "../styles/MyPage.css";
 
 
-
-
-
-// 실제 API가 나오면 이 함수 내부만 교체하면 됩니다.
-// 예: return getMyPage(); 또는 return fetch(...).then(...)
-async function fetchMyPageData() {
-  return myPageFallbackData;
-}
-
-// 숫자를 XP 표시 형식으로 바꾸는 작은 유틸 함수입니다.
+// 숫자를 XP 표시 형식으로 바꾸는 작은 유틸 함수
 function formatXp(value) {
   return `${value.toLocaleString()}XP`;
 }
@@ -37,8 +29,27 @@ function MyPage() {
   const [errorMessage, setErrorMessage] = useState(""); //api 실패 메세지 저장
   const [restList, setRestList] = useState([]);
   
+  const currentXp = userInfo?.spoon_xp ?? 0;
 
-  // 수저 등급 모달이 열려 있는지 저장합니다.
+  const currentSpoonGrade = getSpoonGradeByXp(currentXp);
+
+  const spoonGrade = {
+    grade: currentSpoonGrade.grade,
+    level: currentSpoonGrade.level,
+    name: currentSpoonGrade.name,
+    image: currentSpoonGrade.image,
+    imagespin: currentSpoonGrade.imagespin,
+    currentXp,
+    minXp: currentSpoonGrade.minXp,
+    nextLevelXp: currentSpoonGrade.maxXp,
+  };
+
+  const handleOpenGradeModal = () => {
+    setSelectedGradeIndex(getSpoonGradeIndexByXp(currentXp));
+    setIsGradeModalOpen(true);
+  };
+
+  // 수저 등급 모달이 열려 있는지 저장
   const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
   
   // 수저 등급 팝업에서 현재 보고 있는 등급의 위치 -> api 로 유저 등급 받은 후 현재 위치로 이동
@@ -52,7 +63,7 @@ function MyPage() {
     const fetchMyPageData = async() => {
       try {
  
-        const [userData, visitedCountData] = await Promise.all([
+        const [userData, visitedCountData, restListData] = await Promise.all([
           getUserInfo(),
           getVisitedRestCount(),
           getRestList(),
@@ -60,11 +71,11 @@ function MyPage() {
         
         setUserInfo(userData);
         setVisitedCount(visitedCountData);
+        setRestList(Array.isArray(restListData) ? restListData : []);
 
         //유저 수저 등급에 맞는 팝업 위치 찾음
-        const currentGradeIndex = spoonGradeOptions.findIndex(
-          (option) => option.grade === Number(userData.spoon_grade)
-        );
+        const currentGradeIndex = getSpoonGradeIndexByXp(userData.spoon_xp ?? 0);
+        setSelectedGradeIndex(currentGradeIndex);
 
         //등급 찾았을 때만 팝업 위치 변겯
         if (currentGradeIndex !== -1) {
@@ -91,18 +102,8 @@ function MyPage() {
     visitedRestaurantCount: visitedCount,
   };
 
-  const currentSpoonGrade = getSpoonGradeByGrade(userInfo?.spoon_grade);
 
-  const spoonGrade = {
-    grade: currentSpoonGrade.grade,
-    name: currentSpoonGrade.name,
-    image: currentSpoonGrade.image,
-    imagespin : currentSpoonGrade.imagespin,
-    level: currentSpoonGrade.level ?? 1,
-    currentXp: userInfo?.spoon_xp ?? 0,
-    minXp: currentSpoonGrade.minXp,
-    nextLevelXp: currentSpoonGrade.maxXp,
-  };
+  const visibleRestList = restList.slice(0,2);
 
   const visibleRestList = restList.slice(0,2);
 
@@ -123,11 +124,11 @@ function MyPage() {
     const current = spoonGrade.currentXp - spoonGrade.minXp;
 
     if (total <= 0) {
-      return 0;
+      return 100;
     }
 
     return Math.min(100, Math.max(0, (current / total) * 100));
-  }, [spoonGrade.currentXp, spoonGrade.minXp, spoonGrade.nextLevelXp]);
+  }, [spoonGrade]);
 
 
   // 왼쪽 화살표를 누르면 이전 등급으로 이동합니다.
@@ -193,9 +194,7 @@ function MyPage() {
         <button
           className="mypage-grade-card"
           type="button"
-          onClick={() => {
-            setIsGradeModalOpen(true);
-          }}
+          onClick={handleOpenGradeModal}
         >
           <div className="mypage-grade-visual">
             <img
@@ -216,7 +215,7 @@ function MyPage() {
           <p>
             현재 {formatXp(spoonGrade.currentXp)}
             <br />
-            레벨업까지 {formatXp(spoonGrade.nextLevelXp - spoonGrade.currentXp)}
+            레벨업까지 {Math.max(0, spoonGrade.nextLevelXp - spoonGrade.currentXp).toLocaleString()}XP
           </p>
         </button>
       </section>
@@ -234,7 +233,18 @@ function MyPage() {
           {visibleRestList.length > 0 ? (
             <>
               {visibleRestList.map((restaurant) => (
-                <article className="mypage-ranking-card" key={restaurant.id}>
+                <article 
+                  className="mypage-ranking-card" 
+                  key={restaurant.id} 
+                  onClick={() =>
+                    navigate("/map", {
+                      state: {
+                        selectedRestaurant: restaurant.restInfo ?? restaurant,
+                        sheetMode: "expanded",
+                      },
+                    })
+                  }
+                >
                   <div>
                     <strong>
                       {restaurant.name} <span>{restaurant.category}</span>

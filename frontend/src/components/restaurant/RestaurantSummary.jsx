@@ -12,7 +12,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from "react-router-dom";
 
 import { getRestaurantHours } from "../../api/restTimeApi";
-import { getTodayWeekday } from "../../utils/restaurantTime";
+import { getRestaurantOpenText, getTodayWeekday } from "../../utils/restaurantTime";
 
 //api 요일값을 화면에 보여줄 한글 요일로 바꿈
 const weekdayLabels = {
@@ -36,7 +36,10 @@ function formatTime(timeText) {
 function RestaurantSummary({ restaurant, onLikeToggle }) {
   const name = restaurant.name;
   const category = restaurant.category;
-  const info = restaurant.info ?? "영업 정보 없음";
+  const info = getRestaurantOpenText(
+    restaurant.today_hours ?? restaurant.restInfo?.today_hours,
+    restaurant.today_breaks ?? restaurant.restInfo?.today_breaks
+  );
   const phone = restaurant.phone ?? "";
   const address = restaurant.addr?.addr_name ?? restaurant.address ?? "";
   const visitCount = restaurant.visitCount ?? restaurant.visit_count ?? 0;
@@ -81,22 +84,6 @@ function RestaurantSummary({ restaurant, onLikeToggle }) {
     return hoursList.find((hours) => hours.weekday === todayWeekday) ?? null;
   }, [hoursList, todayWeekday]);
 
-  //요약 문구
-  const businessText = useMemo(() => {
-    if(!todayHours) {
-      return restaurant.info ?? "영업 정보 없음";
-    }
-
-    if(todayHours.is_closed) {
-      return "정기휴무";
-    }
-
-    const closeTime = todayHours.close_time ?? todayHours.closeTime;
-
-    return `영업 중 ${formatTime(closeTime)}까지`;
-  }, [todayHours, restaurant.info]);
-
-
   return (
     <section className="restaurant-summary" aria-label="식당 요약 정보">
       <div className="restaurant-summary-top">
@@ -129,7 +116,7 @@ function RestaurantSummary({ restaurant, onLikeToggle }) {
           {/* 영업시간 요약 + 전체 영업시간 펼치기 버튼 */}
           <div className="restaurant-hours">
             <button className="restaurant-hours-toggle" type="button" onClick={() => setIsHoursOpen((prev) => !prev)} >
-              <span>{businessText}</span>
+              <span>{info}</span>
               <img className={isHoursOpen ? "restaurant-hours-arrow--open" : ""}src={HoursArrow} alt="" aria-label="true" />
             </button>
 
