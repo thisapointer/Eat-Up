@@ -59,3 +59,16 @@ class RestListResponse(BaseModel):
 # 덮어쓰기용
 class RestReplace(RestCreate):
     pass
+
+
+
+# 단일/단순 조회용(찜하기, 방문 여부 포함)
+class RestReadWithFavVisited(RestRead):
+    is_liked: bool
+    is_visited: bool
+
+# 다중 조회용(찜하기, 방문 여부 포함)
+class RestListResponseWithFavVisited(BaseModel):
+    total_count: int        # 전체 데이터 개수 (프론트엔드 페이지네이션 바 구현용)
+    rests: list[RestReadWithFavVisited]   # 실제 식당 목록 데이터
+

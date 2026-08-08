@@ -2,13 +2,13 @@ from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
 
 from app.models.rests import Rest
-from app.schemas.rests import RestCreate, RestRead, RestListResponse, RestUpdate, RestReplace
+from app.schemas.rests import RestCreate, RestRead, RestListResponse, RestUpdate
 import app.services.rests as service
 from app.database.session import get_db
 
 
 # 라우터 객체
-router = APIRouter(prefix = "/rests", tags=["식당"])
+router = APIRouter(prefix = "/rests", tags=["식당 - v1"])
 
 # POST - 식당 등록
 # Request Body: RestCreate
