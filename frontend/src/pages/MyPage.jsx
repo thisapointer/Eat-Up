@@ -105,6 +105,8 @@ function MyPage() {
 
   const visibleRestList = restList.slice(0,2);
 
+  const visibleRestList = restList.slice(0,2);
+
 
   // 현재 팝업에서 보여줄 수저 등급 데이터입니다.
   const selectedGrade = spoonGradeOptions[selectedGradeIndex] ?? {
