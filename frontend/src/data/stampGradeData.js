@@ -14,6 +14,7 @@ export const visitGradeOptions = [
     minVisitCount: 100,
     description: "100번 이상 방문",
     image: VisitStamp5,
+    labelColor: "#ff5b00",
   },
   {
     id: "realfavtry",
@@ -21,6 +22,7 @@ export const visitGradeOptions = [
     minVisitCount: 30,
     description: "30번 이상 방문",
     image: VisitStamp4,
+    labelColor: "#e83e8c",
   },
   {
     id: "favtry",
@@ -28,6 +30,7 @@ export const visitGradeOptions = [
     minVisitCount: 15,
     description: "15번 이상 방문",
     image: VisitStamp3,
+    labelColor: "#7557e8",
   },
   {
     id: "againtry",
@@ -35,6 +38,7 @@ export const visitGradeOptions = [
     minVisitCount: 4,
     description: "4번 이상 방문",
     image: VisitStamp2,
+    labelColor: "#3483fa",
   },
   {
     id: "firsttry",
@@ -42,6 +46,7 @@ export const visitGradeOptions = [
     minVisitCount: 1,
     description: "3번 이하 방문",
     image: VisitStamp1,
+    labelColor: "#35b86b",
   },
   {
     id: "nottry",

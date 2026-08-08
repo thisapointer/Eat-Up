@@ -1,3 +1,5 @@
+import { getRestaurantOpenText } from "../utils/restaurantTime";
+
 const BASE_URL = "https://eat-up-96sa.onrender.com/api/v1";
 
 // 응답 body가 비어 있거나 JSON이 아닐 수 있으므로 
@@ -51,9 +53,6 @@ export async function getUserInfo() {
 export async function getVisitedRestCount() {
   const accessToken = localStorage.getItem("accessToken");
 
-  console.log("유저 가본맛집 URL:", `${BASE_URL}/cert/count`);
-  console.log("getVisitedRestCount token:", accessToken);
-
 
   const response = await fetch(`${BASE_URL}/cert/count`, {
     method: "GET",
@@ -83,7 +82,7 @@ export async function getVisitedRestCount() {
     return data;
   }
 
-  return data?.count ?? data?.visited_count ?? data?.visitedRestCount ?? 0;
+  return data?.count ?? data?.total_count ?? data?.visitedRestCount ?? 0;
 }
 
 //유저가 인증한 식당 목록들을 전부 가져옴 (내림차순정리할 예정)
@@ -116,17 +115,22 @@ export async function getRestList() {
   const certs = Array.isArray(data) ? data : [];
 
   return certs
-    .map((cert) => ({
-      id: cert.rest_info?.id,
-      name: cert.rest_info?.name ?? "식당 이름 없음",
-      category: cert.rest_info?.category ?? "",
-      info: cert.rest_info?.info ?? "영업 정보 없음",
-      phone: cert.rest_info?.phone ?? "",
-      address: cert.rest_info?.addr?.addr_name ?? "",
-      img: cert.rest_info?.img ?? "",
-      visitCount: cert.visit_count ?? 0,
-      restInfo: cert.rest_info,
-    }))
+    .map((cert) => {
+      const restInfo = cert.rest_info ?? {};
+      const todayHours = restInfo.today_hours;
 
+      return {
+        id: restInfo.id,
+        name: restInfo.name ?? "식당 이름 없음",
+        category: restInfo.category ?? "",
+        info: getRestaurantOpenText(restInfo.today_hours),
+        phone: restInfo.phone ?? "",
+        address: restInfo.addr?.addr_name ?? "",
+        img: restInfo.img ?? "",
+        visitCount: cert.visit_count ?? 0,
+        restInfo,
+      };
+    })
     .sort((a, b) => b.visitCount - a.visitCount);
 }
+

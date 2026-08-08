@@ -6,7 +6,7 @@ import MapSearchBar from "../components/map/MapSearchBar";
 import MapFilterChips from "../components/map/MapFilterChips";
 import BottomNav from "../components/BottomNav";
 
-import { getRestaurants, searchRestaurants } from "../api/restaurantApi";
+import { getRestaurants, searchRestaurants, getRestaurantsWithUserState, searchRestaurantsWithUserState } from "../api/restaurantApi";
 import { createRestaurantLike, deleteRestaurantLike } from "../api/likeApi";
 
 
@@ -25,7 +25,7 @@ function ListUp() {
   useEffect(() => {
     const fetchRestaurants = async() => {
       try {
-        const data = await getRestaurants();
+        const data = await getRestaurantsWithUserState();
         setRestaurants(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("리스트 식당 조회 실패:", error);
@@ -42,7 +42,7 @@ function ListUp() {
   // 검색어 입력 후 엔터 / 검색 이벤트가 발생했을 때 실행
   const handleSearch = async (keyword) => {
     try {
-      const data = await searchRestaurants(keyword);
+      const data = await searchRestaurantsWithUserState(keyword);
 
       //검색 응답 배열인지 확인 후 저장
       setRestaurants(Array.isArray(data) ? data : []);

@@ -246,6 +246,13 @@
   box-shadow: var(--mypage-shadow);
 }
 
+.mypage-ranking-card .restaurant-stamp-badge {
+  width: 82px;
+  height: 66px;
+  justify-self: end;
+  align-self: center;
+}
+
 .mypage-ranking-card strong {
   font-size: clamp(15px, 1.2vw, 20px);
   font-weight: 900;

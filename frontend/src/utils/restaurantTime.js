@@ -69,3 +69,31 @@ export function checkRestaurantOpenNow(hours, breaks, now = new Date()) {
   // 영업시간 안이고 브레이크시간이 아니면 영업 중
   return !isInBreakTime;
 }
+
+function formatTimeText(timeText) {
+  if (!timeText) {
+    return "";
+  }
+
+  return timeText.slice(0, 5);
+}
+
+// 화면에 보여줄 영업 상태 문구
+export function getRestaurantOpenText(hours, breaks, now = new Date()) {
+  if (!hours) {
+    return "영업 정보 없음";
+  }
+
+  if (hours.is_closed) {
+    return "휴무";
+  }
+
+  const isOpen = checkRestaurantOpenNow(hours, breaks, now);
+  const closeTimeText = formatTimeText(hours.close_time);
+
+  if (isOpen) {
+    return closeTimeText ? `영업 중 ${closeTimeText}까지` : "영업 중";
+  }
+
+  return "영업 종료";
+}

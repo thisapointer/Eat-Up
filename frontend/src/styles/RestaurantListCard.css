@@ -78,23 +78,13 @@
   font-weight: 700;
 }
 
-/* 오른쪽 위 도장 배지입니다. */
-.restaurant-stamp-badge {
+.restaurant-list-card-button .restaurant-stamp-badge {
   grid-area: stamp;
-  position: relative;
-
-  display: grid;
-  place-items: center;
-  justify-self: end;
-  align-self: start;
-
-  width: 86px;
-  height: 76px;
+  width: 74px;
+  height: 60px;
 }
 
-/* 도장 SVG 이미지입니다. */
-.restaurant-stamp-badge img {
-  display: block;
+.restaurant-list-card-button .restaurant-stamp-badge img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -106,8 +96,6 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -45%);
-
-  color: #ff5b00;
   font-size: 12px;
   font-weight: 900;
   line-height: 1;

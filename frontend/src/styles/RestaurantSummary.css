@@ -77,13 +77,14 @@
   line-height: 1.35;
 }
 
-.restaurant-stamp-badge {
+
+
+.restaurant-summary-main .restaurant-stamp-badge {
   position: absolute;
   top: 0;
   right: 0;
   width: 82px;
   height: 66px;
-  object-fit: contain;
 }
 
 .restaurant-image-list {

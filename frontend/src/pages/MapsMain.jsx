@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import KakaoMap from "../components/map/KakaoMap";
 import MapViewToggle from "../components/map/MapViewToggle";
@@ -6,7 +7,7 @@ import MapSearchBar from "../components/map/MapSearchBar";
 import MapFilterChips from "../components/map/MapFilterChips";
 import MapRestaurantSheet from "../components/map/MapRestaurantSheet";
 
-import { getRestaurants, searchRestaurants } from "../api/restaurantApi";
+import { getRestaurants, searchRestaurants, getRestaurantsWithUserState, searchRestaurantsWithUserState } from "../api/restaurantApi";
 import { createRestaurantLike, deleteRestaurantLike } from "../api/likeApi";
 import { getRestaurantHours, getRestaurantBreaks } from "../api/restTimeApi"
 
@@ -26,6 +27,8 @@ function MapsMain() {
 
   //바텀시트 모드 3가지(closed, preview, expanded)
   const [sheetMode, setSheetMode] = useState("closed");
+
+  const location = useLocation();
 
   //선택된 마커 다시 클릭시 상태 해제
   const handleMarkerClick = (restaurant) => {
@@ -55,7 +58,7 @@ function MapsMain() {
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const data = await getRestaurants();
+        const data = await getRestaurantsWithUserState();
         console.log("식당 API 응답: ", data);
 
         //필터 오류 방지 위해 배열인지 확인 후 저장
@@ -71,10 +74,21 @@ function MapsMain() {
     fetchRestaurants();
   }, []);
 
+  useEffect(() => {
+    const stateRestaurant = location.state?.selectedRestaurant;
+
+    if (!stateRestaurant) {
+      return;
+    }
+
+    setSelectedRestaurant(stateRestaurant);
+    setSheetMode(location.state?.sheetMode ?? "preview");
+  }, [location.state]);
+
   // 검색어를 입력했을 때 백엔드 검색 API를 호출
   const handleSearch = async (keyword) => {
     try {
-      const data = await searchRestaurants(keyword);
+      const data = await searchRestaurantsWithUserState(keyword);
       console.log("식당검색완료", data);
 
       //검색 응답 배열인지 확인 후 저장
@@ -229,7 +243,10 @@ function MapsMain() {
       <KakaoMap
         restaurants={filteredRestaurants}
         selectedRestaurantId={selectedRestaurant?.id}
-        onMarkerClick={handleMarkerClick}
+        onMarkerClick={(restaurant) => {
+          setSelectedRestaurant(restaurant);
+          setSheetMode("preview");
+        }}
       />
 
       <section className="maps-main-overlay" aria-label="지도 화면 조작">

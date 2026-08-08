@@ -1,0 +1,110 @@
+.records-page {
+  --records-orange: #ff5b00;
+  --records-bg: #ffffff;
+  --records-text: #111111;
+  --records-muted: #777777;
+  --records-line: #e6e6e6;
+  --records-card: #ffffff;
+  --records-shadow: 0 3px 10px rgb(0 0 0 / 14%);
+  --records-side-padding: clamp(32px, 12vw, 220px);
+  --records-radius: 12px;
+  --records-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100dvh;
+  padding: clamp(34px, 6vh, 58px) var(--records-side-padding)
+    clamp(36px, 6vh, 64px);
+  background: var(--records-bg);
+  color: var(--records-text);
+  font-family: var(--records-font);
+}
+
+.records-header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  margin: 0 0 clamp(26px, 5vh, 46px);
+}
+
+.records-header h1 {
+  grid-column: 2;
+  margin: 0;
+  font-size: clamp(20px, 1.6vw, 28px);
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.records-message {
+  margin: 0;
+  color: var(--records-muted);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.records-list {
+  display: grid;
+  gap: 14px;
+}
+
+.records-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: clamp(16px, 2vw, 22px);
+  border: 1px solid var(--records-line);
+  border-radius: var(--records-radius);
+  background: var(--records-card);
+  box-shadow: var(--records-shadow);
+}
+
+.records-card-info {
+  min-width: 0;
+}
+
+.records-card-info strong {
+  display: block;
+  color: var(--records-text);
+  font-size: clamp(15px, 1.2vw, 18px);
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.records-card-info strong span {
+  margin-left: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.records-card-info p {
+  margin: 6px 0 0;
+  color: var(--records-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.records-info-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.records-info-row img {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  object-fit: contain;
+}
+
+.records-card .restaurant-stamp-badge {
+  justify-self: end;
+  align-self: center;
+  width: 82px;
+  height: 66px;
+}

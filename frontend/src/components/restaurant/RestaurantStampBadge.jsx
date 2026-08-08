@@ -10,7 +10,7 @@ function RestaurantStampBadge({ visitCount = 0 }) {
       <img src={stampGrade.image} alt={stampGrade.name} />
 
       {!isNotStarted && (
-        <span className="restaurant-stamp-count">
+        <span className="restaurant-stamp-count" style={{color: stampGrade.labelColor}}>
           {visitCount}번 방문
         </span>
       )}
