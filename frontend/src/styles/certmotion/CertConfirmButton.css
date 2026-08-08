@@ -1,0 +1,39 @@
+/* 확인 버튼 등장 애니메이션 */
+@keyframes confirmButtonFloatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 인증 확인 버튼 기본 스타일 */
+.cert-confirm-button {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 16px;
+  margin-top: 12px;
+
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+
+  background-color: #000000;
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+
+  /* 카드 연출 후 딜레이 등장 */
+  opacity: 0;
+  animation: confirmButtonFloatUp 0.6s ease-out 4.5s both;
+}
+
+/* 클릭 상호작용 */
+.cert-confirm-button:active {
+  transform: scale(0.98);
+  background-color: #222222;
+}
