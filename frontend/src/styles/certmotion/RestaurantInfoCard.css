@@ -1,0 +1,119 @@
+/* 1. 카드가 아래에서 위로 떠오르는 애니메이션 */
+@keyframes cardFloatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 2. 도장 + 텍스트 전체가 쾅 찍히는 애니메이션 */
+@keyframes stampSlam {
+  0% {
+    opacity: 0;
+    transform: scale(3) rotate(-35deg); /* 3배 크기 + 35도 회전 */
+  }
+  70% {
+    opacity: 1;
+    transform: scale(0.9) rotate(5deg); /* 쾅 찍힐 때의 탄성 연출 */
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg); /* 정위치 */
+  }
+}
+
+/* 매장 카드 컨테이너 */
+.card.restaurant-card {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  width: 100%;
+  padding: 20px;
+
+  background-color: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.25);
+
+  opacity: 0;
+  animation: cardFloatUp 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 좌측 매장 정보 영역 */
+.store-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.store-date {
+  color: #888888;
+  font-size: 14px;
+}
+
+.store-title-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.store-name {
+  margin: 0;
+  color: #111111;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.store-category {
+  font-size: 14px;
+  color: #666666;
+}
+
+/* 우측 방문 도장 영역 (이미지 + 텍스트 한 덩어리로 모션 적용) */
+.stamp-box.main-stamp {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  width: 80px;
+  height: 80px;
+
+  opacity: 0;
+  transform-origin: center center;
+  animation: stampSlam 0.7s cubic-bezier(0.3, 0.3, 0.3, 1.4) 0.6s forwards;
+}
+
+.stamp-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.stamp-text-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transform: translateY(2px);
+  text-align: center;
+}
+
+.stamp-main-text {
+  color: #ff5500;
+  font-size: 12px;
+  font-weight: 800;
+  word-break: keep-all;
+}
