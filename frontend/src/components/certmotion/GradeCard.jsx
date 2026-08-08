@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { getSpoonGradeByGrade } from "../../data/spoonGradeData";
+import { getSpoonGradeByXp } from "../../data/spoonGradeData";
 import Spoon1Icon from "../../assets/spoon_1.svg";
 import "../../styles/certmotion/GradeCard.css";
 
@@ -11,7 +11,7 @@ function formatXp(value) {
 export default function GradeCard({ userInfo }) {
   // 유저의 등급 정보 계산 (기본값: 2등급 금수저)
   const gradeNum = userInfo?.spoon_grade ?? 2;
-  const currentSpoonGrade = getSpoonGradeByGrade(gradeNum);
+  const currentSpoonGrade = getSpoonGradeByXp(gradeNum);
 
   // 등급 카드 데이터 정률화
   const gradeName = currentSpoonGrade?.name ?? "금수저";
