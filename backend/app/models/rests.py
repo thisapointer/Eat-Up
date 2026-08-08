@@ -38,10 +38,13 @@ class Rest(Base):
     # 오늘의 영업시간
     @property
     def today_hours(self):
-        # 1. rest_hours 관계(relationship)가 DB에서 로드되었는지 확인
+        # rest_hours 관계(relationship)가 DB에서 로드되었는지 확인
         state = inspect(self)
+
+        # 로드되어 있는 경우에만 안전하게 찾아서 반환
         if "rest_hours" not in state.unloaded:
-            # 로드되어 있는 경우에만 안전하게 찾아서 반환
+
+            # 오늘의 요일 (ex. MON, WED)
             today_str = datetime.now().strftime("%a").upper()
             for hour in self.rest_hours:
                 # Enum 객체이거나 문자열일 경우 모두 안전하게 비교
