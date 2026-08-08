@@ -246,6 +246,13 @@
   box-shadow: var(--mypage-shadow);
 }
 
+.mypage-ranking-card .restaurant-stamp-badge {
+  width: 82px;
+  height: 66px;
+  justify-self: end;
+  align-self: center;
+}
+
 .mypage-ranking-card strong {
   font-size: clamp(15px, 1.2vw, 20px);
   font-weight: 900;
@@ -265,6 +272,57 @@
 .mypage-ranking-card p button {
   border: 0;
   background: transparent;
+}
+
+.restaurant-info-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.restaurant-info-row img {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  object-fit: contain;
+}
+
+.restaurant-info-row span {
+  min-width: 0;
+}
+
+/* 맛집 도장 순위 하단의 모두 보기 버튼입니다. */
+.mypage-stamp-more-button {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 22px;
+  border: 0;
+  border-radius: 999px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 버튼을 누르는 순간 살짝 눌리는 느낌입니다. */
+.mypage-stamp-more-button:active {
+  transform: scale(0.98);
+}
+
+/* 키보드로 버튼에 포커스됐을 때 표시입니다. */
+.mypage-stamp-more-button:focus-visible {
+  outline: 2px solid #ff5b00;
+  outline-offset: 3px;
+}
+
+.mypage-stamp-empty {
+  color: #ff5b00;
 }
 
 /* 도장 배지 자리입니다. */

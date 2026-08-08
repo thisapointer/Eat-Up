@@ -1,0 +1,148 @@
+.confirm-page {
+  box-sizing: border-box;
+  width: min(100%, 430px);
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 24px 18px 34px;
+  background: #ffffff;
+  color: #111111;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.confirm-header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 22px;
+}
+
+.confirm-header h1 {
+  grid-column: 2;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.confirm-restaurant-info {
+  display: grid;
+  gap: 7px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.confirm-restaurant-info p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.confirm-restaurant-info h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.confirm-restaurant-info h2 span {
+  margin-left: 5px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.confirm-menu-section {
+  display: grid;
+  gap: 16px;
+  padding-top: 20px;
+}
+
+.confirm-menu-section h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.confirm-menu-list {
+  display: grid;
+  gap: 14px;
+}
+
+.confirm-menu-card {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  align-items: center;
+  gap: 12px;
+  min-height: 86px;
+  padding: 12px;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.confirm-menu-card img {
+  width: 72px;
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+  object-fit: cover;
+  background: #eeeeee;
+}
+
+.confirm-menu-card div {
+  display: grid;
+  gap: 5px;
+}
+
+.confirm-menu-card strong {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.confirm-menu-card span {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.confirm-empty-message {
+  margin: 0;
+  color: #777777;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.confirm-action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.confirm-action-button {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  border: 0;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.confirm-action-button--edit {
+  background: #000000;
+}
+
+.confirm-action-button--submit {
+  background: #ff5b00;
+}
+
+.confirm-action-button:disabled {
+  background: #dddddd;
+  color: #888888;
+  cursor: not-allowed;
+}

@@ -1,5 +1,7 @@
+import { getRestList } from "./mypageApi";
+
 //식당 목록 API 요청
-const BASE_URL = "http://localhost:8000/api/v1";
+const BASE_URL = "https://eat-up-96sa.onrender.com/api/v1";
 
 // 응답이 JSON이 아닐 수도 있으니 안전하게 처리
 async function parseJsonOrNull(response) {
@@ -24,12 +26,14 @@ export async function getRestaurants() {
     method: "GET",
     headers: {
       accept: "application/json",
+      Authorization: `Bearer ${accessToken}`,
       //찜, 방문 표시
       //Authorization: `Bearer ${accessToken}`,
     },
   });
 
   const data = await parseJsonOrNull(response);
+  console.log("식당 API 응답:", data);
 
   if (!response.ok) {
     const error = new Error(
@@ -53,6 +57,7 @@ export async function getRestaurants() {
 
 // 검색어 기준 식당/카페 검색
 export async function searchRestaurants(name) {
+  const accessToken = localStorage.getItem("accessToken");
   const encodedKeyword = encodeURIComponent(name);
 
   const response = await fetch(
@@ -61,6 +66,7 @@ export async function searchRestaurants(name) {
       method: "GET",
       headers: {
         accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
     }
   );
@@ -71,5 +77,61 @@ export async function searchRestaurants(name) {
     throw new Error("식당 검색에 실패했습니다.");
   }
 
+  if (Array.isArray(data)) {
+    return data;
+  }
+
   return Array.isArray(data?.rests) ? data.rests : [];
+}
+
+//식당목록 + 인증 기록
+export async function getRestaurantsWithUserState() {
+  const restaurants = await getRestaurants();
+  const visitedRestaurants = await getRestList();
+
+  const visitedMap = new Map(
+    visitedRestaurants.map((restaurant) => [
+      restaurant.id,
+      restaurant,
+    ])
+  );
+
+  return restaurants.map((restaurant) => {
+    const visitedRestaurant = visitedMap.get(restaurant.id);
+    const visitCount = visitedRestaurant?.visitCount ?? 0;
+
+    return {
+      ...restaurant,
+      visitCount,
+      visit_count: visitCount,
+      isVisited: visitCount > 0,
+      is_visited: visitCount > 0,
+    };
+  });
+}
+
+//검색 후 식당목록 + 인증 기록
+export async function searchRestaurantsWithUserState(keyword) {
+  const restaurants = await searchRestaurants(keyword);
+  const visitedRestaurants = await getRestList();
+
+  const visitedMap = new Map(
+    visitedRestaurants.map((restaurant) => [
+      restaurant.id,
+      restaurant,
+    ])
+  );
+
+  return restaurants.map((restaurant) => {
+    const visitedRestaurant = visitedMap.get(restaurant.id);
+    const visitCount = visitedRestaurant?.visitCount ?? 0;
+
+    return {
+      ...restaurant,
+      visitCount,
+      visit_count: visitCount,
+      isVisited: visitCount > 0,
+      is_visited: visitCount > 0,
+    };
+  });
 }

@@ -33,24 +33,23 @@ const filterItems = [
 ];
 
 function MapFilterChips({ onChange }) {
-  // 현재 선택된 필터 값을 배열 저장
+  // 현재 선택된 필터 값을 배열로 저장
   const [selectedFilters, setSelectedFilters] = useState([]);
 
   // 필터 버튼을 눌렀을 때 선택/해제를 처리
   const handleToggleFilter = (filterValue) => {
-    setSelectedFilters((prevFilters) => {
-      const isAlreadySelected = prevFilters.includes(filterValue);
+    const isAlreadySelected = selectedFilters.includes(filterValue);
 
-      //selected 버튼이면 배열에서 제거, not selected 버튼이면 배열에 추가
-      const nextFilters = isAlreadySelected
-        ? prevFilters.filter((value) => value !== filterValue)
-        : [...prevFilters, filterValue];
+    // 선택된 버튼이면 배열에서 제거, 선택 안 된 버튼이면 배열에 추가
+    const nextFilters = isAlreadySelected
+      ? selectedFilters.filter((value) => value !== filterValue)
+      : [...selectedFilters, filterValue];
 
-      // 나중에 지도 마커 필터링할 때 부모 컴포넌트로 선택된 필터 넘김
-      onChange?.(nextFilters);
+    // 내 컴포넌트 상태 변경
+    setSelectedFilters(nextFilters);
 
-      return nextFilters;
-    });
+    // 부모 컴포넌트(MapsMain)에도 변경된 필터 배열 전달
+    onChange?.(nextFilters);
   };
 
   return (

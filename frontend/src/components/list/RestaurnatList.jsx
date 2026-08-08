@@ -1,7 +1,7 @@
 import RestaurantListCard from "./RestaurantListCard";
 import "../../styles/RestaurantListCard.css";
 
-function RestaurantList({ restaurants, onRestaurantClick }) {
+function RestaurantList({ restaurants, onRestaurantClick, onLikeToggle }) {
   if (!restaurants.length) {
     return (
       <p className="restaurant-list-empty">
@@ -17,6 +17,7 @@ function RestaurantList({ restaurants, onRestaurantClick }) {
           key={restaurant.id}
           restaurant={restaurant}
           onClick={() => onRestaurantClick(restaurant)}
+          onLikeToggle={onLikeToggle}
         />
       ))}
     </section>
