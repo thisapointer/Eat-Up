@@ -5,6 +5,7 @@ from app.database.base import Base
 from app.database.connection import engine
 from app.routers import auth
 from app.routers.v1 import router as v1_router
+from app.routers.v2 import router as v2_router
 
 
 # 이 파일은 Eat-Up\backend에서 실행해야 함
@@ -25,6 +26,7 @@ app = FastAPI(
 # app 객체에 모든 도메인의 라우터 포함
 app.include_router(auth.router)
 app.include_router(v1_router.router)
+app.include_router(v2_router.router)
 
 
 # 허용할 프론트엔드 주소 목록 작성
