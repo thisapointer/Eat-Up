@@ -1,4 +1,4 @@
-const BASE_URL = "https://eat-up-96sa.onrender.com";
+import { API_ORIGIN } from "./apiConfig";
 
 async function parseJsonOrNull(response) {
   const text = await response.text();
@@ -21,7 +21,7 @@ export async function loginUser(loginData) {
   formData.append("username", loginData.username);
   formData.append("password", loginData.password);
 
-  const response = await fetch(`${BASE_URL}/auth/login`, {
+  const response = await fetch(`${API_ORIGIN}/auth/login`, {
     method: "POST",
 
     // FormData를 보낼 때는 Content-Type을 직접 쓰지 X
