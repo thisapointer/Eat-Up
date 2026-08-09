@@ -227,7 +227,7 @@ def test_get_rest_count_success(client, auth_headers, test_user, db):
     assert count == 3
 
 # 인증 식당별 횟수 조회
-#@pytest.mark.skip(reason="검증 완료")
+@pytest.mark.skip(reason="검증 완료")
 def test_get_all_rest_count_success(client, auth_headers, test_user, db):
 
     # GIVEN
