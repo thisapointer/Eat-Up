@@ -8,7 +8,7 @@ const devCreditData = {
     team: {
         title: "2026 HICC 프로젝트 대회 7팀",
         description:
-        "부대찌개 먹다가 결성된 팀에 선영누나누나가 오면서 이루어진 인연.....",
+        "부대찌개 먹다가 결성된 팀에 선영디자이너님이 오시면서 이루어진 팀",
     },
     makers: [
         {

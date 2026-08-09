@@ -84,6 +84,13 @@ function RestaurantSummary({ restaurant, onLikeToggle }) {
     return hoursList.find((hours) => hours.weekday === todayWeekday) ?? null;
   }, [hoursList, todayWeekday]);
 
+  const weekdayOrder = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+
+  const sortedHoursList = [...hoursList].sort(
+    (a, b) => weekdayOrder.indexOf(a.weekday) - weekdayOrder.indexOf(b.weekday)
+  );
+
+
   return (
     <section className="restaurant-summary" aria-label="식당 요약 정보">
       <div className="restaurant-summary-top">
@@ -91,10 +98,10 @@ function RestaurantSummary({ restaurant, onLikeToggle }) {
           className="restaurant-summary-like"
           type="button"
           onClick={onLikeToggle}
-          aria-label={restaurant.isLiked ? "찜 해제" : "찜하기"}
+          aria-label={isLiked ? "찜 해제" : "찜하기"}
         >
           <img
-            src={restaurant.isLiked ? HeartOnIcon : HeartOffIcon}
+            src={isLiked ? HeartOnIcon : HeartOffIcon}
             alt=""
             aria-hidden="true"
           />
@@ -122,7 +129,7 @@ function RestaurantSummary({ restaurant, onLikeToggle }) {
 
             {isHoursOpen && (
               <div className="restaurant-hours-list">
-                {hoursList.map((hours) => (
+                {sortedHoursList.map((hours) => (
                   <p
                     className={
                       hours.weekday === todayWeekday

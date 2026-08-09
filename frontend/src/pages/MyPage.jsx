@@ -203,7 +203,7 @@ function MyPage() {
           </div>
 
           <strong>
-            {spoonGrade.name} {spoonGrade.level}호
+            {spoonGrade.name} {spoonGrade.level}
           </strong>
 
           <div className="mypage-progress" aria-hidden="true">
@@ -347,7 +347,7 @@ function MyPage() {
                     >
                       {/* achieved가 true인 등급에만 체크가 표시됩니다. */}
                       <span>{isAchieved ? "✓" : ""}</span>
-                      <strong>{level.level}호</strong>
+                      <strong>{level.level}</strong>
                       <p>
                         {formatXp(level.minXp)} ~ {formatXp(level.maxXp)}
                       </p>

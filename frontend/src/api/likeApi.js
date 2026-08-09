@@ -1,4 +1,6 @@
-const BASE_URL = "https://eat-up-96sa.onrender.com/api/v1";
+import { API_V1_URL } from "./apiConfig";
+
+const BASE_URL = API_V1_URL;
 
 async function parseJsonOrNull(response) {
   const text = await response.text();
