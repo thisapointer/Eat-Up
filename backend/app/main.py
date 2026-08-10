@@ -32,7 +32,8 @@ app.include_router(v2_router.router)
 # 허용할 프론트엔드 주소 목록 작성
 origins = [
     "http://localhost:5173",
-    "http://127.0.0.1:5173"
+    "http://127.0.0.1:5173",
+    "https://eat-up-six.vercel.app"
 ]
 
 # CORS(Cross-Origin Resource Sharing) 미들웨어 추가

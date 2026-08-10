@@ -1,17 +1,43 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
 import BackButton from "../components/BackButton";
 import "../styles/ProfileEditPage.css";
-
-// 아직 API 연동 전이므로 화면에 보여줄 기본값입니다.
-// 나중에 getUserInfo API 응답으로 교체하면 됩니다.
-const profileFallbackData = {
-  nickname: "이서준",
-  userId: "sin390is0.5",
-  profileImage: "",
-};
+import ProfilePhoto from "../assets/profile_photo.svg";
+import { getUserInfo } from "../api/mypageApi";
 
 function ProfileEditPage() {
   const navigate = useNavigate();
+
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [userInfo, setUserInfo] = useState(null);
+  const [isUserLoading, setIsUserLoading] = useState(true);
+  
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        setIsUserLoading(true);
+        setErrorMessage("");
+
+        const data = await getUserInfo();
+        setUserInfo(data);
+      } catch (error) {
+        console.error("내 정보 조회 실패:", error);
+        setErrorMessage("사용자 정보를 불러오지 못했습니다.");
+      } finally {
+        setIsUserLoading(false);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+  
+  const profile = {
+    nickname: userInfo?.nickname ?? "닉네임",
+    userId: userInfo?.user_id ?? "",
+    profileImage: userInfo?.profile_img ?? "",
+  };
 
   // 로그아웃 버튼을 눌렀을 때 실행됩니다.
   const handleLogout = () => {
@@ -24,6 +50,7 @@ function ProfileEditPage() {
 
     // 로그아웃 후 시작 페이지로 이동합니다.
     navigate("/start");
+
   };
 
   return (
@@ -38,19 +65,18 @@ function ProfileEditPage() {
       {/* 프로필 요약 영역입니다. */}
       <section className="profile-edit-profile" aria-label="프로필 정보">
         <div className="profile-edit-avatar" aria-hidden="true">
-          {profileFallbackData.profileImage ? (
-            <img src={profileFallbackData.profileImage} alt="" />
-          ) : (
-            <span />
-          )}
+          <img
+            src={ProfilePhoto}
+            alt="기본 프로필"
+          />
         </div>
 
         <button className="profile-edit-name-button" type="button">
-          <strong>{profileFallbackData.nickname}</strong>
+          <strong>{profile.nickname}</strong>
           <span aria-hidden="true">›</span>
         </button>
 
-        <p>{profileFallbackData.userId}</p>
+        <p>{profile.userId}</p>
       </section>
 
       {/* 설정 메뉴 영역입니다. */}
@@ -67,7 +93,7 @@ function ProfileEditPage() {
           로그아웃
         </button>
 
-        <button className="profile-edit-menu-item" type="button">
+        <button className="profile-edit-menu-item" type="button" onClick={() => navigate("/mypage/delete")}>
           회원탈퇴
         </button>
       </section>

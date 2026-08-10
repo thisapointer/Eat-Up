@@ -111,3 +111,20 @@
   line-height: 1.4;
   text-align: center;
 }
+
+.restaurant-record-month {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.restaurant-record-month-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.restaurant-record-month-list {
+  display: grid;
+  gap: 14px;
+}

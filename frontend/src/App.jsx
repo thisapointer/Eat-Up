@@ -14,12 +14,12 @@ import ListUp from "./pages/ListUp";
 import Login from "./pages/Login";
 import MapsMain from "./pages/MapsMain";
 import MyPage from "./pages/MyPage";
-import RestInfo from "./pages/RestInfo";
 import SignUp from "./pages/SignUp";
 import RecordsPage from "./pages/RecordsPage";
 import ProfileEditPage from "./pages/ProfileEditPage";
 import SplashPage from "./pages/SplashPage";
 import CertMotionPage from "./pages/CertMotionPage";
+import DeleteAccountPage from "./pages/DeleteAccountPage";
 
 
 
@@ -43,13 +43,13 @@ function App() {
                 </Route>
 
                 {/* 식당 상세 / 인증 플로우 */}
-                <Route path="/rests/:restId" element={<RestInfo />} />
                 <Route path="/rests/:restId/cert" element={<CertPage />} />
                 <Route path="/rests/:restId/confirm" element={<ConfirmPage />} />
 
                 {/* 마이페이지 하위 화면 */}
                 <Route path="/mypage/records" element={<RecordsPage />} />
                 <Route path="/mypage/profile" element={<ProfileEditPage />} />
+                <Route path="mypage/delete" element={<DeleteAccountPage />} />
 
                 {/* 기타 */}
                 <Route path="/dev-credit" element={<DevCredit />} />

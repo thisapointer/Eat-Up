@@ -19,7 +19,7 @@
   --signup-border: #e5e5e5;
 
   /* input 강조 테두리 색입니다. 디자인상 빨간/주황 계열입니다. */
-  --signup-danger: #ff4d42;
+  --signup-danger: #ff5b00;
 
   /* 페이지 좌우 여백입니다. 화면 폭에 따라 40px부터 220px까지 변합니다. */
   --signup-side-padding: clamp(40px, 12vw, 220px);
@@ -245,6 +245,17 @@
   background: var(--signup-orange);
 }
 
+/* 현재 단계 원 안쪽의 작은 주황색 원입니다. */
+.signup-step--active .signup-step-dot::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--signup-orange);
+}
+
+
 /* 현재 단계와 완료 단계의 라벨을 주황색으로 바꿉니다. */
 .signup-step--active,
 .signup-step--complete {
@@ -328,57 +339,21 @@
   width: 100%;
 }
 
-/* 프로필 이미지 버튼입니다. */
+/* 회원가입 시 표시하는 기본 프로필 이미지입니다. */
 .signup-profile-image {
-  position: relative;
   display: grid;
   place-items: center;
   width: clamp(84px, 9vw, 128px);
   aspect-ratio: 1;
   margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: #a7a7a7;
-  cursor: pointer;
 }
 
-/* 프로필 기본 사람 아이콘의 머리 부분입니다. */
-.signup-profile-avatar {
-  position: relative;
-  width: 48%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--signup-white);
-}
-
-/* 프로필 기본 사람 아이콘의 몸통 부분입니다. */
-.signup-profile-avatar::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -44%;
-  width: 160%;
-  height: 80%;
-  border-radius: 999px 999px 0 0;
-  background: var(--signup-white);
-  transform: translateX(-50%);
-}
-
-/* 카메라 아이콘 자리입니다. 현재는 임시 문자 아이콘입니다. */
-.signup-profile-camera {
-  position: absolute;
-  right: 6%;
-  bottom: 7%;
-  display: grid;
-  place-items: center;
-  width: 24%;
-  aspect-ratio: 1;
-  border: 2px solid #a7a7a7;
-  border-radius: 50%;
-  background: var(--signup-white);
-  color: var(--signup-black);
-  font-size: clamp(9px, 0.8vw, 12px);
+/* 기본 프로필 SVG입니다. */
+.signup-profile-image img {
+  display: block;
+  width: 55%;
+  height: 55%;
+  object-fit: contain;
 }
 
 /* 하단 버튼 영역입니다. */
@@ -445,9 +420,83 @@
   margin : 10px;
 }
 
-/* 좁은 화면에서는 좌우 여백을 줄입니다. */
-@media (max-width: 720px) {
+.signup-label-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.signup-field-rule {
+  color: #ff5b00;
+  font-size: clamp(10px, 0.75vw, 12px);
+  font-weight: 600;
+  text-align: right;
+}
+
+
+@media (max-width: 480px) {
   .signup-page {
-    --signup-side-padding: 32px;
+    --signup-side-padding: 20px;
+
+    width: 100%;
+    min-height: 100dvh;
+    height: auto;
+    padding-bottom: 20px;
+
+    /* 비밀번호 입력칸이 화면 높이를 넘으면 스크롤 */
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .signup-header {
+    grid-template-columns: 40px 1fr 40px;
+  }
+
+  .signup-stepper {
+    padding-top: 10px;
+    padding-bottom: 28px;
+  }
+
+  .signup-content,
+  .signup-form-stack,
+  .signup-form-group {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .signup-form-stack {
+    gap: 22px;
+  }
+
+  .signup-label-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .signup-field-rule {
+    width: 100%;
+    line-height: 1.4;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  .signup-form-group input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* 이전/다음 버튼의 최소 너비 때문에 화면이 잘리는 문제 해결 */
+  .signup-actions:has(.signup-button--ghost) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 10px;
+  }
+
+  .signup-button {
+    width: 100%;
+    min-width: 0;
+    padding: 0 12px;
+    white-space: nowrap;
   }
 }

@@ -87,7 +87,7 @@ def check_id(user_id: str, db: Session) -> bool:
     # 유저 아이디로 DB에서 찾아봄
     stmt = select(exists())\
             .select_from(User)\
-            .where(User.id == user_id)
+            .where(User.user_id == user_id)
     is_exists = db.scalar(stmt)
 
     # 존재한다면 중복 아이디므로 에러

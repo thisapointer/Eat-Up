@@ -1,6 +1,8 @@
 import { getRestaurantOpenText } from "../utils/restaurantTime";
 
-const BASE_URL = "https://eat-up-96sa.onrender.com/api/v1";
+import { API_V1_URL } from "./apiConfig";
+
+const BASE_URL = API_V1_URL;
 
 // 응답 body가 비어 있거나 JSON이 아닐 수 있으므로 
 async function parseJsonOrNull(response) {
@@ -32,8 +34,6 @@ export async function getUserInfo() {
 
   const data = await parseJsonOrNull(response);
 
-  console.log("getUserInfo status:", response.status); //오류 수정용 (console 은 오류 수정 후 삭제 예정)
-  console.log("getUserInfo response:", data);
 
   if (!response.ok) {
     const error = new Error(
@@ -63,8 +63,6 @@ export async function getVisitedRestCount() {
 
   const data = await parseJsonOrNull(response);
 
-  console.log("getVisitedRestCount status:", response.status);
-  console.log("getVisitedRestCount response:", data);
 
   if (!response.ok) {
     const error = new Error(
@@ -134,3 +132,36 @@ export async function getRestList() {
     .sort((a, b) => b.visitCount - a.visitCount);
 }
 
+//회원탈퇴 
+export async function deleteMyAccount() {
+  const accessToken = localStorage.getItem("accessToken");
+  
+  if(!accessToken) {
+    throw new Error("로그인 정보가 없습니다.");
+  }
+
+  const response = await fetch(`${BASE_URL}/users/me`, {
+    method: "DELETE",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  const data = await parseJsonOrNull(response);
+
+  if (!response.ok) {
+    const error = new Error(
+      data?.detail ||
+      data?.message ||
+      "회원 탈퇴에 실패했습니다."
+    );
+
+    error.status = response.status;
+    error.data = data;
+
+    throw error;
+  }
+
+  return data;
+}

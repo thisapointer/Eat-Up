@@ -50,7 +50,7 @@ function RestaurantMenuPanel({ restaurant }) {
 
   return (
     <div className="restaurant-menu-panel">
-      <h3>메인 메뉴</h3>
+      <h3>메뉴</h3>
 
       <div className="restaurant-menu-list">
         {menus.map((menu) => (
