@@ -24,6 +24,7 @@ function MapSearchBar({ onSearch }) {
   // X 버튼을 눌렀을 때 검색어를 비웁니다.
   const handleClear = () => {
     setKeyword("");
+    onClear?.();
   };
 
   return (

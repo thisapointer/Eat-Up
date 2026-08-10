@@ -3,6 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 
 import Question from "../assets/question.svg";
 import StampStepsModal from "../assets/stamp_steps_modal.svg";
+import StampStepModalOpen from "../assets/stamp_steps_modal_open.svg";
 import SpoonIcon from "../assets/spoon.svg";
 import ForkIcon from "../assets/fork.svg";
 import CallIcon from "../assets/call.svg";
@@ -31,6 +32,8 @@ function MyPage() {
   
   const currentXp = userInfo?.spoon_xp ?? 0;
 
+  const currentSpoonGradeIndex = getSpoonGradeIndexByXp(currentXp);
+
   const currentSpoonGrade = getSpoonGradeByXp(currentXp);
 
   const spoonGrade = {
@@ -45,7 +48,7 @@ function MyPage() {
   };
 
   const handleOpenGradeModal = () => {
-    setSelectedGradeIndex(getSpoonGradeIndexByXp(currentXp));
+    setSelectedGradeIndex(currentSpoonGradeIndex);
     setIsGradeModalOpen(true);
   };
 
@@ -105,11 +108,28 @@ function MyPage() {
 
   const visibleRestList = restList.slice(0,2);
 
+  // 한 식당을 100회 이상 방문했는지 확인합니다.
+  const hasEatUpStamp = restList.some((restaurant) => {
+    const visitCount =
+      restaurant.visitCount ??
+      restaurant.visit_count ??
+      0;
+
+    return Number(visitCount) >= 100;
+  });
+
+  // 100회 이상 도장을 달성하면 열린 모달 이미지를 사용합니다.
+  const stampModalImage = hasEatUpStamp
+    ? StampStepModalOpen
+    : StampStepsModal;
+
 
   // 현재 팝업에서 보여줄 수저 등급 데이터입니다.
   const selectedGrade = spoonGradeOptions[selectedGradeIndex] ?? {
     levels: [],
   };
+
+  const isCurrentSpoonGrade = selectedGradeIndex === currentSpoonGradeIndex;
 
   const selectedGradeLevels = Array.isArray(selectedGrade.levels)
     ? selectedGrade.levels
@@ -307,7 +327,13 @@ function MyPage() {
             </button>
 
             <section
-              className="mypage-grade-modal"
+              className= {
+                `mypage-grade-modal ${
+                  isCurrentSpoonGrade 
+                    ? "mypage-grade-modal--current"
+                    : ""
+                }`
+              }
               role="dialog"
               aria-modal="true"
               aria-labelledby="grade-modal-title"
