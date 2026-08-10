@@ -27,7 +27,7 @@ def test_check_id_hit(client, db):
     print("Response JSON:", response.json())
     print("=============================================\n")
 
-    assert response.status_code != 201
+    assert response.status_code == 409
 
 
 # 아이디 미중복 케이스 테스트 코드
