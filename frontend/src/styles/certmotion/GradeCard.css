@@ -1,0 +1,117 @@
+/* 카드 등장 애니메이션 */
+@keyframes cardFloatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 프로그래스 바 채워지는 애니메이션 */
+@keyframes fillGaugeBar {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: var(--target-width, 0%);
+  }
+}
+
+/* 카드 공통 스타일 */
+.cert-card {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px 16px;
+
+  background-color: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.25);
+
+  opacity: 0;
+  animation: cardFloatUp 1.3s cubic-bezier(0.16, 1, 0.3, 1) 3.8s forwards;
+}
+
+/* 등급 카드 레이아웃 */
+.cert-grade-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 수저 이미지 영역 */
+.cert-grade-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 36px;
+}
+
+.cert-spoon-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 등급 정보 영역 */
+.cert-grade-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cert-grade-title {
+  margin: 0 0 24px 0;
+  color: #000000;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: left;
+}
+
+/* 프로그레스 바 */
+.cert-progress-bg {
+  width: 100%;
+  height: 12px;
+  margin-bottom: 8px;
+
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cert-progress-fill {
+  width: 0%;
+  height: 100%;
+
+  background-color: #ff5500;
+  border-radius: 5px;
+
+  animation: fillGaugeBar 1.3s cubic-bezier(1, 1, 0.3, 1) 4.8s both;
+}
+
+/* XP 정보 영역 */
+.cert-xp-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.cert-xp-current {
+  color: #000000;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.cert-xp-target {
+  color: #000000;
+  font-size: 13px;
+  font-weight: 400;
+}

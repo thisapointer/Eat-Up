@@ -18,6 +18,7 @@ import SignUp from "./pages/SignUp";
 import RecordsPage from "./pages/RecordsPage";
 import ProfileEditPage from "./pages/ProfileEditPage";
 import SplashPage from "./pages/SplashPage";
+import CertMotionPage from "./pages/CertMotionPage";
 import DeleteAccountPage from "./pages/DeleteAccountPage";
 
 
@@ -52,6 +53,8 @@ function App() {
 
                 {/* 기타 */}
                 <Route path="/dev-credit" element={<DevCredit />} />
+                <Route path="/cert-motion" element={<CertMotionPage />} />
+
             </Routes>
         </BrowserRouter>
     );   

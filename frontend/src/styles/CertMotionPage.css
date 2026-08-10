@@ -1,0 +1,24 @@
+/* 페이지 전체 배경 (주황색) */
+.page-background {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  min-height: 100vh;
+  padding: 20px 16px 16px 16px;
+
+  background-color: #ff5500;
+}
+
+/* 모바일 레이아웃 컨테이너 */
+.mobile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
