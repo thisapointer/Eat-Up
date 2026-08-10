@@ -9,7 +9,7 @@ import MarkerDefaultVisitedSelected from "../../assets/default-visited-marker-se
 import MarkerLikedUnvisited from "../../assets/liked-unvisited-marker.svg";
 import MarkerLikedVisited from "../../assets/liked-visited-marker.svg";
 
-function KakaoMap({restaurants= [], selectedRestaurantId, onMarkerClick}) {
+function KakaoMap({restaurants= [], selectedRestaurantId, onMarkerClick, onMapClick,}) {
 
   // mapRef는 실제 지도 div를 가리키는 변수
   const mapRef = useRef(null);
@@ -19,6 +19,9 @@ function KakaoMap({restaurants= [], selectedRestaurantId, onMarkerClick}) {
 
   //지도 위에 찍힌 마커 저장 - restaurants 가 바뀔 때 기존 마커 지우기 위해 저장
   const mapObjectRefs = useRef([]);
+
+  //마지막으로 지도 범위를 조정한 식당 목록 기억
+  const previousRestaurantIdsRef = useRef("");
 
   // useEffect는 컴포넌트가 화면에 나타난 뒤 실행
   // 지도 div가 실제 DOM에 생긴 다음 카카오 지도를 생성해야 하므로 useEffect 안에서 실행
@@ -44,6 +47,24 @@ function KakaoMap({restaurants= [], selectedRestaurantId, onMarkerClick}) {
     kakaoMapRef.current = new window.kakao.maps.Map(mapRef.current, mapOption);
   }, []);
 
+  useEffect(() => {
+    const map = kakaoMapRef.current;
+
+    if (!window.kakao?.maps || !map) {
+      return;
+    }
+
+    const handleClick = () => {
+      onMapClick?.();
+    };
+
+    window.kakao.maps.event.addListener(map, "click", handleClick);
+
+    return () => {
+      window.kakao.maps.event.removeListener(map, "click", handleClick);
+    };
+  }, [onMapClick]);
+
   //바뀔 때마다 마커 다시 그림
   useEffect(() => {
     if (!window.kakao || !window.kakao.maps || !kakaoMapRef.current) {
@@ -52,6 +73,15 @@ function KakaoMap({restaurants= [], selectedRestaurantId, onMarkerClick}) {
 
     const map = kakaoMapRef.current;
   
+    const restaurantIds = restaurants
+      .map((restaurant) => restaurant.id)
+      .sort((a, b) => a - b)
+      .join(",");
+
+    // 식당 목록 자체가 변경된 경우에만 지도 범위를 다시 조정합니다.
+    const shouldUpdateBounds =
+      previousRestaurantIdsRef.current !== restaurantIds;
+    
     // 기존에 찍혀 있던 마커들을 지도에서 제거
     mapObjectRefs.current.forEach((mapObject) => {
       mapObject.setMap(null);
@@ -90,6 +120,8 @@ function KakaoMap({restaurants= [], selectedRestaurantId, onMarkerClick}) {
           position,
           content,
           yAnchor: 1,
+          clickable: true,
+          zIndex: isSelected ? 10 : 1,
         });
 
         overlay.setMap(map);
@@ -117,6 +149,7 @@ function KakaoMap({restaurants= [], selectedRestaurantId, onMarkerClick}) {
         position,
         image: markerImage,
         title: restaurant.name,
+        zIndex: isSelected ? 10 : 1,
       });
 
       window.kakao.maps.event.addListener(marker, "click", () => {
@@ -127,10 +160,17 @@ function KakaoMap({restaurants= [], selectedRestaurantId, onMarkerClick}) {
       bounds.extend(position);
     });
 
-    // 마커가 하나 이상 있으면 모든 마커가 보이도록 지도 범위 조정
-    if (mapObjectRefs.current.length > 0) {
+    //검색이나 필터로 식당 목록이 달라진 경우에만 모든 마커 보이도록 범위 조정
+    if (
+      shouldUpdateBounds &&
+      mapObjectRefs.current.length > 0
+    ) {
       map.setBounds(bounds);
     }
+
+    previousRestaurantIdsRef.current = restaurantIds;
+
+
   }, [restaurants, selectedRestaurantId, onMarkerClick]);
 
   // 카카오 지도가 들어갈 빈 div
@@ -165,7 +205,8 @@ function createBubbleMarkerContent(restaurant, isVisited, isSelected, onMarkerCl
   button.appendChild(icon);
   button.appendChild(name);
 
-  button.addEventListener("click", () => {
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
     onMarkerClick?.(restaurant);
   });
 

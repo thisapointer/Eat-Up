@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../../styles/MapSearchBar.css";
 
-function MapSearchBar({ onSearch }) {
+function MapSearchBar({ onSearch, onClear }) {
   const [keyword, setKeyword] = useState("");
 
   const handleChange = (event) => {

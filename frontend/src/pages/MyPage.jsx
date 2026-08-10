@@ -83,7 +83,6 @@ function MyPage() {
         //등급 찾았을 때만 팝업 위치 변겯
         if (currentGradeIndex !== -1) {
           setSelectedGradeIndex(currentGradeIndex);
-          console.log("나의 등급", currentGradeIndex);
       }
 
       } catch (error) {

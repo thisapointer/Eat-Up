@@ -29,7 +29,14 @@ function MapsMain() {
     handleFilterChange,
     selectedRestaurant,
     setSelectedRestaurant,
+    loadingMessage,
+    handleReset,
   } = useRestaurantExplorer();
+
+  const handleMapClick = () => {
+    setSelectedRestaurant(null);
+    setSheetMode("closed");
+  }
 
   //지도/목록 탭 상태
   const [currentView, setCurrentView] = useState("map");
@@ -153,14 +160,17 @@ function MapsMain() {
         restaurants={filteredRestaurants}
         selectedRestaurantId={selectedRestaurant?.id}
         onMarkerClick={handleMarkerClick}
+        onMapClick={handleMapClick}
       />
 
       <section className="maps-main-overlay" aria-label="지도 화면 조작">
         <MapViewToggle currentView={currentView} onChange={setCurrentView} />
-        <MapSearchBar onSearch={handleSearch} />
-        <MapFilterChips onChange={handleFilterChange} />
+        <MapSearchBar 
+          onSearch={handleSearch} 
+          onClear={() => {setSheetMode("closed"); handleReset();}} />
+        <MapFilterChips selectedFilters={selectedFilters} onChange={handleFilterChange} />
 
-        {isLoading && <p className="maps-main-message">식당 불러오는 중...</p>}
+        {isLoading && <p className="maps-main-message" role="status">{loadingMessage}</p>}
         {errorMessage && <p className="maps-main-message">{errorMessage}</p>}
       </section>
 
