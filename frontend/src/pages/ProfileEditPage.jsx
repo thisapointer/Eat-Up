@@ -5,7 +5,6 @@ import "../styles/ProfileEditPage.css";
 import ProfilePhoto from "../assets/profile_photo.svg";
 import { getUserInfo } from "../api/mypageApi";
 
-
 function ProfileEditPage() {
   const navigate = useNavigate();
 
@@ -94,9 +93,9 @@ function ProfileEditPage() {
           로그아웃
         </button>
 
-        <Link to="/mypage/delete" className="profile-edit-menu-item" type="button">
+        <button className="profile-edit-menu-item" type="button" onClick={() => navigate("/mypage/delete")}>
           회원탈퇴
-        </Link>
+        </button>
       </section>
     </main>
   );
