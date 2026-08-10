@@ -436,6 +436,39 @@
 
 
 @media (max-width: 480px) {
+  .signup-page {
+    --signup-side-padding: 20px;
+
+    width: 100%;
+    min-height: 100dvh;
+    height: auto;
+    padding-bottom: 20px;
+
+    /* 비밀번호 입력칸이 화면 높이를 넘으면 스크롤 */
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .signup-header {
+    grid-template-columns: 40px 1fr 40px;
+  }
+
+  .signup-stepper {
+    padding-top: 10px;
+    padding-bottom: 28px;
+  }
+
+  .signup-content,
+  .signup-form-stack,
+  .signup-form-group {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .signup-form-stack {
+    gap: 22px;
+  }
+
   .signup-label-row {
     align-items: flex-start;
     flex-direction: column;
@@ -443,6 +476,27 @@
   }
 
   .signup-field-rule {
+    width: 100%;
+    line-height: 1.4;
     text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  .signup-form-group input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* 이전/다음 버튼의 최소 너비 때문에 화면이 잘리는 문제 해결 */
+  .signup-actions:has(.signup-button--ghost) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 10px;
+  }
+
+  .signup-button {
+    width: 100%;
+    min-width: 0;
+    padding: 0 12px;
+    white-space: nowrap;
   }
 }

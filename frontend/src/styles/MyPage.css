@@ -594,65 +594,88 @@
   }
 }
 
+/* 모바일에서는 데스크톱 모달 비율을 유지한 채 전체를 축소합니다. */
 @media (max-width: 600px) {
   .mypage-modal-backdrop {
-    box-sizing: border-box;
-    padding: 12px;
+    position: fixed;
+    inset: 0;
+    padding: 0;
+    overflow: hidden;
   }
 
   .mypage-grade-modal-shell {
-    /* 기존 36px + 모달 + 36px 비율 유지 */
-    grid-template-columns: 28px minmax(0, 320px) 28px;
-    gap: 6px;
-    width: 100%;
-    max-width: 388px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    /* 데스크톱 모달 크기와 내부 비율 유지 */
+    grid-template-columns: 36px minmax(0, 420px) 36px;
+    gap: 12px;
+    width: 540px;
+    min-width: 540px;
+
+    transform: translate(-50%, -50%) scale(0.68);
+    transform-origin: center;
   }
 
   .mypage-grade-modal {
     box-sizing: border-box;
     width: 100%;
-    max-height: calc(100dvh - 24px);
-    padding: 20px;
-    border-radius: 10px;
+    max-height: calc(100dvh - 48px);
+    padding: 28px;
+    border-radius: 12px;
   }
 
   .mypage-grade-nav {
-    width: 28px;
-    height: 48px;
-    font-size: 36px;
+    width: 36px;
+    height: 60px;
+    font-size: 48px;
   }
 
   .mypage-modal-heading {
-    grid-template-columns: 56px minmax(0, 1fr);
-    gap: 12px;
-    padding-bottom: 14px;
+    grid-template-columns: 72px 1fr;
+    gap: 16px;
+    padding-bottom: 18px;
   }
 
   .mypage-modal-spoon-image {
-    width: 56px;
-    height: 70px;
+    width: 72px;
+    height: 92px;
     object-fit: contain;
   }
 
   .mypage-modal-heading h2 {
-    font-size: 17px;
+    font-size: 20px;
   }
 
   .mypage-modal-heading p {
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .mypage-grade-levels {
-    gap: 10px;
+    gap: 14px;
   }
 
   .mypage-grade-levels li {
-    grid-template-columns: 20px 40px minmax(0, 1fr);
-    gap: 7px;
+    grid-template-columns: 24px 48px 1fr;
+    gap: 10px;
   }
 
   .mypage-grade-levels strong,
   .mypage-grade-levels p {
-    font-size: 11px;
+    font-size: 14px;
+  }
+}
+
+/* 폭이 특히 좁은 휴대폰 */
+@media (max-width: 380px) {
+  .mypage-grade-modal-shell {
+    transform: translate(-50%, -50%) scale(0.61);
+  }
+}
+
+@media (max-width: 340px) {
+  .mypage-grade-modal-shell {
+    transform: translate(-50%, -50%) scale(0.55);
   }
 }

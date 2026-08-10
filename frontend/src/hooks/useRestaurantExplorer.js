@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import {getRestaurantsWithUserState, searchRestaurantsWithUserState, getFilteredRestaurants } from "../api/restaurantApi";
 import { getRestaurantHours, getRestaurantBreaks } from "../api/restTimeApi";
 import { checkRestaurantOpenNow, getTodayWeekday } from "../utils/restaurantTime";
@@ -36,13 +36,6 @@ async function addOpenState(restaurants) {
           breaksData
         );
 
-        console.log("영업 상태 확인:", {
-          name: restaurant.name,
-          weekday,
-          todayHours,
-          breaksData,
-          isOpen,
-        });
 
         return {
           ...restaurant,
@@ -75,41 +68,57 @@ export function useRestaurantExplorer() {
 
   const [selectedRestaurant ,setSelectedRestaurant] = useState();
 
+  const [loadingMessage, setLoadingMessage] = useState("식당 불러오는 중...");
+
   //전체 식당/카페 40개 불러옴
-  useEffect(() => {
-      const fetchRestaurants = async () => {
-        try {
-          const data = await getRestaurantsWithUserState();
-          console.log("식당 API 응답: ", data);
+  const loadAllRestaurants = useCallback(async (message = "식당 불러오는 중...") => {
+  try {
+    setIsLoading(true);
+    setLoadingMessage(message);
+    setErrorMessage("");
 
-          //필터 오류 방지 위해 배열인지 확인 후 저장
-          setRestaurants(Array.isArray(data) ? data : []);
-        } catch (error) {
-          console.error("전체 식당 목록 조회 실패:", error);
-          setErrorMessage("식당 정보를 불러오지 못했습니다.");
-        } finally {
-          setIsLoading(false);
-        }
-      };
+    const data = await getRestaurantsWithUserState();
+    setRestaurants(Array.isArray(data) ? data : []);
+  } catch (error) {
+    console.error("전체 식당 목록 조회 실패:", error);
+    setErrorMessage("식당 정보를 불러오지 못했습니다.");
+  } finally {
+    setIsLoading(false);
+  }
+}, []);
 
-      fetchRestaurants();
-  }, []);
+useEffect(() => {
+  loadAllRestaurants();
+}, [loadAllRestaurants]);
 
   //검색어를 입력했을 때 백엔드 검색 API를 호출
   const handleSearch = async (keyword) => {
     try {
-        const data = await searchRestaurantsWithUserState(keyword);
-        console.log("식당검색완료", data);
 
-        //검색 응답 배열인지 확인 후 저장
-        setRestaurants(Array.isArray(data) ? data : []);
-        setSelectedFilters([]);
-        //검색 결과 바뀌면 이전에 클릭한 식당 선택 초기화
-        setSelectedRestaurant(null);
+      setIsLoading(true);
+      setLoadingMessage("식당을 검색하는 중...");
+      setErrorMessage("");
+
+      const data = await searchRestaurantsWithUserState(keyword);
+
+      //검색 응답 배열인지 확인 후 저장
+      setRestaurants(Array.isArray(data) ? data : []);
+      setSelectedFilters([]);
+      //검색 결과 바뀌면 이전에 클릭한 식당 선택 초기화
+      setSelectedRestaurant(null);
     } catch (error) {
       console.error("식당 검색 실패:", error);
       setErrorMessage("식당 검색에 실패했습니다.");
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleReset = async () => {
+    setSelectedFilters([]);
+    setSelectedRestaurant(null);
+
+    await loadAllRestaurants("초기 지도를 불러오는 중...");
   };
 
 
@@ -118,6 +127,13 @@ export function useRestaurantExplorer() {
     setSelectedFilters(filters);
     setSelectedRestaurant(null);
     setErrorMessage("");
+
+    setIsLoading(true);
+    setLoadingMessage(
+      filters.includes("open")
+        ? "현재 영업 중인 식당을 확인하는 중..."
+        : "필터 결과를 불러오는 중..."
+    );
 
     try {
       // 영업 중은 프론트에서 현재 시간과 비교하므로
@@ -154,6 +170,8 @@ export function useRestaurantExplorer() {
     } catch (error) {
       console.error("식당 필터 조회 실패:", error);
       setErrorMessage("필터링된 식당을 불러오지 못했습니다.");
+    } finally { 
+      setIsLoading(false);
     }
   };
 
@@ -202,6 +220,8 @@ export function useRestaurantExplorer() {
     handleFilterChange,
     selectedRestaurant,
     setSelectedRestaurant,
+    loadingMessage,
+    handleReset,
   };
 
 }

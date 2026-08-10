@@ -176,7 +176,6 @@ function SignUp() {
     try {
       const result = await signUpUser(buildRequestBody());
 
-      console.log("회원가입 성공:", result);
       alert("회원가입이 완료되었습니다.");
       navigate("/login");
     } 

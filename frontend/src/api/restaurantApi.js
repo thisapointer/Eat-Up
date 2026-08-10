@@ -39,8 +39,7 @@ export async function getRestaurants() {
   });
 
   const data = await parseJsonOrNull(response);
-  console.log("식당 API 응답:", data);
-
+  
   if (!response.ok) {
     const error = new Error(
       data?.message || "식당 목록을 불러오지 못했습니다."

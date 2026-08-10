@@ -27,6 +27,8 @@ function ListUp() {
     handleFilterChange,
     selectedRestaurant,
     setSelectedRestaurant,
+    loadingMessage,
+    handleReset,
   } = useRestaurantExplorer();
 
   //지도 화면으로 이동
@@ -99,11 +101,11 @@ function ListUp() {
     <main className="list-up-page">
       <section className="list-up-controls" aria-label="맛집 리스트 검색과 필터">
         <MapViewToggle currentView="list" onChange={handleViewChange} />
-        <MapSearchBar onSearch={handleSearch} />
+        <MapSearchBar onSearch={handleSearch} onClear={handleReset} />
         <MapFilterChips onChange={handleFilterChange} />
       </section>
 
-      {isLoading && <p className="list-up-message">식당 불러오는 중...</p>}
+      {isLoading && <p className="list-up-message" role="status">{loadingMessage}</p>}
       {errorMessage && <p className="list-up-message">{errorMessage}</p>}
 
       <RestaurantList
