@@ -28,7 +28,7 @@ export async function checkUserId(userId) {
 // signUpData - signUp.jsx에서 만든 requestBody
 export async function signUpUser(signUpData) {
     // 회원가입 API에 POST 요청 보냄
-    const response = await fetch(`${BASE_URL}/users`, {
+    const response = await fetch(`${BASE_URL}/users/`, {
         method: "POST",
 
         // JSON 데이터 보냄

@@ -112,6 +112,7 @@ export function useRestaurantExplorer() {
     }
   };
 
+
   // 필터 버튼이 바뀔 때 선택된 필터 저장
   const handleFilterChange = async (filters) => {
     setSelectedFilters(filters);

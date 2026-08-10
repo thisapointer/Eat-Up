@@ -5,6 +5,8 @@ import {checkUserId, signUpUser} from "../api/authApi";
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 
+import ProfilePhoto from "../assets/profile_photo.svg";
+
 import "../styles/SignUp.css";
 
 // 회원가입 단계 정보 단계가 추가/삭제되면 이 배열을 먼저 수정
@@ -23,6 +25,10 @@ const signUpSteps = [
     label: "프로필 만들기",
   },
 ];
+
+const USER_ID_PATTERN = /^[A-Za-z0-9]{1,15}$/;
+const PASSWORD_PATTERN =/^(?=.{1,30}$)(?!.*\s)[\x21-\x7E]+$/;
+const NICKNAME_PATTERN =/^[가-힣ㄱ-ㅎㅏ-ㅣA-Za-z0-9\u0021-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E]{1,20}$/;
 
 //회원가입 form 초기값
 const initialForm = {
@@ -76,6 +82,12 @@ function SignUp() {
       return;
     }
 
+    if (!USER_ID_PATTERN.test(form.user_id)) {
+      setUserIdMessage("아이디는 영문과 숫자로만 15자 이내로 입력해주세요.");
+      setIsUserIdChecked(false);
+      return;
+    }
+
     try { 
       const result = await checkUserId(form.user_id);
 
@@ -121,6 +133,12 @@ function SignUp() {
         return false;
       }
 
+      if(!PASSWORD_PATTERN.test(form.password)) {
+        setErrorMessage(
+          "비밀번호는 공백 없이 영문, 숫자, 특수문자로 30자 이내로 입력해주세요."
+        )
+      }
+
       if (form.password !== form.passwordConfirm) {
         setErrorMessage("비밀번호가 일치하지 않습니다.");
         return false;
@@ -131,6 +149,10 @@ function SignUp() {
       if (!form.nickname.trim()) {
         setErrorMessage("닉네임을 입력해주세요");
         return false;
+      }
+
+      if(!NICKNAME_PATTERN.test(form.nickname)) {
+        setErrorMessage("닉네임은 공백 없이 한글, 영문, 숫자, 특수문자로 20자 이내로 입력해주세요.")
       }
     }
 
@@ -244,7 +266,12 @@ function SignUp() {
         {currentStep.key === "id" && (
           <div className="signup-form-stack">
             <div className="signup-form-group">
-              <label htmlFor="signup-user-id">아이디</label>
+              <div className="signup-label-row">
+                <label htmlFor="signup-user-id">아이디</label>
+                <span className="signup-field-rule">
+                  영문/숫자만, 최대15자. 가입 후 변경이 불가합니다.
+                </span>
+              </div>
               <div className="signup-inline-field">
                 <input
                   id="signup-user-id"
@@ -252,6 +279,8 @@ function SignUp() {
                   value={form.user_id}
                   onChange={handleChange}
                   placeholder="아이디를 입력하세요"
+                  maxLength={15}
+                  autoComplete="username"
                 />
                 <button className="signup-check-button" type="button" onClick={handleCheckUserId}>
                   중복확인
@@ -265,7 +294,12 @@ function SignUp() {
         {currentStep.key === "password" && (
           <div className="signup-form-stack">
             <div className="signup-form-group">
-              <label htmlFor="signup-password">비밀번호</label>
+              <div className="signup-label-row">
+                <label htmlFor="signup-password">비밀번호</label>
+                <span className="signup-field-rule">
+                  최대 30자 / 영문,숫자,특수문자만 사용 가능합니다.
+                </span>
+              </div>
               <input
                 id="signup-password"
                 name="password"
@@ -273,6 +307,8 @@ function SignUp() {
                 value={form.password}
                 onChange={handleChange}
                 placeholder="비밀번호를 입력하세요"
+                maxLength={30}
+                autoComplete="new-password"
               />
             </div>
 
@@ -292,21 +328,27 @@ function SignUp() {
 
         {currentStep.key === "profile" && (
           <div className="signup-profile">
-            <button className="signup-profile-image" type="button">
-              <span className="signup-profile-avatar" aria-hidden="true" />
-              <span className="signup-profile-camera" aria-hidden="true">
-                ▣
-              </span>
-            </button>
-
+            <div className="signup-profile-img">
+              <img
+                src={ProfilePhoto}
+                alt="기본 프로필"
+              />
+            </div>
             <div className="signup-form-group">
-              <label htmlFor="signup-nickname">닉네임</label>
+              <div className="signup-label-row">
+                <label htmlFor="signup-nickname">닉네임</label>
+                <span className="signup-field-rule">
+                  최대20자 / 한글,영문,숫자,특수문자만 사용 가능합니다.
+                </span>
+              </div>
               <input
                 id="signup-nickname"
                 name="nickname"
                 value={form.nickname}
                 onChange={handleChange}
                 placeholder="닉네임을 입력하세요"
+                maxLength={20}
+                autoComplete="nickname"
               />
             </div>
           </div>
