@@ -5,12 +5,14 @@ import { getRestList } from "../api/mypageApi";
 import CallIcon from "../assets/call.svg";
 import LocationIcon from "../assets/location.svg";
 import "../styles/RecordsPage.css";
+import { useNavigate } from "react-router-dom";
 
 function RecordsPage() {
   const [restList, setRestList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchRestList = async () => {
       try {

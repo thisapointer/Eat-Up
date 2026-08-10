@@ -60,9 +60,8 @@ function ConfirmPage() {
     navigate("/map", {
       replace: true,
       state: {
-        certCompletedAt: Date.now(),
-        restId,
-        restaurant,
+        selectedRestaurant: restaurant.restInfo ?? restaurant,
+        sheetMode: "expanded",
       },
     });
    } catch(error) {
