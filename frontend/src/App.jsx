@@ -20,6 +20,8 @@ import ProfileEditPage from "./pages/ProfileEditPage";
 import SplashPage from "./pages/SplashPage";
 import CertMotionPage from "./pages/CertMotionPage";
 import DeleteAccountPage from "./pages/DeleteAccountPage";
+import NicknameEditPage from './pages/NicknameEditPage';
+import PasswordEditPage from './pages/PasswordEditPage';
 
 
 
@@ -50,6 +52,9 @@ function App() {
                 <Route path="/mypage/records" element={<RecordsPage />} />
                 <Route path="/mypage/profile" element={<ProfileEditPage />} />
                 <Route path="mypage/delete" element={<DeleteAccountPage />} />
+                <Route path="mypage/nickname" element={<NicknameEditPage />} />
+                <Route path="mypage/password" element={<PasswordEditPage />} />
+
 
                 {/* 기타 */}
                 <Route path="/dev-credit" element={<DevCredit />} />

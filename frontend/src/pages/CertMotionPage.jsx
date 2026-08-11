@@ -22,6 +22,7 @@ function CertMotionPage() {
   const [userInfo, setUserInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [menuCountMap, setMenuCountMap] = useState({});
+  const [visitCount, setVisitCount] = useState(0); 
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -30,7 +31,6 @@ function CertMotionPage() {
   const certDate = location.state?.certDate ?? "";
   const returnTo = location.state?.returnTo ?? "/map";
 
-  const visitCount = (restaurant?.visitCount ?? restaurant?.visit_count ?? 0) + 1;
   const menuList = useMemo(
     () => 
       selectedMenus.map((menu) => ({
@@ -79,6 +79,11 @@ function CertMotionPage() {
           });
         });
 
+        const latestVisitCount = records.reduce((maxCount, record) => {
+          return Math.max(maxCount, Number(record.visit_count ?? 0));
+        }, 0);
+
+        setVisitCount(latestVisitCount);
         setMenuCountMap(nextMenuCountMap);
       } catch (error) {
         console.error("인증 애니메이션 데이터 조회 실패:", error);
@@ -122,7 +127,7 @@ function CertMotionPage() {
           category={
             restaurant.category === "Restaurant" ? "식당" : "카페"
           }
-          totalVisitCount={`${visitCount}번 방문`}
+          visitCount={visitCount}
         />
 
         {/* 주문한 메뉴 목록 */}

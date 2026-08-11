@@ -86,18 +86,6 @@ function MapsMain() {
     });
   };
 
-  useEffect(() => {
-    const stateRestaurant = location.state?.selectedRestaurant;
-
-    if (!stateRestaurant) {
-      return;
-    }
-
-    setSelectedRestaurant(stateRestaurant);
-    setSheetMode(location.state?.sheetMode ?? "preview");
-  }, [location.state]);
-
-
   //찜 상태 변경
   const handleLikeToggle = async () => {
     if (!selectedRestaurant) {

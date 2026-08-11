@@ -12,11 +12,13 @@ export default function MenuListCard({ title, price, count, imgUrl, index }) {
     >
       {/* 왼쪽: 메뉴 이미지 및 기본 정보 */}
       <div className="menu-left">
-        <img 
-          src={imgUrl || DEFAULT_IMAGE} 
-          alt={title} 
-          className="menu-image" 
-        />
+        {imgUrl && (
+          <img
+            src={imgUrl}
+            alt={title}
+            className="menu-image"
+          />
+        )}
         <div className="menu-text">
           <h3 className="menu-title">{title}</h3>
           <p className="menu-price">{price}</p>

@@ -8,7 +8,7 @@
   --dev-credit-card-text: #111111;
   --dev-credit-muted: #d8d8d8;
   --dev-credit-line: #e6e6e6;
-  --dev-credit-side-padding: clamp(40px, 10vw, 180px);
+  --dev-credit-side-padding: clamp(18px, 6vw, 180px);
   --dev-credit-header-height: clamp(64px, 9vh, 88px);
   --dev-credit-radius: 10px;
   --dev-credit-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -23,6 +23,7 @@
   background: var(--dev-credit-bg);
   color: var(--dev-credit-text);
   font-family: var(--dev-credit-font);
+  overflow-x: hidden;
 }
 
 /* 상단 헤더: <header className="dev-credit-header"> */
@@ -115,7 +116,11 @@
 /* 제작진 카드 리스트: <div className="dev-credit-list"> */
 .dev-credit-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+
+  /* 화면이 360px보다 작으면 부모 너비에 맞춥니다. */
+  grid-template-columns:
+    repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+
   gap: clamp(18px, 2vw, 28px);
 }
 
@@ -163,14 +168,9 @@
 /* 제작진 설명 */
 .dev-credit-maker-description {
   margin: clamp(9px, 1.2vh, 14px) 0 0;
-  font-size: clamp(10px, 0.8vw, 13px);
+  font-size: clamp(13px, 0.8vw, 20px);
   font-weight: 500;
   line-height: 1.35;
   word-break: keep-all;
-}
-
-@media (min-width: 640px) {
-  .dev-credit-page {
-  grid-template-columns: 1fr;
-  }
+  white-space: pre-line;
 }

@@ -15,7 +15,7 @@
 .mobile-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 25px;
 
   width: 100%;
   max-width: 720px;

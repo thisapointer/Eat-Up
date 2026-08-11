@@ -1,0 +1,111 @@
+.account-edit-page {
+  box-sizing: border-box;
+  width: min(100%, 480px);
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 24px clamp(20px, 6vw, 32px);
+  background: #fff;
+  color: #111;
+}
+
+.account-edit-header {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 48px;
+  margin-bottom: 42px;
+}
+
+.account-edit-header > :first-child {
+  position: absolute;
+  left: 0;
+}
+
+.account-edit-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.account-edit-form {
+  display: grid;
+  gap: 12px;
+}
+
+.account-edit-form label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.account-edit-password-fields {
+  display: grid;
+  gap: 8px;
+}
+
+.account-edit-form input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #111;
+  font-size: 16px;
+  outline: none;
+}
+
+.account-edit-form input:focus {
+  border-color: #ff5b00;
+}
+
+.account-edit-form input::placeholder {
+  color: #bbb;
+}
+
+.account-edit-rule,
+.account-edit-error {
+  margin: 0;
+  font-size: 12px;
+}
+
+.account-edit-rule { color: #777; }
+
+.account-edit-error {
+  margin: 0;
+  color: #e53935;
+  font-size: 12px;
+}
+
+.account-edit-form button {
+  width: 100%;
+  height: 48px;
+  margin-top: 36px;
+  border: 0;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.account-edit-form button:disabled {
+  background: #aaa;
+  cursor: default;
+}
+
+@media (max-width: 480px) {
+  .account-edit-page {
+    padding: 18px 20px;
+  }
+
+  .account-edit-header {
+    margin-bottom: 34px;
+  }
+
+  .account-edit-form input {
+    min-width: 0;
+    font-size: 16px;
+  }
+}
