@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { getSpoonGradeByXp } from "../../data/spoonGradeData";
-import Spoon1Icon from "../../assets/spoon_1.svg";
 import "../../styles/certmotion/GradeCard.css";
 
 // 숫자 XP를 포맷팅하는 헬퍼 함수
@@ -9,14 +8,15 @@ function formatXp(value) {
 }
 
 export default function GradeCard({ userInfo }) {
+  //먼저 선언
+  const currentXp = Number(userInfo?.spoon_xp ?? 0);
   // 유저의 등급 정보 계산 (기본값: 2등급 금수저)
   const gradeNum = userInfo?.spoon_grade ?? 2;
-  const currentSpoonGrade = getSpoonGradeByXp(gradeNum);
+  const currentSpoonGrade = getSpoonGradeByXp(currentXp);
 
   // 등급 카드 데이터 정률화
   const gradeName = currentSpoonGrade?.name ?? "금수저";
   const gradeLevel = currentSpoonGrade?.level ?? 2;
-  const currentXp = userInfo?.spoon_xp ?? 7800;
   const minXp = currentSpoonGrade?.minXp ?? 0;
   const nextGradeXp = currentSpoonGrade?.maxXp ?? 16000;
 
@@ -37,7 +37,7 @@ export default function GradeCard({ userInfo }) {
       {/* 왼쪽: 수저 아이콘 */}
       <div className="cert-grade-visual">
         <img
-          src={Spoon1Icon}
+          src={currentSpoonGrade?.imagespin ?? currentSpoonGrade?.image}
           alt={`${gradeName} 아이콘`}
           className="cert-spoon-image"
         />
@@ -46,7 +46,7 @@ export default function GradeCard({ userInfo }) {
       {/* 오른쪽: 등급명, 프로그레스 바, XP 정보 */}
       <div className="cert-grade-info">
         <h2 className="cert-grade-title">
-          {gradeName} {gradeLevel}호
+          {gradeName} {gradeLevel}
         </h2>
 
         {/* 프로그레스 바 */}

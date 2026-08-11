@@ -23,6 +23,7 @@ function ConfirmPage() {
   const restaurant = location.state?.restaurant;
   const selectedMenus = location.state?.selectedMenus ?? [];
   const certDate = location.state?.certDate ?? "";
+  const returnTo = location.state?.returnTo ?? "/map";
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -34,6 +35,7 @@ function ConfirmPage() {
         restaurant,
         selectedMenus,
         certDate,
+        returnTo,
       },
     });
   };
@@ -57,11 +59,13 @@ function ConfirmPage() {
 
     await postCertRecord(restId, requestBody);
 
-    navigate("/map", {
+    navigate("/cert-motion", {
       replace: true,
       state: {
-        selectedRestaurant: restaurant.restInfo ?? restaurant,
-        sheetMode: "expanded",
+        restaurant: restaurant?.restInfo ?? restaurant,
+        selectedMenus,
+        certDate,
+        returnTo,
       },
     });
    } catch(error) {
@@ -94,7 +98,7 @@ function ConfirmPage() {
         <div className="confirm-menu-list">
           {selectedMenus.map((menu) => (
             <article className="confirm-menu-card" key={menu.id}>
-              <img src={menu.img ?? ""} alt="" />
+              <img src={menu.img || menu.image || undefined} alt="" />
 
               <div>
                 <strong>{menu.name}</strong>

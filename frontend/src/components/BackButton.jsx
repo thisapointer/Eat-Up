@@ -1,4 +1,4 @@
-import backIcon from "../assets/backbutton.png";
+import backIcon from "../assets/backbutton.svg";
 import "../styles/BackButton.css";
 
 function BackButton({

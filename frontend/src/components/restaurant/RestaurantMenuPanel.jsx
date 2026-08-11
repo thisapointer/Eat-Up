@@ -21,55 +21,87 @@ function getMenuChallengeCountMap(recordData) {
 
 function RestaurantMenuPanel({ restaurant }) {
   const [menus, setMenus] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    if (!restaurant?.id) {
+      setMenus([]);
+      setIsLoading(false);
+      return;
+    }
+
     const fetchMenus = async () => {
-      // 1. 가게 전체 메뉴
-      const menuData = await getMenuList(restaurant.id);
+      try {
+        setIsLoading(true);
 
-      // 2. 내가 이 가게에서 인증한 기록
-      const recordData = await getRestaurantMyRecord(restaurant.id);
+        // 메뉴 목록과 해당 식당 인증 기록을 함께 조회합니다.
+        const [menuData, recordData] = await Promise.all([
+          getMenuList(restaurant.id),
+          getRestaurantMyRecord(restaurant.id),
+        ]);
 
-      // 3. menu_id별 인증 횟수 계산
-      const menuCountMap = getMenuChallengeCountMap(recordData);
+        const menuList = Array.isArray(menuData)
+          ? menuData
+          : [];
 
+        // 인증 기록의 menu_ids를 이용해 메뉴별 횟수를 계산합니다.
+        const menuCountMap =
+          getMenuChallengeCountMap(recordData);
 
-      // 4. 전체 메뉴에 인증 횟수 붙이기
-      const menusWithCount = menuData.map((menu) => ({
-        ...menu,
-        challengeCount: menuCountMap[menu.id] ?? 0,
-      }));
+        const menusWithCount = menuList.map((menu) => ({
+          ...menu,
+          challengeCount: menuCountMap[menu.id] ?? 0,
+        }));
 
-      setMenus(menusWithCount);
+        setMenus(menusWithCount);
+      } catch (error) {
+        console.error("메뉴 및 도장 정보 조회 실패:", error);
+        setMenus([]);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    if (restaurant?.id) {
-      fetchMenus();
-    }
+    fetchMenus();
   }, [restaurant?.id]);
 
   return (
     <div className="restaurant-menu-panel">
       <h3>메뉴</h3>
 
-      <div className="restaurant-menu-list">
-        {menus.map((menu) => (
-          <article className="restaurant-menu-card" key={menu.id}>
-            <img
-              className="restaurant-menu-image"
-              src={menu.img}
-              alt=""
-            />
+      {/* API 요청 중 표시 */}
+      {isLoading && (
+        <p className="restaurant-menu-loading">
+          메뉴를 불러오는 중입니다.
+        </p>
+      )}
 
-            <div className="restaurant-menu-info">
-              <strong>{menu.name}</strong>
-              <span>{menu.price?.toLocaleString?.() ?? menu.price}원</span>
-            </div>
+      {!isLoading && menus.length === 0 && (
+        <p className="restaurant-menu-empty">
+          등록된 메뉴가 없습니다.
+        </p>
+      )}
 
-            <MenuStampBadge count={menu.challengeCount} />
-          </article>
-        ))}
-      </div>
+      {!isLoading && menus.length > 0 && (
+        <div className="restaurant-menu-list">
+          {menus.map((menu) => (
+            <article className="restaurant-menu-card" key={menu.id}>
+              <img
+                className="restaurant-menu-image"
+                src={menu.img}
+                alt=""
+              />
+
+              <div className="restaurant-menu-info">
+                <strong>{menu.name}</strong>
+                <span>{menu.price?.toLocaleString?.() ?? menu.price}원</span>
+              </div>
+
+              <MenuStampBadge count={menu.challengeCount ?? 0} />
+            </article>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

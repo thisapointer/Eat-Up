@@ -8,8 +8,10 @@ import CallIcon from "../../assets/call.svg";
 import LocationIcon from "../../assets/location.svg";
 import HoursArrow from "../../assets/keyboard_arrow_down.svg";
 
+import BackButton from "../BackButton";
+
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { getRestaurantHours } from "../../api/restTimeApi";
 import { getRestaurantOpenText, getTodayWeekday } from "../../utils/restaurantTime";
@@ -25,6 +27,8 @@ const weekdayLabels = {
   SUN: "일",
 };
 
+
+
 function formatTime(timeText) {
   if(!timeText) {
     return "";
@@ -33,7 +37,7 @@ function formatTime(timeText) {
   return String(timeText).slice(0,5);
 }
 
-function RestaurantSummary({ restaurant, onLikeToggle }) {
+function RestaurantSummary({ restaurant, onLikeToggle, onBack }) {
   const name = restaurant.name;
   const category = restaurant.category;
   const info = getRestaurantOpenText(
@@ -44,6 +48,8 @@ function RestaurantSummary({ restaurant, onLikeToggle }) {
   const address = restaurant.addr?.addr_name ?? restaurant.address ?? "";
   const visitCount = restaurant.visitCount ?? restaurant.visit_count ?? 0;
   const isLiked = restaurant.isLiked ?? restaurant.is_liked ?? false;
+  const location = useLocation();
+  const returnTo = location.pathname;
 
   //영업시간 전체 목록
   const [hoursList, setHoursList] = useState([]);
@@ -94,6 +100,14 @@ function RestaurantSummary({ restaurant, onLikeToggle }) {
   return (
     <section className="restaurant-summary" aria-label="식당 요약 정보">
       <div className="restaurant-summary-top">
+        <div className={`restaurant-summary-left-actions ${onBack ? "restaurant-summary-left-actions--with-back" : ""}`}>
+          {onBack && (
+            <BackButton
+              className="restaurant-summary-back"
+              onClick={onBack}
+              label="식당 정보 닫기"
+            />
+          )}
         <button
           className="restaurant-summary-like"
           type="button"
@@ -106,9 +120,10 @@ function RestaurantSummary({ restaurant, onLikeToggle }) {
             aria-hidden="true"
           />
         </button>
+      </div>
 
         
-        <Link className="restaurant-summary-cert" to={`/rests/${restaurant.id}/cert`} state={{ restaurant }}>
+        <Link className="restaurant-summary-cert" to={`/rests/${restaurant.id}/cert`} state={{ restaurant, returnTo, }}>
           인증하기
         </Link>
       </div>

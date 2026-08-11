@@ -580,6 +580,10 @@
   z-index: 1;
 }
 
+.mypage-ranking-card {
+  cursor: pointer;
+}
+
 @media (max-width: 720px) {
   .mypage {
     --mypage-side-padding: 24px;

@@ -185,3 +185,27 @@
 .restaurant-hours-row--today span {
   font-weight: 900;
 }
+
+.restaurant-summary-left-actions {
+  display: flex;
+  align-items: center;
+
+  /* 백버튼이 없을 때 하트가 원래 위치에 있도록 여백 제거 */
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.restaurant-summary-left-actions--with-back {
+  gap: 4px;
+}
+
+.restaurant-summary-back {
+  width: 40px;
+  height: 40px;
+}
+
+.restaurant-summary-back img {
+  width: 22px;
+  height: 22px;
+}
