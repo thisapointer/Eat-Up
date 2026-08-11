@@ -37,7 +37,7 @@ export default function GradeCard({ userInfo }) {
       {/* 왼쪽: 수저 아이콘 */}
       <div className="cert-grade-visual">
         <img
-          src={currentSpoonGrade?.imagespin ?? currentSpoonGrade?.image}
+          src={currentSpoonGrade?.image}
           alt={`${gradeName} 아이콘`}
           className="cert-spoon-image"
         />

@@ -21,7 +21,7 @@ export const spoonGradeOptions = [
         name: "일회용 수저",
         minXp: 0,
         maxXp: 1000,
-        description: "비닐을 까며 시작하는 위대한 식도락의 첫걸음!",
+        description: "당신의 맛집행! 이제 시작 입니다.",
         levels: [
             { level: "1호", minXp: 0, maxXp: 1000 },
         ],
@@ -34,7 +34,7 @@ export const spoonGradeOptions = [
         name: "스테인리스 수저",
         minXp: 1001,
         maxXp: 7000,
-        description: "단단한 내공 쌓기 시작! 어디서든 든든한 실속파 식객입니다.",
+        description: "아직 맛집 내공을 쌓아가는 단계 입니다.",
         levels: [
             { level: "1호", minXp: 1001, maxXp: 2500 },
             { level: "2호", minXp: 2501, maxXp: 4500 },
@@ -65,7 +65,7 @@ export const spoonGradeOptions = [
         name: "금수저",
         minXp: 26001,
         maxXp: 86000,
-        description: "빛나는 미식의 길! 당신이 거친 맛집은 절대 실패하지 않습니다.",
+        description: "당신은 이제 맛집이 무엇인지 아는 고수 입니다.",
         levels: [
             { level: "1호", minXp: 26001, maxXp: 34000 },
             { level: "2호", minXp: 34001, maxXp: 44000 },
@@ -82,7 +82,7 @@ export const spoonGradeOptions = [
         name: "다이아 수저",
         minXp: 86001,
         maxXp: 236000,
-        description: "영원히 깨지지 않을 명품 안목! 자타공인 맛집 마스터입니다.",
+        description: "지금까지 쌓은 수 많은 맛집 경험이 다이아몬드처럼 빛납니다.",
         levels: [
             { level: "1호", minXp: 86001, maxXp: 106000 },
             { level: "2호", minXp: 106001, maxXp: 131000 },
@@ -99,7 +99,7 @@ export const spoonGradeOptions = [
         name: "오마카세 수저",
         minXp: 236001,
         maxXp: 596000,
-        description: "셰프도 긴장시킬 미식의 거장! 맛의 흐름과 감동을 지배합니다.",
+        description: "당신은 맛집에 대한 깊은 깨달음을 얻고 벽을 넘어섰습니다.",
         levels: [
             { level: "1호", minXp: 236001, maxXp: 286000 },
             { level: "2호", minXp: 286001, maxXp: 346000 },
@@ -116,7 +116,7 @@ export const spoonGradeOptions = [
         name: "잇업 수저",
         minXp: 596001,
         maxXp: 999999,
-        description: "잇업 최고 존엄의 정점! 당신의 발자국이 곧 전설의 미식 지도입니다.",
+        description: "당신은 이 서비스의 천하제일을 다툴 수 있는 경지에 올랐습니다.",
         levels: [
             { level: "만렙", minXp: 596001, maxXp: 999999 },
         ],

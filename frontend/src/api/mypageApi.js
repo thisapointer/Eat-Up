@@ -165,3 +165,38 @@ export async function deleteMyAccount() {
 
   return data;
 }
+
+// 내 정보 수정
+export async function updateMyUserInfo(updateData) {
+  const accessToken = localStorage.getItem("accessToken");
+
+  if (!accessToken) {
+    throw new Error("로그인 정보가 없습니다.");
+  }
+
+  const response = await fetch(`${BASE_URL}/users/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(updateData),
+  });
+
+  const data = await parseJsonOrNull(response);
+
+  if (!response.ok) {
+    const error = new Error(
+      data?.detail ||
+      data?.message ||
+      "사용자 정보 수정에 실패했습니다."
+    );
+
+    error.status = response.status;
+    error.data = data;
+
+    throw error;
+  }
+
+  return data;
+}

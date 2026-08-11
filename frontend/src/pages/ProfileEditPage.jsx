@@ -71,7 +71,7 @@ function ProfileEditPage() {
           />
         </div>
 
-        <button className="profile-edit-name-button" type="button">
+        <button className="profile-edit-name-button" type="button" onClick={() => navigate("/mypage/nickname")}>
           <strong>{profile.nickname}</strong>
           <span aria-hidden="true">›</span>
         </button>
@@ -81,7 +81,7 @@ function ProfileEditPage() {
 
       {/* 설정 메뉴 영역입니다. */}
       <section className="profile-edit-menu" aria-label="내 정보 메뉴">
-        <button className="profile-edit-menu-item" type="button">
+        <button className="profile-edit-menu-item" type="button" onClick={() => navigate("/mypage/password")}>
           비밀번호 변경
         </button>
 
