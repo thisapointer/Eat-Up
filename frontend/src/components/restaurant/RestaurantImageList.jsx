@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getMenuList } from "../../api/menuApi";
 
-function RestaurantImageList({ restaurant }) {
+function RestaurantImageList({ restaurant, className="restaurant-image-list", }) {
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -48,7 +48,7 @@ function RestaurantImageList({ restaurant }) {
 
   if (isLoading) {
     return (
-      <p className="restaurant-image-message">
+      <p className={`${className} restaurant-image-message`}>
         대표 메뉴를 불러오는 중입니다.
       </p>
     );
@@ -59,7 +59,7 @@ function RestaurantImageList({ restaurant }) {
   }
 
   return (
-    <div className="restaurant-image-list" aria-label="대표 메뉴 사진">
+    <div className={className} aria-label="대표 메뉴 사진">
       {images.map((imageSrc, index) => (
         <img
           key={`${restaurant.id}-${imageSrc}-${index}`}

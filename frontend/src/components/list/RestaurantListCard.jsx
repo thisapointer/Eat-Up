@@ -5,6 +5,7 @@ import HeartOffIcon from "../../assets/fav_btn.svg";
 
 import { getRestaurantOpenText } from "../../utils/restaurantTime";
 
+import RestaurantImageList from "../restaurant/RestaurantImageList";
 
 
 function RestaurantListCard({ restaurant, onClick, onLikeToggle }) {
@@ -14,7 +15,6 @@ function RestaurantListCard({ restaurant, onClick, onLikeToggle }) {
     restaurant.today_hours ?? restaurant.restInfo?.today_hours,
     restaurant.today_breaks ?? restaurant.restInfo?.today_breaks
   );
-  const images = getRestaurantImages(restaurant);
   const visitCount = restaurant.visitCount ?? restaurant.visit_count ?? 0;
   const isLiked = restaurant.isLiked ?? restaurant.is_liked ?? false;
 
@@ -56,15 +56,7 @@ function RestaurantListCard({ restaurant, onClick, onLikeToggle }) {
 
       <RestaurantStampBadge visitCount={visitCount} />
 
-      <div className="restaurant-list-images" aria-hidden="true">
-        {images.map((imageSrc, index) => (
-          <img
-            key={`${restaurant.id}-${imageSrc}-${index}`}
-            src={imageSrc}
-            alt=""
-          />
-        ))}
-      </div>
+      <RestaurantImageList restaurant={restaurant} className="restaurant-list-images" />
     </article>
   );
 }
