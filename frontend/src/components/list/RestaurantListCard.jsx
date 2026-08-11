@@ -5,7 +5,7 @@ import HeartOffIcon from "../../assets/fav_btn.svg";
 
 import { getRestaurantOpenText } from "../../utils/restaurantTime";
 
-import { useNavigate } from "react-router-dom";
+
 
 function RestaurantListCard({ restaurant, onClick, onLikeToggle }) {
   const name = restaurant.name;
@@ -17,19 +17,17 @@ function RestaurantListCard({ restaurant, onClick, onLikeToggle }) {
   const images = getRestaurantImages(restaurant);
   const visitCount = restaurant.visitCount ?? restaurant.visit_count ?? 0;
   const isLiked = restaurant.isLiked ?? restaurant.is_liked ?? false;
-  const navigate = useNavigate();
 
   return (
     <article
       className="restaurant-list-card"
-      onClick={() =>
-        navigate("/map", {
-          state: {
-            selectedRestaurant: restaurant.restInfo ?? restaurant,
-            sheetMode: "expanded",
-          },
-        })
-      }
+      onClick={onClick}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onClick?.();
+        }
+      }}
       role="button"
       tabIndex={0}
     >

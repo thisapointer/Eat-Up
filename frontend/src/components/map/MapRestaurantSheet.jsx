@@ -3,7 +3,8 @@ import RestaurantSummary from "../restaurant/RestaurantSummary";
 import RestaurantDetailTabs from "../restaurant/RestaurantDetailTabs";
 import "../../styles/MapRestaurantSheet.css";
 
-function MapRestaurantSheet({ restaurant,sheetMode, onSheetModeChange, onClose, onLikeToggle, }) {
+
+function MapRestaurantSheet({ restaurant,sheetMode, onSheetModeChange, onClose, onLikeToggle, showBackButton=false, }) {
     const dragStartYRef = useRef(null);
     const isDraggingRef = useRef(false);
 
@@ -50,27 +51,26 @@ function MapRestaurantSheet({ restaurant,sheetMode, onSheetModeChange, onClose, 
     };
 
     return (
-        <aside
-            className={`map-restaurant-sheet map-restaurant-sheet--${sheetMode}`}
-            aria-label="선택한 식당 정보"
-        >
-            <button
-                className="map-restaurant-sheet-handle"
-                type="button"
-                aria-label="바텀시트 펼치기 또는 닫기"
-                onPointerDown={handlePointerDown}
-                onPointerMove={handlePointerMove}
-                onPointerUp={handlePointerUp}
-            />
+      <aside
+        className={`map-restaurant-sheet map-restaurant-sheet--${sheetMode}`}
+        aria-label="선택한 식당 정보"
+      >
+        <button
+          className="map-restaurant-sheet-handle"
+          type="button"
+          aria-label="바텀시트 펼치기 또는 닫기"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+        />
+        <div className="map-restaurant-sheet-inner">
+          <RestaurantSummary restaurant={restaurant} onLikeToggle={onLikeToggle} onBack={showBackButton ? onClose : undefined} />
 
-            <div className="map-restaurant-sheet-inner">
-                <RestaurantSummary restaurant={restaurant} onLikeToggle={onLikeToggle} />
-
-                {sheetMode === "expanded" && (
-                    <RestaurantDetailTabs restaurant={restaurant} />
-                )}
-            </div>
-        </aside>
+          {sheetMode === "expanded" && (
+            <RestaurantDetailTabs restaurant={restaurant} />
+          )}
+        </div>
+      </aside>
     );
 }
 

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useLocation} from "react-router-dom";
 
 import Question from "../assets/question.svg";
 import StampStepsModal from "../assets/stamp_steps_modal.svg";
@@ -10,9 +10,11 @@ import CallIcon from "../assets/call.svg";
 import LocationIcon from "../assets/location.svg";
 
 import { getUserInfo, getVisitedRestCount, getRestList } from "../api/mypageApi";
+import { createRestaurantLike, deleteRestaurantLike } from "../api/likeApi";
 
 import {spoonGradeOptions, getSpoonGradeByXp, getSpoonGradeIndexByXp} from "../data/spoonGradeData"
 import RestaurantStampBadge from "../components/restaurant/RestaurantStampBadge";
+import MapRestaurantSheet from "../components/map/MapRestaurantSheet";
 import "../styles/MyPage.css";
 
 
@@ -23,12 +25,15 @@ function formatXp(value) {
 
 function MyPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [userInfo, setUserInfo] = useState(null); //api 에서 받은 유저 정보 저장
   const [visitedCount, setVisitedCount] = useState(0); //api 에서 받은 가 본 맛집 갯수 저장
   const [isLoading, setIsLoading] = useState(true); //api 요청중인지 저장
   const [errorMessage, setErrorMessage] = useState(""); //api 실패 메세지 저장
   const [restList, setRestList] = useState([]);
+  const [sheetRestaurant, setSheetRestaurant] = useState(null);
+  const [sheetMode, setSheetMode] = useState("closed");
   
   const currentXp = userInfo?.spoon_xp ?? 0;
 
@@ -52,6 +57,66 @@ function MyPage() {
     setIsGradeModalOpen(true);
   };
 
+  const handleRankingCardClick = (restaurant) => {
+    const restInfo = restaurant.restInfo ?? restaurant;
+
+    setSheetRestaurant({
+      ...restInfo,
+      visitCount:
+        restaurant.visitCount ??
+        restaurant.visit_count ??
+        0,
+      visit_count:
+        restaurant.visitCount ??
+        restaurant.visit_count ??
+        0,
+      isLiked:
+        restaurant.isLiked ??
+        restaurant.is_liked ??
+        restInfo.isLiked ??
+        restInfo.is_liked ??
+        false,
+    });
+
+    setSheetMode("expanded");
+  };
+
+  const handleSheetLikeToggle = async () => {
+    if (!sheetRestaurant) {
+      return;
+    }
+
+    const restId = sheetRestaurant.id;
+    const currentIsLiked =
+      sheetRestaurant.isLiked ??
+      sheetRestaurant.is_liked ??
+      false;
+
+    const nextIsLiked = !currentIsLiked;
+
+    setSheetRestaurant((prevRestaurant) => ({
+      ...prevRestaurant,
+      isLiked: nextIsLiked,
+      is_liked: nextIsLiked,
+    }));
+
+    try {
+      if (nextIsLiked) {
+        await createRestaurantLike(restId);
+      } else {
+        await deleteRestaurantLike(restId);
+      }
+    } catch (error) {
+      console.error("찜 상태 변경 실패:", error);
+
+      setSheetRestaurant((prevRestaurant) => ({
+        ...prevRestaurant,
+        isLiked: currentIsLiked,
+        is_liked: currentIsLiked,
+      }));
+    }
+  };
+
   // 수저 등급 모달이 열려 있는지 저장
   const [isGradeModalOpen, setIsGradeModalOpen] = useState(false);
   
@@ -60,6 +125,25 @@ function MyPage() {
 
   //맛집 도장 순위 모달
   const [isMedalModalOpen, setIsMedalModalOpen] = useState(false);
+
+  useEffect(() => {
+    const returnedRestaurant = location.state?.selectedRestaurant;
+
+    if (
+      !returnedRestaurant ||
+      location.state?.sheetMode !== "expanded"
+    ) {
+      return;
+    }
+
+    setSheetRestaurant(returnedRestaurant);
+    setSheetMode("expanded");
+
+    navigate(location.pathname, {
+      replace: true,
+      state: null,
+    });
+  }, [location.state, location.pathname, navigate]);
 
   // 컴포넌트가 처음 화면에 뜰 때 마이페이지 데이터 가져옴 (API 호출)
   useEffect(() => {
@@ -117,13 +201,13 @@ function MyPage() {
     return Number(visitCount) >= 100;
   });
 
-  // 100회 이상 도장을 달성하면 열린 모달 이미지를 사용합니다.
+  // 100회 이상 도장을 달성하면 열린 모달 이미지를 사용
   const stampModalImage = hasEatUpStamp
     ? StampStepModalOpen
     : StampStepsModal;
 
 
-  // 현재 팝업에서 보여줄 수저 등급 데이터입니다.
+  // 현재 팝업에서 보여줄 수저 등급 데이터
   const selectedGrade = spoonGradeOptions[selectedGradeIndex] ?? {
     levels: [],
   };
@@ -148,12 +232,12 @@ function MyPage() {
   }, [spoonGrade]);
 
 
-  // 왼쪽 화살표를 누르면 이전 등급으로 이동합니다.
+  // 왼쪽 화살표 - 이전 등급으로 이동
   const handlePrevGrade = () => {
     setSelectedGradeIndex((prevIndex) => Math.max(0, prevIndex - 1));
   };
 
-  // 오른쪽 화살표를 누르면 다음 등급으로 이동합니다.
+  // 오른쪽 화살표 - 다음 등급으로 이동
   const handleNextGrade = () => {
     setSelectedGradeIndex((prevIndex) =>
       Math.min(spoonGradeOptions.length - 1, prevIndex + 1)
@@ -253,14 +337,7 @@ function MyPage() {
                 <article 
                   className="mypage-ranking-card" 
                   key={restaurant.id} 
-                  onClick={() =>
-                    navigate("/map", {
-                      state: {
-                        selectedRestaurant: restaurant.restInfo ?? restaurant,
-                        sheetMode: "expanded",
-                      },
-                    })
-                  }
+                  onClick={() => handleRankingCardClick(restaurant)}
                 >
                   <div>
                     <strong>
@@ -301,6 +378,17 @@ function MyPage() {
           )}
         </div>
       </section>
+
+      {sheetRestaurant && sheetMode !== "closed" && (
+        <MapRestaurantSheet
+          restaurant={sheetRestaurant}
+          sheetMode={sheetMode}
+          onSheetModeChange={setSheetMode}
+          onLikeToggle={handleSheetLikeToggle}
+          showBackButton
+          onClose={() => {setSheetRestaurant(null); setSheetMode("closed");}}
+        />
+      )}
 
       {/* 수저 등급 모달입니다. isGradeModalOpen이 true일 때만 화면에 나타납니다. */}
       {isGradeModalOpen && (

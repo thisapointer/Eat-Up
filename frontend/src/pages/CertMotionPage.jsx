@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
 
 // API 및 UI 컴포넌트 Import
 import { getUserInfo } from "../api/mypageApi";
@@ -6,55 +7,109 @@ import RestaurantInfoCard from '../components/certmotion/RestaurantInfoCard';
 import MenuList from "../components/certmotion/MenuList";
 import GradeCard from "../components/certmotion/GradeCard";
 import CertConfirmButton from "../components/certmotion/CertConfirmButton";
+import { getRestaurantMyRecord } from '../api/certApi';
 
 // 스타일 시트
 import '../styles/CertMotionPage.css';
 
-// 더미 이미지 및 상수 데이터
-const DUMMY_IMAGE = "https://pub-c42eb03962324e18acec6a26de669798.r2.dev/images/rests/rest2/rest_img.webp";
 
-const TEST_RESTAURANT_DATA = {
-  date: '2026-06-05',
-  storeName: '닭꼬얌 홍대점',
-  category: '한식',
-  totalVisitCount: '100번 방문',
-};
+function formatPrice(price) {
+  return `${Number(price ?? 0).toLocaleString()}원`;
+}
 
-const DUMMY_MENU_LIST = [
-  { id: 1, title: '닭쌈밥 정식', price: '9,000원', count: '12번', imgUrl: DUMMY_IMAGE },
-  { id: 2, title: '고추장 바베큐', price: '22,000원', count: '12번', imgUrl: DUMMY_IMAGE },
-  { id: 3, title: '닭고기', price: '4,000원', count: '12번', imgUrl: DUMMY_IMAGE },
-  { id: 4, title: '사이드 감자튀김', price: '5,000원', count: '5번', imgUrl: DUMMY_IMAGE },
-];
 
 function CertMotionPage() {
   const [userInfo, setUserInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [menuCountMap, setMenuCountMap] = useState({});
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // 마운트 시 유저 정보 로드
+  const restaurant = location.state?.restaurant;
+  const selectedMenus = location.state?.selectedMenus ?? [];
+  const certDate = location.state?.certDate ?? "";
+  const returnTo = location.state?.returnTo ?? "/map";
+
+  const visitCount = (restaurant?.visitCount ?? restaurant?.visit_count ?? 0) + 1;
+  const menuList = useMemo(
+    () => 
+      selectedMenus.map((menu) => ({
+        id: menu.id,
+        title: menu.name,
+        price: formatPrice(menu.price),
+        count: `${menuCountMap[menu.id] ?? 0}번`,
+        imgUrl: menu.img ?? menu.image ?? "",
+      })),
+    [selectedMenus, menuCountMap]
+  );
+
   useEffect(() => {
-    const fetchUserData = async () => {
+    if (!restaurant?.id) {
+      navigate("/map", { replace: true });
+      return;
+    }
+
+    const fetchMotionData = async () => {
       try {
-        const userData = await getUserInfo();
-        
-        // 유저 정보 전달 및 기본값 설정 (XP 기본값: 500)
-        setUserInfo({
-          ...userData,
-          spoon_xp: userData?.spoon_xp ?? 500,
+        setIsLoading(true);
+
+        const [userData, recordData] = await Promise.all([
+          getUserInfo(),
+          getRestaurantMyRecord(restaurant.id),
+        ]);
+
+        setUserInfo(userData);
+
+        const records = Array.isArray(recordData)
+          ? recordData
+          : Array.isArray(recordData?.certs)
+            ? recordData.certs
+            : [];
+
+        const nextMenuCountMap = {};
+
+        records.forEach((record) => {
+          const menuIds = Array.isArray(record.menu_ids)
+            ? record.menu_ids
+            : [];
+
+          menuIds.forEach((menuId) => {
+            nextMenuCountMap[menuId] =
+              (nextMenuCountMap[menuId] ?? 0) + 1;
+          });
         });
+
+        setMenuCountMap(nextMenuCountMap);
       } catch (error) {
-        console.error("유저 정보를 불러오는데 실패했습니다.", error);
+        console.error("인증 애니메이션 데이터 조회 실패:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchUserData();
-  }, []);
+    fetchMotionData();
+  }, [restaurant?.id, navigate]);
+
+  const handleConfirm = () => {
+    navigate(returnTo, {
+      replace: true,
+      state: {
+        selectedRestaurant: {
+          ...restaurant,
+          visitCount,
+          visit_count: visitCount,
+          isVisited: true,
+          is_visited: true,
+        },
+        sheetMode: "expanded",
+      },
+    });
+  };
+
 
   // 로딩 상태 처리
   if (isLoading) {
-    return <div className="page-background"></div>;
+    return <div className="page-background" />;
   }
 
   return (
@@ -62,20 +117,22 @@ function CertMotionPage() {
       <div className="mobile-container">
         {/* 매장 방문 정보 카드 */}
         <RestaurantInfoCard
-          date={TEST_RESTAURANT_DATA.date}
-          storeName={TEST_RESTAURANT_DATA.storeName}
-          category={TEST_RESTAURANT_DATA.category}
-          totalVisitCount={TEST_RESTAURANT_DATA.totalVisitCount}
+          date={certDate}
+          storeName={restaurant.name ?? "식당 이름"}
+          category={
+            restaurant.category === "Restaurant" ? "식당" : "카페"
+          }
+          totalVisitCount={`${visitCount}번 방문`}
         />
 
         {/* 주문한 메뉴 목록 */}
-        <MenuList menuList={DUMMY_MENU_LIST} />
+        <MenuList menuList={menuList} />
 
         {/* 유저 등급 및 XP 카드 */}
         <GradeCard userInfo={userInfo} />
 
         {/* 인증 확정 버튼 */}
-        <CertConfirmButton />
+        <CertConfirmButton onClick={handleConfirm} />
       </div>
     </div>
   );

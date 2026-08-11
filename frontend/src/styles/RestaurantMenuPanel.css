@@ -57,3 +57,13 @@
   font-weight: 500;
   line-height: 1;
 }
+
+.restaurant-menu-loading,
+.restaurant-menu-empty {
+  margin: 28px 0;
+  color: #777777;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 600;
+  line-height: 1.4;
+}

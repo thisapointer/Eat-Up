@@ -19,14 +19,16 @@ function CertPage() {
   const location = useLocation(); //바텀시트에서 넘긴 restaurant 정보를 받을 때 사용
   const navigate = useNavigate(); //ConfirmPage로 이동시 사용
 
+  const returnTo = location.state?.returnTo ?? "/map";
+
   const restaurant = location.state?.restaurant; //바텀시트에서 넘겨준 식당 정보, 없을수도 있으므로 optional 처리
 
   const initialSelectedMenus = location.state?.selectedMenus ?? [];
-  const initialCerDate = location.state?.cerDate ?? getTodayDate();
+  const initialCertDate = location.state?.certDate ?? getTodayDate();
 
   const [menus, setMenus] = useState([]);
   const [selectedMenus, setSelectedMenus] = useState(initialSelectedMenus);
-  const [certDate, setCertDate] = useState(getTodayDate);
+  const [certDate, setCertDate] = useState(initialCertDate);
 
   useEffect(() => {
     const fetchMenus = async() => {
@@ -66,6 +68,7 @@ function CertPage() {
         restaurant,
         selectedMenus,
         certDate,
+        returnTo,
       },
     });
   };
