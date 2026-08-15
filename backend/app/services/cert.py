@@ -45,7 +45,7 @@ def create(cert_info: CertBase, rest_id: int,
             .join(Cert.menu_certs)\
             .join(MenuCert.menu)\
             .where(
-                Menu.id == rest_id,
+                Menu.rest_id == rest_id,
                 Cert.user_id == current_user.id
             )
     is_exists = db.scalar(stmt)
